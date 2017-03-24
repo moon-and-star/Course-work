@@ -123,7 +123,7 @@ def to54shape(img):
     return tmp
 
 
-
+#returns [0..255] image
 def randTrans(img, scaled=True, rotated=True):
     # generates random number in (0.9, 1.1)
     res = img
@@ -137,6 +137,14 @@ def randTrans(img, scaled=True, rotated=True):
         res = rotate(res, angle)
 
     res = to54shape(res)
+
+    #converting to uints
+    if np.amax(res) <= 1:
+        if np.amax(res) == 0:
+            print("WARNING: zero max in image")
+        res *= 255
+
+    res = res.astype(np.uint8)
     return res
 
 
@@ -147,40 +155,6 @@ operations = {
     "imajust" : autoContrast, 
     "CoNorm" : contrastNorm
 }
-
-
-# def process_train(rootpath, outpath, mode):
-#     safe_mkdir(outpath)
-#     labels = open("{}/gt_train.txt".format(outpath), 'w')
-#     mean = np.zeros((3, 54, 54), dtype=np.float32)
-#     total_images = 0
-
-#     markup = open('{}/ground-truth.txt'.format(rootpath), 'r').readlines()[1:]
-#     image_id = 0
-#     for image_name,x1,y1,x2,y2,clid in [x.replace('\r\n', '').split(';') for x in markup]:
-#         print('picture in process: ', image_name)
-#         x1, y1, x2, y2, clid = map(int, [x1, y1, x2, y2, clid])
-#         img = cv2.imread("{}/images/{}".format(rootpath, image_name))
-
-#         patch = operations[mode](crop(img, x1, y1, x2, y2, expand = 3))
-#         for i in range(10):
-#             # image mean
-#             transformed = randTrans(patch)
-#             mean[0] += transformed[:, :, 0]
-#             mean[1] += transformed[:, :, 1]
-#             mean[2] += transformed[:, :, 2]
-#             #
-#             labels.write("{}/{}.png {}\n".format(clid, image_id, clid))
-#             safe_mkdir("{}/{}".format(outpath, clid))
-#             cv2.imwrite("{}/{}/{}.png".format(outpath, clid, image_id), transformed)
-#             image_id = image_id + 1
-#     total_images += image_id
-
-#     mean[0], mean[1], mean[2] = mean[0] / float(total_images), mean[1] / float(total_images), mean[2] / float(total_images)
-#     
-#     b, g, r = np.mean(mean[0]), np.mean(mean[1]), np.mean(mean[2])
-#     open("{}/mean.txt".format(outpath), "w").write("{} {} {}".format(b, g, r))
-
 
 
 
@@ -196,16 +170,14 @@ def process(rootpath, outpath, phase, mode):
     image_id = 0
     total_images = 0
     for image_name,clid in [x.replace('\r\n', '').split(',') for x in markup[1:]]:
-        print (image_id)
+        # print (image_id)
+        # if image_id > 100:
+        #     break
         if image_id % rate == 0:
             print(image_name)
 
         clid = int(clid)
         img = cv2.imread("{}/{}/{}".format(rootpath,phase,image_name))
-
-        if image_id < 5:
-            print(image_id)
-            print(rootpath, phase, image_name)
 
         m, n, _ = img.shape
         patch = operations[mode](crop(img, x1=0, y1=0, y2 = m - 1, x2=n - 1, expand = 3))
@@ -215,36 +187,40 @@ def process(rootpath, outpath, phase, mode):
             mean[1] += transformed[:, :, 1]
             mean[2] += transformed[:, :, 2]
 
-            if np.amax(transformed) <= 1:
-                if np.amax(transformed) == 0:
-                    print("WARNING: zero max in image")
-                transformed *= 255
-
+           
             labels.write("{}/{}.png {}\n".format(clid, image_id, clid))
             safe_mkdir("{}/{}/{}".format(outpath, phase, clid))
             cv2.imwrite("{}/{}/{}/{}.png".format(outpath, phase, clid, image_id), transformed)
             image_id = image_id + 1
 
-    total_images += image_id
-
+    total_images = image_id
     mean[0] = mean[0] / float(total_images)
     mean[1] = mean[1] / float(total_images)
     mean[2] = mean[2] / float(total_images)
+
     #caffe works with openCV, so the order of channels is BGR
     b, g, r = np.mean(mean[0]), np.mean(mean[1]), np.mean(mean[2]) 
     open("{}/{}/mean.txt".format(outpath, phase), "w").write("{} {} {}".format(b, g, r))
 
+    if max(b, g, r) < 50:
+        print('WARNING: low mean values\nb={}, g={}, r={}'.format(b,g,r))
+        print('rootpath={}\n outpath={}\n mode={}\n phase={}'.format(rootpath,outpath, mode, phase))
+
+
+
 
 def launch():
-    # modes = ["orig", "histeq", "AHE", "imajust", "CoNorm" ]
-    modes = ['orig']
+    # modes = ['histeq']
+    # for dataset in ["rtsd-r1"]:
+        # for phase in ["test"]:
+    modes = ["orig", "histeq", "AHE", "imajust", "CoNorm" ]
     for dataset in ["rtsd-r1","rtsd-r3"]:
         for phase in ["train", "test"]:
             rootpath = "../global_data/Traffic_signs/RTSD/classification/" + dataset
 
             for mode in modes:
-                print("\n\n....................current_path = ", rootpath,'......................\n')
-                print("........................mode = ", mode,'.........................\n')
+                print("\n\n\n\n          current_path=", rootpath,'\n')
+                print("          mode=", mode,'\n')
 
                 outpath = "../local_data/"+ dataset + "/" + mode
                 if phase == "train":

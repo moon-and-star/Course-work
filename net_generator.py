@@ -128,50 +128,6 @@ def load_image_mean(mean_path):
     return None
 
 
-
-# def initTrainWithData(lmdb, batch_size, mean_path):
-#     n = caffe.NetSpec()
-#     mean = load_image_mean(mean_path)
-
-#     if mean is not None:
-#         transform_param = dict(mirror=False, crop_size = 48, mean_value = map(int, mean))
-#     else:
-#         transform_param = dict(mirror=False, crop_size = 48)
-
-#     n.data, n.label = L.Data(
-#         batch_size = batch_size,
-#         backend = P.Data.LMDB,
-#         source = lmdb,
-#         transform_param=transform_param,
-#         ntop = 2,
-#         include = dict(phase = caffe_pb2.Phase.Value("TRAIN")),
-#         name = "data"
-#     )
-
-#     return n
-
-
-
-# def initTestWithData(lmdb, batch_size):
-#     n = caffe.NetSpec()
-#     mean = load_image_mean()
-
-#     if mean is not None:
-#         transform_param = dict(mirror=False, crop_size = 48, mean_value = map(int, mean))
-#     else:
-#         transform_param = dict(mirror=False, crop_size = 48)
-
-#     n.data, n.label = L.Data(
-#         batch_size = batch_size,
-#         backend = P.Data.LMDB,
-#         source = lmdb,
-#         transform_param=transform_param,
-#         ntop = 2,
-#         include = dict(phase = caffe_pb2.Phase.Value("TEST")),
-#         name = "data"
-#     )
-#     return n
-
 def safe_mkdir(directory_name):
     if not osp.exists(directory_name):
         makedirs(directory_name)
@@ -207,18 +163,18 @@ def initWithData(lmdb, phase, batch_size, mean_path):
 
 
 
-def make_net(n):
+def make_net(n, num_of_classes = 43):
     n.pool1 = maxpool("pool1", conv1(n, "conv1", n.data, 100, kernel_size = 7, pad = 0))
     n.pool2 = maxpool("pool2", conv1(n, "conv2", n.pool1, 150, kernel_size = 4, pad = 0))
     n.pool3 = maxpool("pool3", conv1(n, "conv3", n.pool2, 250, kernel_size = 4, pad = 0))
 
     n.fc4_300, n.relu4 = fc_relu("fc4", n.pool3, num_output = 300)
     n.drop4 = dropout("drop4", n.relu4, dropout_ratio = 0.4)
-    n.fc5_43, relu5 = fc_relu("fc5", n.relu4, num_output = 43)
+    n.fc5_classes, relu5 = fc_relu("fc5", n.relu4, num_output = num_of_classes)
 
-    n.loss = L.SoftmaxWithLoss(n.fc5_43, n.label)
-    n.accuracy_1 = accuracy("accuracy_1", n.fc5_43, n.label, 1)
-    n.accuracy_5 = accuracy("accuracy_5", n.fc5_43, n.label, 5)
+    n.loss = L.SoftmaxWithLoss(n.fc5_classes, n.label)
+    n.accuracy_1 = accuracy("accuracy_1", n.fc5_classes, n.label, 1)
+    n.accuracy_5 = accuracy("accuracy_5", n.fc5_classes, n.label, 5)
 
     return n.to_proto()
 
@@ -227,8 +183,8 @@ solver = """
 train_net: "./Prototxt/{dataset}/{mode}/train.prototxt"
 test_net: "./Prototxt/{dataset}/{mode}/test.prototxt"
 
-test_iter: 30
-test_interval: 200
+test_iter: 3
+test_interval: 2
 
 base_lr: 0.0005
 lr_policy: "step"
@@ -239,7 +195,7 @@ iter_size: 1
 momentum: 0.9
 weight_decay: 0.0005
 display: 1
-max_iter: 4000
+max_iter: 40
 snapshot: 500
 snapshot_prefix: "./snapshots/{dataset}/{mode}/RTSD"
 solver_mode: GPU
@@ -248,26 +204,44 @@ solver_mode: GPU
 
 
 def launch():
+    batch_size = 32
+
     data_prefix = "../local_data"
     modes = ["orig", "histeq", "AHE", "imajust", "CoNorm" ]
     for dataset in ["rtsd-r1","rtsd-r3"]:
+
+
+        if dataset == "rtsd-r1":
+            num_of_classes = 67
+        elif dataset == "rtsd-r3":
+            num_of_classes = 106
+
+
         for mode in modes:
             for phase in ['train', 'test']:
+                print("Generating architectures")
+                print("{} {} {}\n".format(dataset, mode, phase))
                 mean_path = '{}/lmdb/{}/{}/{}/mean.txt'.format(data_prefix,dataset, mode, phase)
                 safe_mkdir('Prototxt/{}/{}/'.format(dataset,mode))
                 with open('Prototxt/{}/{}/{}.prototxt'.format(dataset,mode,phase), 'w') as f:
                     f.write(str(make_net(initWithData(
-                                            '{}/lmdb/{}/{}/{}/train_lmdb'.format(data_prefix, dataset, mode, phase), 
-                                            batch_size=128,
+                                            '{}/lmdb/{}/{}/{}/lmdb'.format(data_prefix, dataset, mode, phase), 
+                                            batch_size=batch_size,
                                             phase=phase,
                                             mean_path=mean_path
-                                            ))))
+                                            ),
+                                        num_of_classes=num_of_classes
+                    )))
 
-                # with open('Prototxt/{}/{}/test.prototxt'.format(dataset,mode), 'w') as f:
-                #     f.write(str(make_net(initWithData('{}/lmdb/{}/{}/test_lmdb'.format(data_prefix,dataset, mode), 128))))
 
+            print("Generating solver")
+            print("{} {}\n\n\n".format(dataset, mode)) 
             with open('Prototxt/{}/{}/solver.prototxt'.format(dataset, mode), 'w') as f:
-                f.write(solver.format(dataset=dataset, mode=mode))    
+                f.write(solver.format(dataset=dataset, mode=mode)) 
+              
 
 
 launch()
+
+# with open('Prototxt/{}/{}/test.prototxt'.format(dataset,mode), 'w') as f:
+                #     f.write(str(make_net(initWithData('{}/lmdb/{}/{}/test_lmdb'.format(data_prefix,dataset, mode), 128))))
