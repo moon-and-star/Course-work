@@ -71,7 +71,7 @@ do
 			./logs/${i}/${j}/experinent_${EXPERIMENT_NUM}/training_log.txt    \
 			./logs/${i}/${j}/experinent_${EXPERIMENT_NUM}/
 
-		./plot_logs.py $EXPERIMENT_NUM $i
+		./plot_logs.py ./logs/${i}/${j}/experinent_${EXPERIMENT_NUM}     training_log.txt 
 	done
 done
 

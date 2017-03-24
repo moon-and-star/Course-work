@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 
 # TOOLS=/opt/caffe/.build_release/tools
@@ -29,13 +29,8 @@ do
 		GLOG_logtostderr=0 $EXTRA_TOOLS/parse_log.py  --verbose     \
 			./logs/${i}/${j}/experinent_${EXPERIMENT_NUM}/$training_log.txt    \
 			./logs/${i}/${j}/experinent_${EXPERIMENT_NUM}/
+
+		./plot_logs.py ./logs/${i}/${j}/experinent_${EXPERIMENT_NUM}     training_log.txt
 	done
 done
-
-# GLOG_logtostderr=0 $TOOLS/extra/parse_log.py  --verbose  ./logs/AHE.txt ./logs
-# GLOG_logtostderr=0 $TOOLS/extra/parse_log.py  --verbose  ./logs/imajust.txt ./logs
-# GLOG_logtostderr=0 $TOOLS/extra/parse_log.py  --verbose  ./logs/histeq.txt ./logs
-# GLOG_logtostderr=0 $TOOLS/extra/parse_log.py  --verbose  ./logs/CoNorm.txt ./logs
-# GLOG_logtostderr=0 $TOOLS/extra/parse_log.py  --verbose  ./logs/orig.txt ./logs
-
 
