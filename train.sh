@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-# TOOLS=/opt/caffe/.build_release/tools
-# EXTRA_TOOLS=/opt/caffe/tools/extra
-TOOLS=/home/katydagoth/Downloads/caffe3/caffe-master/.build_release/tools
-EXTRA_TOOLS=/home/katydagoth/Downloads/caffe3/caffe-master/tools/extra
+TOOLS=/opt/caffe/.build_release/tools
+EXTRA_TOOLS=/opt/caffe/tools/extra
+# TOOLS=/home/katydagoth/Downloads/caffe3/caffe-master/.build_release/tools
+# EXTRA_TOOLS=/home/katydagoth/Downloads/caffe3/caffe-master/tools/extra
 echo " tools = ${TOOLS}"
 
 
@@ -15,11 +15,12 @@ modes=("orig")
 
 
 # datasets=("rtsd-r1" "rtsd-r3")
-# modes=("CoNorm" "orig" "AHE" "histeq" "imajust")
+modes=("CoNorm" "orig" "AHE" "histeq" "imajust")
 
 
 
-
+printf "GENERATING ARCHITECTURES\n\n"
+./net_generator_exp_num.py
 
 
 printf "\n\n\ncreating log and snapshot folders(if necessary)\n\n"
