@@ -181,9 +181,30 @@ def make_net(n, num_of_classes = 43):
     return n.to_proto()
 
 
-solver = """
-train_net: "./Prototxt/{dataset}/{mode}/train.prototxt"
-test_net: "./Prototxt/{dataset}/{mode}/test.prototxt"
+
+def gen_parser():
+    parser = argparse.ArgumentParser(description='DESCRIPTION:      \
+                        This program generates network architectures and solver \
+                        for particular experiment and stores them into prototxt files in special \
+                        folder (which is specified in current code)')
+
+    parser.add_argument("EXPERIMENT_NUMBER",type=int, 
+                        help='the number of current experiment with nets ')
+    parser.add_argument('-b','--batch_size',default=512, type=int, 
+                        help='size of batch for training (default=512)')
+
+    parser.add_argument('-p','--proto_pref',default="./Prototxt", type=str, 
+                        help='Path for saving prototxt files (common prefix for all experiments)')
+    parser.add_argument('-s', '--snap_pref',default="./snapshots", type=str, 
+                        help='Path for saving snapshot files (common prefix for all experiments)')
+
+
+    return parser
+
+
+solver_template = """
+train_net: "{proto_pref}/{dataset}/{mode}/train.prototxt"
+test_net: "{proto_pref}/{dataset}/{mode}/test.prototxt"
 
 test_iter: 3
 test_interval: 2
@@ -197,23 +218,55 @@ iter_size: 1
 momentum: 0.9
 weight_decay: 0.0005
 display: 1
-max_iter: 40
+max_iter: 5000
 snapshot: 500
-snapshot_prefix: "./snapshots/{dataset}/{mode}/{exp_num}/RTSD"
+snapshot_prefix: "{snap_pref}/{dataset}/{mode}/{exp_num}/RTSD"
 solver_mode: GPU
 """
 
 
-usage = "\nusage:    {} [EXPERIMENT_NUMBER]".format(sys.argv[0])
-err = "\nTOO FEW ARGUMENTS!!!"
-def launch():
-    if len(sys.argv) < 2:
-        print(err)
-        print(usage)
-    if sys.argv[1]
-    exp_num = sys.argv[1]
+def dataset_size(dataset, phase):
+    r1_train = 25432
+    r1_test = 7551
 
-    batch_size = 32
+    r3_train = 70687
+    r3_test = 22967
+    if dataset == 'rtsd-r1':
+        if phase == 'train':
+            return r1_train
+        elif phase == 'test':
+            return r1_test
+        else:
+            return None
+    elif dataset == 'rtsd-r3':
+        if phase == 'train':
+            return r3_train
+        elif phase == 'test':
+            return r3_test
+        else:
+            return None
+    else:
+        return None
+
+def prepare_solver(dataset, mode, proto_pref='./', snap_pref='./'):
+    size = dataset_size(dataset) 
+    print("Generating solver")
+    print("{} {}\n\n\n".format(dataset, mode)) 
+        
+    safe_mkdir('{}/{}/{}/'.format(proto_pref,dataset,mode))    
+    with open('{}/{}/{}/solver.prototxt'.format(proto_pref,dataset, mode), 'w') as f:
+        f.write(solver.format(proto_pref=proto_pref, snap_pref=snap_pref,
+                                      dataset=dataset, mode=mode)) 
+            
+
+
+def launch():
+    parser= gen_parser()
+    args = parser.parse_args()
+    exp_num = args.EXPERIMENT_NUMBER
+    batch_size = args.batch_size
+    proto_pref = args.proto_pref
+    snap_pref = args.snap_pref
 
     data_prefix = "../local_data"
     modes = ["orig", "histeq", "AHE", "imajust", "CoNorm" ]
@@ -228,13 +281,14 @@ def launch():
 
         for mode in modes:
             for phase in ['train', 'test']:
-                print("Generating architectures")
                 print("{} {} {}\n".format(dataset, mode, phase))
+                print("Generating architectures")
                 mean_path = '{}/lmdb/{}/{}/{}/mean.txt'.format(data_prefix,dataset, mode, phase)
-                safe_mkdir('Prototxt/{}/{}/'.format(dataset,mode))
-                with open('Prototxt/{}/{}/{}.prototxt'.format(dataset,mode,phase), 'w') as f:
+                safe_mkdir('{}/{}/{}/'.format(proto_pref,dataset,mode))
+                with open('{}/{}/{}/{}.prototxt'.format(proto_pref, dataset,mode,phase), 'w') as f:
                     f.write(str(make_net(initWithData(
-                                            '{}/lmdb/{}/{}/{}/lmdb'.format(data_prefix, dataset, mode, phase), 
+                                            '{}/lmdb/{}/{}/{}/lmdb'.format(data_prefix, 
+                                                                    dataset, mode, phase), 
                                             batch_size=batch_size,
                                             phase=phase,
                                             mean_path=mean_path
@@ -242,11 +296,10 @@ def launch():
                                         num_of_classes=num_of_classes
                     )))
 
+            prepare_solver(proto_pref=proto_pref, snap_pref=snap_pref,
+                           dataset=dataset, mode=mode)
 
-            print("Generating solver")
-            print("{} {}\n\n\n".format(dataset, mode)) 
-            with open('Prototxt/{}/{}/solver.prototxt'.format(dataset, mode), 'w') as f:
-                f.write(solver.format(dataset=dataset, mode=mode)) 
+
               
 
 

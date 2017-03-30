@@ -204,7 +204,7 @@ solver_mode: GPU
 
 
 def launch():
-    batch_size = 32
+    batch_size = 512
 
     data_prefix = "../local_data"
     modes = ["orig", "histeq", "AHE", "imajust", "CoNorm" ]
