@@ -18,8 +18,8 @@ datasets=("rtsd-r1")
 modes=("CoNorm" "orig" "AHE" "histeq" "imajust")
 
 
-
-
+printf "GENERATING ARCHITECTURES\n\n"
+./net_generator_exp_num.py
 
 
 printf "\n\n\ncreating log and snapshot folders(if necessary)\n\n"
