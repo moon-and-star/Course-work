@@ -1,21 +1,21 @@
 #!/usr/bin/env bash
 
-# TOOLS=/opt/caffe/.build_release/tools
-# EXTRA_TOOLS=/opt/caffe/tools/extra
-TOOLS=/home/katydagoth/Downloads/caffe3/caffe-master/.build_release/tools
-EXTRA_TOOLS=/home/katydagoth/Downloads/caffe3/caffe-master/tools/extra
+TOOLS=/opt/caffe/.build_release/tools
+EXTRA_TOOLS=/opt/caffe/tools/extra
+# TOOLS=/home/katydagoth/Downloads/caffe3/caffe-master/.build_release/tools
+# EXTRA_TOOLS=/home/katydagoth/Downloads/caffe3/caffe-master/tools/extra
 echo " tools = ${TOOLS}"
 
 
 EXPERIMENT_NUM=0
-
+GPU_NUM=1
 
 datasets=("rtsd-r1")
-modes=("orig")
+# modes=("orig")
 
 
 # datasets=("rtsd-r1" "rtsd-r3")
-# modes=("CoNorm" "orig" "AHE" "histeq" "imajust")
+modes=("CoNorm" "orig" "AHE" "histeq" "imajust")
 
 
 
@@ -63,7 +63,7 @@ do
 	for j in "${modes[@]}"
 	do
 		printf "\ndataset = ${i},  mode = ${j} \n"
-		GLOG_logtostderr=0 $TOOLS/caffe train    \
+		GLOG_logtostderr=0 $TOOLS/caffe train -gpu ${GPU_NUM}    \
 			--solver=./logs/${i}/${j}/experinent_${EXPERIMENT_NUM}/solver.prototxt    \
 			2>&1| tee ./logs/${i}/${j}/experinent_${EXPERIMENT_NUM}/training_log.txt
 			
@@ -92,6 +92,11 @@ done
 # 	./plot_logs.py $EXPERIMENT_NUM $i
 # done
 
+
+
+git add logs
+git commit -m "last full testing results"
+git push
 
 
 
