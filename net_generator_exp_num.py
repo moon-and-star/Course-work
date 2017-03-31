@@ -183,10 +183,13 @@ def make_net(n, num_of_classes = 43):
 
 
 def gen_parser():
-    parser = argparse.ArgumentParser(description='DESCRIPTION:      \
-                        This program generates network architectures and solver \
-                        for particular experiment and stores them into prototxt files in special \
-                        folder (which is specified in current code)')
+    description = """
+    DESCRIPTION:
+    This program generates network architectures and solver
+    for particular experiment and stores them into prototxt
+    files in special folder (which is specified in current code)
+    """
+    parser = argparse.ArgumentParser(description=description)
 
     parser.add_argument("EXPERIMENT_NUMBER",type=int, 
                         help='the number of current experiment with nets ')
@@ -248,8 +251,11 @@ def dataset_size(dataset, phase):
     else:
         return None
 
+
 def prepare_solver(dataset, mode, proto_pref='./', snap_pref='./'):
-    size = dataset_size(dataset) 
+    train_size = dataset_size(dataset, "train")
+    test_size = dataset_size(dataset, "test") 
+    
     print("Generating solver")
     print("{} {}\n\n\n".format(dataset, mode)) 
         

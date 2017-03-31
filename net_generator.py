@@ -178,24 +178,24 @@ def make_net(n, num_of_classes = 43):
 
     return n.to_proto()
 
-
+#for R1  1 train epoch = 50 iterations, test - 15 iterations
 solver = """
 train_net: "./Prototxt/{dataset}/{mode}/train.prototxt"
 test_net: "./Prototxt/{dataset}/{mode}/test.prototxt"
 
-test_iter: 3
-test_interval: 2
-
-base_lr: 0.0005
+test_iter: 15
+test_interval: 250
+type: "Adam"
+base_lr: 0.001
 lr_policy: "step"
-gamma: 0.1
+gamma: 0.5
 stepsize: 1000
 iter_size: 1
 
 momentum: 0.9
 weight_decay: 0.0005
 display: 1
-max_iter: 40
+max_iter: 5000
 snapshot: 500
 snapshot_prefix: "./snapshots/{dataset}/{mode}/RTSD"
 solver_mode: GPU
