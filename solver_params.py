@@ -25,11 +25,7 @@ def dataset_size(dataset, phase):
 
 
 
-
-
-
-class SolverParameters(object):
-    solver_template = """
+solver_template = """
     train_net: "{train_path}"
     test_net: "{test_path}"
 
@@ -52,7 +48,9 @@ class SolverParameters(object):
     snapshot_prefix: "{snap_pref}"
     solver_mode: GPU
     """
-    
+
+
+class SolverParameters(object):    
     def __init__(self, train_net_path, test_net_path,#architecture paths
                  test_iter, #number of iterations for test set 
                  max_iter=None, n_epoch=100, train_epoch_sz=None, 
@@ -111,7 +109,7 @@ class SolverParameters(object):
 
 
 
-        self.solvet_txt = SolverParameters.solver_template.format(
+        self.solvet_txt = solver_template.format(
                           train_path=train_net_path, test_path=test_net_path,
                           snap_pref=snap_pref, test_iter=test_iter,
                           test_interval=self.test_interval, max_iter=self.max_iter,
