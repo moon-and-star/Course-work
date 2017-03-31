@@ -9,10 +9,13 @@ layer {
   transform_param {
     mirror: false
     crop_size: 48
+    mean_value: 109
+    mean_value: 106
+    mean_value: 126
   }
   data_param {
-    source: "../local_data/lmdb/rtsd-r1/imajust/test/train_lmdb"
-    batch_size: 128
+    source: "../local_data/lmdb/rtsd-r1/imajust/test/lmdb"
+    batch_size: 512
     backend: LMDB
   }
 }
@@ -139,16 +142,16 @@ layer {
   bottom: "fc4_300"
   top: "fc4_300"
   dropout_param {
-    dropout_ratio: 0.40000000596
+    dropout_ratio: 0.4
   }
 }
 layer {
-  name: "fc5_43"
+  name: "fc5_67"
   type: "InnerProduct"
   bottom: "fc4_300"
-  top: "fc5_43"
+  top: "fc5_classes"
   inner_product_param {
-    num_output: 43
+    num_output: 67
     weight_filler {
       type: "xavier"
     }
@@ -157,14 +160,14 @@ layer {
 layer {
   name: "loss"
   type: "SoftmaxWithLoss"
-  bottom: "fc5_43"
+  bottom: "fc5_classes"
   bottom: "label"
   top: "loss"
 }
 layer {
   name: "accuracy_1"
   type: "Accuracy"
-  bottom: "fc5_43"
+  bottom: "fc5_classes"
   bottom: "label"
   top: "accuracy_1"
   include {
@@ -177,7 +180,7 @@ layer {
 layer {
   name: "accuracy_5"
   type: "Accuracy"
-  bottom: "fc5_43"
+  bottom: "fc5_classes"
   bottom: "label"
   top: "accuracy_5"
   include {

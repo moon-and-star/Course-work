@@ -2,8 +2,8 @@
 train_net: "./Prototxt/rtsd-r1/orig/train.prototxt"
 test_net: "./Prototxt/rtsd-r1/orig/test.prototxt"
 
-test_iter: 30
-test_interval: 200
+test_iter: 3
+test_interval: 2
 
 base_lr: 0.0005
 lr_policy: "step"
@@ -14,7 +14,7 @@ iter_size: 1
 momentum: 0.9
 weight_decay: 0.0005
 display: 1
-max_iter: 4000
+max_iter: 40
 snapshot: 500
 snapshot_prefix: "./snapshots/rtsd-r1/orig/RTSD"
 solver_mode: GPU
