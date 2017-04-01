@@ -1,29 +1,6 @@
 from math import ceil
-
-def dataset_size(dataset, phase):
-    r1_train = 25432
-    r1_test = 7551
-
-    r3_train = 70687
-    r3_test = 22967
-    if dataset == 'rtsd-r1':
-        if phase == 'train':
-            return r1_train
-        elif phase == 'test':
-            return r1_test
-        else:
-            return None
-    elif dataset == 'rtsd-r3':
-        if phase == 'train':
-            return r3_train
-        elif phase == 'test':
-            return r3_test
-        else:
-            return None
-    else:
-        return None
-
-
+import argparse
+from util import safe_mkdir, gen_parser
 
 solver_template = """
     train_net: "{train_path}"
@@ -75,7 +52,7 @@ class SolverParameters(object):
             print("WARNING: max_iter parameter has greater priority. train_epoch_sz will be ignored")
 
 
-        #TEST FREQUENSY
+        #TEST FREQUENCY
         self.test_interval = test_interval
         if test_interval == None:
             if test_epoch_size == None:
@@ -86,13 +63,13 @@ class SolverParameters(object):
             print("WARNING: test_interval parameter has greater priority. test_epoch will be ignored")
         
 
-        #SNAPSHOT FREQUENSY
+        #SNAPSHOT FREQUENCY
         self.snap_iter = snap_iter
         if snap_iter == None:
             if snap_epoch_size == None:
                 print('ERROR: expected snap_iter parameter')
                 exit()
-            self.snap_iter = snap_epoch * self.snap_epoch_size
+            self.snap_iter = snap_epoch * snap_epoch_size
         elif snap_epoch != None:
             print("WARNING: snap_iter parameter has greater priority. snap_epoch will be ignored")
 
@@ -103,7 +80,7 @@ class SolverParameters(object):
             if step_epoch_size == None:
                 print('ERROR: expected step_iter parameter')
                 exit()
-            self.step_iter = step_epoch * step_epoch_sz
+            self.step_iter = step_epoch * step_epoch_size
         elif step_epoch != None:
             print("WARNING: step_iter parameter has greater priority. step_epoch will be ignored")
 
@@ -120,24 +97,49 @@ class SolverParameters(object):
 
 
 
+
+def get_dataset_size(path=None, dataset='', phase='', mode=''):
+    # path parameter has greater priority
+    if path == None:
+        with open("../local_data/{}/{}/{}_size.txt".format(dataset, mode, phase)) as f:
+             return int(f.read()) # we assume that the file contains only 1 integer value written as a string
+    else:
+         with open(path) as f:
+             return int(f.read()) # we assume that the file contains only 1 integer value written as a string
+
        
 
 
-def prepare_solver(dataset, mode, proto_pref='./Prototxt', snap_pref='./snapshots'):
-    train_size = dataset_size(dataset, "train")
-    test_size = dataset_size(dataset, "test") 
+def gen_solver(dataset, mode, args):
+
+    train_size = get_dataset_size(dataset=dataset, phase="train", mode=mode)
+    test_size = get_dataset_size(dataset=dataset, phase="test", mode=mode) 
+
+    test_iter = ceil(test_size / float(args.batch_size))
+    epoch_sz = ceil(train_size / float(args.batch_size))
+
+
+    directory = "{}/{}/{}".format(args.proto_pref, dataset, mode)
+    train_path = "{}/train.prototxt".format(directory)
+    test_path = "{}/test.prototxt".format(directory)
+
 
     print("Generating solver")
     print("{} {}\n".format(dataset, mode))     
-    safe_mkdir('{}/{}/{}/'.format(proto_pref,dataset,mode))   
-    solver =  solver_template.format(proto_pref=proto_pref, snap_pref=snap_pref,
-                                      dataset=dataset, mode=mode)
-    with open('{}/{}/{}/solver.prototxt'.format(proto_pref,dataset, mode), 'w') as f:
-        f.write() 
+    safe_mkdir('{}/{}/{}/'.format(args.proto_pref,dataset,mode)) 
+
     
 
 
+    p = SolverParameters(train_net_path=train_path, test_net_path=test_path, test_iter=test_iter,
+                         train_epoch_sz=epoch_sz, n_epoch=args.epoch, test_epoch=args.test_frequency,
+                         snap_pref=args.snap_pref, snap_epoch=args.snap_epoch, step_epoch=args.step_epoch)  
 
-dataset = "rtsd-r1"
-p = SolverParameters("train", "test", 25, max_iter=100, test_interval=200, snap_iter=100, step_iter=9)
+
+
+    
+    with open('{}/{}/{}/solver.prototxt'.format(args.proto_pref,dataset, mode), 'w') as f:
+        f.write(p.solvet_txt) 
+        # print(p.solvet_txt)
+    
 
