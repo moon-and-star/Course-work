@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-git pull
+# git pull
 
 
 TOOLS=/opt/caffe/.build_release/tools
@@ -16,7 +16,7 @@ BATCH_SZ=512
 EPOCH=100
 TEST_FR=10
 SNAP_FR=10
-STEP_FR=10
+STEP_FR=20
 GAMMA=0.5
 LR=1e-2
 
@@ -27,12 +27,12 @@ printf "\n\n GENERATING ARCHITECTURES\n\n"
 
 
 
-datasets=("rtsd-r1")
-modes=("orig")
+# datasets=("rtsd-r1")
+# modes=("orig")
 
 
-# datasets=("rtsd-r1" "rtsd-r3")
-# modes=("CoNorm" "orig" "AHE" "histeq" "imajust")
+datasets=("rtsd-r1" "rtsd-r3")
+modes=("CoNorm" "orig" "AHE" "histeq" "imajust")
 
 
 
@@ -90,7 +90,8 @@ do
 			./logs/experiment_${EXPERIMENT_NUM}/${i}/${j}/
 
 		./plot_logs.py ./logs/experiment_${EXPERIMENT_NUM}/${i}/${j}     training_log.txt 
-
+		
+		git pull
 		git add ./logs
 		git commit -m "training log for ${i} ${j}"
 		git push
