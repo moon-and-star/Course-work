@@ -29,14 +29,22 @@ def gen_parser():
 
     parser.add_argument("EXPERIMENT_NUMBER",type=int, 
                         help='the number of current experiment with nets ')
+
     parser.add_argument('-b','--batch_size',default=512, type=int, 
                         help='size of batch for training (default=512)')
+
+    parser.add_argument('-lr','--learning_rate',default=1e-3, type=float, 
+                        help='size of batch for training (default=1e-3)')
+
     parser.add_argument('-e','--epoch',default=100, type=int, 
                         help='number of training epoch (default=100)')
+
     parser.add_argument('-tf','--test_frequency',default=1, type=int, 
                         help='number of training epoch (default=1)')
+
     parser.add_argument('-sn','--snap_epoch',default=10, type=int, 
                         help='number of training epoch (default=10)')
+
     parser.add_argument('-st','--step_epoch',default=10, type=int, 
                         help='number of training epoch (default=10)')
 

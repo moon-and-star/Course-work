@@ -135,7 +135,7 @@ def gen_solver(dataset, mode, args):
     
 
 
-    p = SolverParameters(train_net_path=train_path, test_net_path=test_path, test_iter=test_iter,
+    p = SolverParameters(train_net_path=train_path, test_net_path=test_path, test_iter=test_iter, lr=args.learning_rate,
                          train_epoch_sz=epoch_sz, n_epoch=args.epoch, test_epoch=args.test_frequency,
                          snap_pref=args.snap_pref, snap_epoch=args.snap_epoch, step_epoch=args.step_epoch)  
 
