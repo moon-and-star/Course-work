@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# git pull
+git pull
 
 
 TOOLS=/opt/caffe/.build_release/tools
@@ -90,8 +90,9 @@ do
 
 		./plot_logs.py ./logs/experiment_${EXPERIMENT_NUM}/${i}/${j}     training_log.txt 
 
-		# git add ./logs
-		# git commit -m "training log for ${i} ${j}"
+		git add ./logs
+		git commit -m "training log for ${i} ${j}"
+		git push
 	done
 done
 
