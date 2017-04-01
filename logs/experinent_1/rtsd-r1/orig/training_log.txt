@@ -1,13 +1,13 @@
 [libprotobuf ERROR google/protobuf/text_format.cc:274] Error parsing text-format caffe.SolverParameter: 7:12: Expected string.
-F0401 23:30:52.511678 25364 upgrade_proto.cpp:1095] Check failed: ReadProtoFromTextFile(param_file, param) Failed to parse SolverParameter file: ./logs/experinent_1/rtsd-r1/orig/solver.prototxt
+F0401 23:34:10.515878 26832 upgrade_proto.cpp:1095] Check failed: ReadProtoFromTextFile(param_file, param) Failed to parse SolverParameter file: ./logs/experinent_1/rtsd-r1/orig/solver.prototxt
 *** Check failure stack trace: ***
-    @     0x7fc16a5475cd  google::LogMessage::Fail()
-    @     0x7fc16a549433  google::LogMessage::SendToLog()
-    @     0x7fc16a54715b  google::LogMessage::Flush()
-    @     0x7fc16a549e1e  google::LogMessageFatal::~LogMessageFatal()
-    @     0x7fc16abbaa31  caffe::ReadSolverParamsFromTextFileOrDie()
+    @     0x7fb8209d65cd  google::LogMessage::Fail()
+    @     0x7fb8209d8433  google::LogMessage::SendToLog()
+    @     0x7fb8209d615b  google::LogMessage::Flush()
+    @     0x7fb8209d8e1e  google::LogMessageFatal::~LogMessageFatal()
+    @     0x7fb821049a31  caffe::ReadSolverParamsFromTextFileOrDie()
     @           0x40abea  train()
     @           0x4077c8  main
-    @     0x7fc168cde830  __libc_start_main
+    @     0x7fb81f16d830  __libc_start_main
     @           0x408099  _start
     @              (nil)  (unknown)
