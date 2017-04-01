@@ -1,0 +1,23 @@
+ 
+    train_net: "./Prototxt/rtsd-r1/CoNorm/train.prototxt"
+    test_net: "./Prototxt/rtsd-r1/CoNorm/test.prototxt"
+
+    test_iter: 15
+    test_interval: 500
+
+    type : "Adam"
+    base_lr: 0.0001
+    stepsize: 1000
+
+    lr_policy: "step"
+    gamma: 0.5
+    iter_size: 1
+
+    momentum: 0.9
+    weight_decay: 0.0005
+    display: 1
+    max_iter: 5000
+    snapshot: 500
+    snapshot_prefix: "./snapshots/experiment_1/rtsd-r1/CoNorm/snap"
+    solver_mode: GPU
+    
