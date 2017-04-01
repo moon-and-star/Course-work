@@ -130,7 +130,7 @@ def gen_solver(dataset, mode, args):
     print("Generating solver")
     print("{} {}\n".format(dataset, mode))     
     safe_mkdir('{}/{}/{}/'.format(args.proto_pref,dataset,mode))
-    snap_pref = args.snap_pref + "/{}/{}".format(dataset, mode) 
+    snap_pref = "{}/experiment_{}/{}/{}".format(args.snap_pref,args.EXPERIMENT_NUMBER, dataset, mode) 
 
     
 
