@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# git pull
+
+
 TOOLS=/opt/caffe/.build_release/tools
 EXTRA_TOOLS=/opt/caffe/tools/extra
 # TOOLS=/home/katydagoth/Downloads/caffe3/caffe-master/.build_release/tools
@@ -7,22 +10,31 @@ EXTRA_TOOLS=/opt/caffe/tools/extra
 echo " tools = ${TOOLS}"
 
 
-EXPERIMENT_NUM=0
-GPU_NUM=1
+EXPERIMENT_NUM=3
+GPU_NUM=0
+BATCH_SZ=512
+EOPOCH=100
+TEST_FR=10
+SNAP_FR=10
+STEP_FR=10
+
+printf "\n\n GENERATING ARCHITECTURES\n\n"
+./net_generator_exp_num.py -b $BATCH_SZ -e $EOPOCH -tf $TEST_FR -sn $SNAP_FR -st $STEP_FR $EXPERIMENT_NUM
+
 
 datasets=("rtsd-r1")
-# modes=("orig")
+modes=("orig")
 
 
 # datasets=("rtsd-r1" "rtsd-r3")
-modes=("CoNorm" "orig" "AHE" "histeq" "imajust")
+# modes=("CoNorm" "orig" "AHE" "histeq" "imajust")
 
 
-printf "GENERATING ARCHITECTURES\n\n"
-./net_generator_exp_num.py
 
 
-printf "\n\n\ncreating log and snapshot folders(if necessary)\n\n"
+
+
+printf "\n Creating log and snapshot folders(if necessary)\n"
 
 mkdir -p logs
 mkdir -p snapshots
@@ -41,7 +53,7 @@ done
 
 
 
-printf "\n\n\nCopying prototxt files\n\n"
+printf "\n Copying prototxt files\n"
 
 for i in "${datasets[@]}"
 do
@@ -56,47 +68,31 @@ done
 
 
 
-printf "\n\n\nTraining nets\n\n"
 
-for i in "${datasets[@]}"
-do
-	for j in "${modes[@]}"
-	do
-		printf "\ndataset = ${i},  mode = ${j} \n"
-		GLOG_logtostderr=0 $TOOLS/caffe train -gpu ${GPU_NUM}    \
-			--solver=./logs/${i}/${j}/experinent_${EXPERIMENT_NUM}/solver.prototxt    \
-			2>&1| tee ./logs/${i}/${j}/experinent_${EXPERIMENT_NUM}/training_log.txt
-			
-		GLOG_logtostderr=0 $EXTRA_TOOLS/parse_log.py  --verbose     \
-			./logs/${i}/${j}/experinent_${EXPERIMENT_NUM}/training_log.txt    \
-			./logs/${i}/${j}/experinent_${EXPERIMENT_NUM}/
+# printf "\n Training nets \n"
 
-		./plot_logs.py ./logs/${i}/${j}/experinent_${EXPERIMENT_NUM}     training_log.txt 
-	done
-done
-
-
-
-# for i in "${modes[@]}"
+# for i in "${datasets[@]}"
 # do
-# 	printf "\n\n\n\n\n\n           ${i} data is in process   \n\n\n\n\n\n"
-#    	mkdir -p logs/$i/${i}_${EXPERIMENT_NUM}
-#    	mkdir -p snapshots/$i
+# 	for j in "${modes[@]}"
+# 	do
+# 		printf "\ndataset = ${i},  mode = ${j} \n"
+# 		GLOG_logtostderr=0 $TOOLS/caffe train -gpu ${GPU_NUM}    \
+# 			--solver=./logs/${i}/${j}/experinent_${EXPERIMENT_NUM}/solver.prototxt    \
+# 			2>&1| tee ./logs/${i}/${j}/experinent_${EXPERIMENT_NUM}/training_log.txt
+			
+# 		GLOG_logtostderr=0 $EXTRA_TOOLS/parse_log.py  --verbose     \
+# 			./logs/${i}/${j}/experinent_${EXPERIMENT_NUM}/training_log.txt    \
+# 			./logs/${i}/${j}/experinent_${EXPERIMENT_NUM}/
 
-#    	cp -v -u ./layers/solver_${i}.prototxt ./logs/$i/${i}_${EXPERIMENT_NUM}/
-# 	cp -v -u ./layers/train_${i}.prototxt ./logs/$i/${i}_${EXPERIMENT_NUM}/
-# 	cp -v -u ./layers/test_${i}.prototxt ./logs/$i/${i}_${EXPERIMENT_NUM}/
+# 		./plot_logs.py ./logs/${i}/${j}/experinent_${EXPERIMENT_NUM}     training_log.txt 
 
-# 	GLOG_logtostderr=0 $TOOLS/caffe train --solver=layers/solver_$i.prototxt  2>&1| tee ./logs/$i/${i}_${EXPERIMENT_NUM}/$i.txt
-# 	GLOG_logtostderr=0 $EXTRA_TOOLS/parse_log.py  --verbose  ./logs/$i/${i}_${EXPERIMENT_NUM}/$i.txt ./logs/$i/${i}_${EXPERIMENT_NUM}/
-# 	./plot_logs.py $EXPERIMENT_NUM $i
+# 		git add ./logs
+# 		git commit -m "training log for ${i} ${j}"
+# 	done
 # done
 
 
-
-git add logs
-git commit -m "last full testing results"
-git push
+# git push
 
 
 
