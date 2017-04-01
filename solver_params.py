@@ -130,20 +130,20 @@ def gen_solver(dataset, mode, args):
     print("Generating solver")
     print("{} {}\n".format(dataset, mode))     
     safe_mkdir('{}/{}/{}/'.format(args.proto_pref,dataset,mode))
-    args.snap_pref += "/{}/{}".format(dataset, mode) 
+    snap_pref = args.snap_pref + "/{}/{}".format(dataset, mode) 
 
     
 
 
     p = SolverParameters(train_net_path=train_path, test_net_path=test_path, test_iter=test_iter, lr=args.learning_rate,
                          train_epoch_sz=epoch_sz, n_epoch=args.epoch, test_epoch=args.test_frequency,
-                         snap_pref=args.snap_pref, snap_epoch=args.snap_epoch, step_epoch=args.step_epoch)  
+                         snap_pref=snap_pref, snap_epoch=args.snap_epoch, step_epoch=args.step_epoch)  
 
 
 
     
     with open('{}/{}/{}/solver.prototxt'.format(args.proto_pref,dataset, mode), 'w') as f:
         f.write(p.solvet_txt) 
-        # print(p.solvet_txt)
+        print(p.solvet_txt)
     
 
