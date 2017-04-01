@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import sys
 import pandas as pd
+import matplotlib
 import matplotlib.pyplot as plt
 from matplotlib.pyplot import subplots
 
@@ -38,6 +39,6 @@ def launch():
 
 
 
-
+matplotlib.use('Agg')
 launch()
 

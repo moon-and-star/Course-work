@@ -22,7 +22,6 @@ def histeq(img):
 
 
 
-
 def autoContrast(img, frac=0.1):
     lab = cv2.cvtColor(img, cv2.COLOR_BGR2LAB)
     Y = lab[:,:, 0].astype(np.float32)

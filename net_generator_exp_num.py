@@ -181,8 +181,9 @@ def launch():
 
         for mode in modes:
             for phase in ['train', 'test']:
-                print("{} {} {}\n".format(dataset, mode, phase))
                 print("Generating architectures")
+                print("{} {} {}\n".format(dataset, mode, phase))
+                
                 mean_path = '{}/lmdb/{}/{}/{}/mean.txt'.format(data_prefix,dataset, mode, phase)
                 safe_mkdir('{}/{}/{}/'.format(proto_pref,dataset,mode))
                 with open('{}/{}/{}/{}.prototxt'.format(proto_pref, dataset,mode,phase), 'w') as f:

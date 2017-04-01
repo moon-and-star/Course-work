@@ -36,7 +36,7 @@ class SolverParameters(object):
                  slvr_type="Adam", lr = 1e-3, step_iter=None, step_epoch=1): 
         super(SolverParameters, self).__init__()
 
-
+        test_iter = int(test_iter)
         #add fiction parameters to prevent use of train_epoch_sz if max iter specified
         snap_epoch_size = None
         step_epoch_size = None
@@ -44,11 +44,12 @@ class SolverParameters(object):
         #TRAINING LIMIT
         self.max_iter = max_iter
         if max_iter == None:
-            self.max_iter = n_epoch * train_epoch_sz
+            self.max_iter = int(n_epoch * train_epoch_sz)
             snap_epoch_size = train_epoch_sz
             step_epoch_size = train_epoch_sz
             test_epoch_size = train_epoch_sz
         elif train_epoch_sz != None:
+            self.max_iter = int(max_iter)
             print("WARNING: max_iter parameter has greater priority. train_epoch_sz will be ignored")
 
 
@@ -60,6 +61,7 @@ class SolverParameters(object):
                 exit()
             self.test_interval = int(test_epoch * test_epoch_size) 
         elif test_epoch != None:
+            self.test_interval = int(test_interval)
             print("WARNING: test_interval parameter has greater priority. test_epoch will be ignored")
         
 
@@ -69,8 +71,9 @@ class SolverParameters(object):
             if snap_epoch_size == None:
                 print('ERROR: expected snap_iter parameter')
                 exit()
-            self.snap_iter = snap_epoch * snap_epoch_size
+            self.snap_iter = int(snap_epoch * snap_epoch_size)
         elif snap_epoch != None:
+            self.snap_iter = int(snap_iter)
             print("WARNING: snap_iter parameter has greater priority. snap_epoch will be ignored")
 
 
@@ -80,7 +83,7 @@ class SolverParameters(object):
             if step_epoch_size == None:
                 print('ERROR: expected step_iter parameter')
                 exit()
-            self.step_iter = step_epoch * step_epoch_size
+            self.step_iter = int(step_epoch * step_epoch_size)
         elif step_epoch != None:
             print("WARNING: step_iter parameter has greater priority. step_epoch will be ignored")
 
@@ -126,7 +129,8 @@ def gen_solver(dataset, mode, args):
 
     print("Generating solver")
     print("{} {}\n".format(dataset, mode))     
-    safe_mkdir('{}/{}/{}/'.format(args.proto_pref,dataset,mode)) 
+    safe_mkdir('{}/{}/{}/'.format(args.proto_pref,dataset,mode))
+    args.snap_pref += "/{}/{}".format(dataset, mode) 
 
     
 
