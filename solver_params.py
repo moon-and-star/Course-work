@@ -9,7 +9,7 @@ solver_template =
     test_iter: {test_iter}
     test_interval: {test_interval}
 
-    type : {slvr_type}
+    type : "{slvr_type}"
     base_lr: {lr}
     stepsize: {stepsize}
 
