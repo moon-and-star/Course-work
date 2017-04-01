@@ -14,7 +14,7 @@ solver_template = """
     stepsize: {stepsize}
 
     lr_policy: "step"
-    gamma: 0.1
+    gamma: {gamma}
     iter_size: 1
 
     momentum: 0.9
@@ -33,7 +33,7 @@ class SolverParameters(object):
                  max_iter=None, n_epoch=100, train_epoch_sz=None, 
                  test_epoch=1, test_interval=None, # how often to test (every n epoch/ every n iterations)
                  snap_pref="", snap_epoch=None, snap_iter=None,
-                 slvr_type="Adam", lr = 1e-3, step_iter=None, step_epoch=1): 
+                 slvr_type="Adam", lr = 1e-3, step_iter=None, step_epoch=1, gamma=0.1): 
         super(SolverParameters, self).__init__()
 
         test_iter = int(test_iter)
@@ -95,7 +95,7 @@ class SolverParameters(object):
                           test_interval=self.test_interval, max_iter=self.max_iter,
                           snap_iter=self.snap_iter, stepsize=self.step_iter, 
                           slvr_type=slvr_type, 
-                          lr=lr
+                          lr=lr, gamma=gamma
                           )
 
 
@@ -137,13 +137,13 @@ def gen_solver(dataset, mode, args):
 
     p = SolverParameters(train_net_path=train_path, test_net_path=test_path, test_iter=test_iter, lr=args.learning_rate,
                          train_epoch_sz=epoch_sz, n_epoch=args.epoch, test_epoch=args.test_frequency,
-                         snap_pref=snap_pref, snap_epoch=args.snap_epoch, step_epoch=args.step_epoch)  
+                         snap_pref=snap_pref, snap_epoch=args.snap_epoch, step_epoch=args.step_epoch, gamma=args.gamma)  
 
 
 
     
     with open('{}/{}/{}/solver.prototxt'.format(args.proto_pref,dataset, mode), 'w') as f:
         f.write(p.solvet_txt) 
-        # print(p.solvet_txt)
+        print(p.solvet_txt)
     
 
