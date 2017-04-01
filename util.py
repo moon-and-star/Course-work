@@ -40,13 +40,16 @@ def gen_parser():
                         help='number of training epoch (default=100)')
 
     parser.add_argument('-tf','--test_frequency',default=1, type=int, 
-                        help='number of training epoch (default=1)')
+                        help='test frequensy in epochs (default=1)')
 
     parser.add_argument('-sn','--snap_epoch',default=10, type=int, 
-                        help='number of training epoch (default=10)')
+                        help='snap frequensy in epochs (default=10)')
 
     parser.add_argument('-st','--step_epoch',default=10, type=int, 
-                        help='number of training epoch (default=10)')
+                        help='learning rate decrease frequensy in epochs (default=10)')
+
+    parser.add_argument('-g','--gamma',default=0.5, type=float, 
+                        help='learning rate decrease factor (default=0.5)')
 
 
     parser.add_argument('-p','--proto_pref',default="./Prototxt", type=str, 
