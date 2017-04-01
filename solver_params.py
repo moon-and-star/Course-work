@@ -1,4 +1,8 @@
 from math import ceil
+import argparse
+# import sys
+# sys.path.append('./')
+from util import safe_mkdir, gen_parser
 
 solver_template = """
     train_net: "{train_path}"
@@ -67,7 +71,7 @@ class SolverParameters(object):
             if snap_epoch_size == None:
                 print('ERROR: expected snap_iter parameter')
                 exit()
-            self.snap_iter = snap_epoch * self.snap_epoch_size
+            self.snap_iter = snap_epoch * snap_epoch_size
         elif snap_epoch != None:
             print("WARNING: snap_iter parameter has greater priority. snap_epoch will be ignored")
 
@@ -78,7 +82,7 @@ class SolverParameters(object):
             if step_epoch_size == None:
                 print('ERROR: expected step_iter parameter')
                 exit()
-            self.step_iter = step_epoch * step_epoch_sz
+            self.step_iter = step_epoch * step_epoch_size
         elif step_epoch != None:
             print("WARNING: step_iter parameter has greater priority. step_epoch will be ignored")
 
@@ -99,7 +103,7 @@ class SolverParameters(object):
 def get_dataset_size(path=None, dataset='', phase='', mode=''):
     # path parameter has greater priority
     if path == None:
-        with open("../local_data/{}/{}/{}_size".format(dataset, mode, phase)) as f:
+        with open("../local_data/{}/{}/{}_size.txt".format(dataset, mode, phase)) as f:
              return int(f.read()) # we assume that the file contains only 1 integer value written as a string
     else:
          with open(path) as f:
@@ -113,11 +117,11 @@ def prepare_solver(dataset, mode, args):
     train_size = get_dataset_size(dataset=dataset, phase="train", mode=mode)
     test_size = get_dataset_size(dataset=dataset, phase="test", mode=mode) 
 
-    test_iter = ceil(test_size / float(args.test_batch))
-    epoch_sz = ceil(train_size / float(args.train_batch))
+    test_iter = ceil(test_size / float(args.batch_size))
+    epoch_sz = ceil(train_size / float(args.batch_size))
 
 
-    directory = "{}/{}/{}".format(proto_pref, dataset, mode)
+    directory = "{}/{}/{}".format(args.proto_pref, dataset, mode)
     train_path = "{}/train.prototxt".format(directory)
     test_path = "{}/test.prototxt".format(directory)
 
@@ -130,18 +134,22 @@ def prepare_solver(dataset, mode, args):
 
 
     p = SolverParameters(train_net_path=train_path, test_net_path=test_path, test_iter=test_iter,
-                         train_epoch_sz=epoch_sz, n_epoch=args.n_epoch, test_epoch=args.test_frequency,
+                         train_epoch_sz=epoch_sz, n_epoch=args.epoch, test_epoch=args.test_frequency,
                          snap_pref=args.snap_pref, snap_epoch=args.snap_epoch, step_epoch=args.step_epoch)  
 
 
 
     
-    with open('{}/{}/{}/solver.prototxt'.format(proto_pref,dataset, mode), 'w') as f:
+    with open('{}/{}/{}/solver.prototxt'.format(args.proto_pref,dataset, mode), 'w') as f:
         f.write(p.solvet_txt) 
+        # print(p.solvet_txt)
     
 
 
 
-dataset = "rtsd-r1"
-p = SolverParameters("train", "test", 25, max_iter=1000, test_interval=200, snap_iter=100, step_iter=9)
-print (p.solvet_txt)
+
+
+parser= gen_parser()
+args = parser.parse_args()
+prepare_solver("rtsd-r1", 'orig', args)
+# print solver.

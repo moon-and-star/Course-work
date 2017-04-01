@@ -33,6 +33,13 @@ def gen_parser():
                         help='size of batch for training (default=512)')
     parser.add_argument('-e','--epoch',default=100, type=int, 
                         help='number of training epoch (default=100)')
+    parser.add_argument('-tf','--test_frequency',default=1, type=int, 
+                        help='number of training epoch (default=1)')
+    parser.add_argument('-sn','--snap_epoch',default=10, type=int, 
+                        help='number of training epoch (default=10)')
+    parser.add_argument('-st','--step_epoch',default=10, type=int, 
+                        help='number of training epoch (default=10)')
+
 
     parser.add_argument('-p','--proto_pref',default="./Prototxt", type=str, 
                         help='Path for saving prototxt files (common prefix for all experiments)')
@@ -41,3 +48,4 @@ def gen_parser():
 
 
     return parser
+

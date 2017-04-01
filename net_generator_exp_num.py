@@ -3,7 +3,8 @@
 import sys
 sys.path.append('/opt/caffe/python/')
 
-import util.py
+import util
+import solver_params.py
 
 import caffe
 from caffe import layers as L
