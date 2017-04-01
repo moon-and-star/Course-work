@@ -6,7 +6,7 @@
     test_interval: 1390
 
     type : "Adam"
-    base_lr: 0.01
+    base_lr: 0.0001
     stepsize: 2780
 
     lr_policy: "step"
