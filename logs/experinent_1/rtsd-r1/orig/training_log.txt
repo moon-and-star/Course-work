@@ -1,13 +1,40 @@
-[libprotobuf ERROR google/protobuf/text_format.cc:274] Error parsing text-format caffe.SolverParameter: 7:12: Expected string.
-F0401 23:34:10.515878 26832 upgrade_proto.cpp:1095] Check failed: ReadProtoFromTextFile(param_file, param) Failed to parse SolverParameter file: ./logs/experinent_1/rtsd-r1/orig/solver.prototxt
+I0401 23:37:17.550107 28262 caffe.cpp:217] Using GPUs 0
+I0401 23:37:17.588230 28262 caffe.cpp:222] GPU 0: GeForce GTX 1070
+I0401 23:37:18.526904 28262 solver.cpp:60] Initializing solver from parameters: 
+train_net: "./Prototxt/rtsd-r1/orig/train.prototxt"
+test_net: "./Prototxt/rtsd-r1/orig/test.prototxt"
+test_iter: 15
+test_interval: 500
+base_lr: 0.0001
+display: 1
+max_iter: 5000
+lr_policy: "step"
+gamma: 0.1
+momentum: 0.9
+weight_decay: 0.0005
+stepsize: 500
+snapshot: 500
+snapshot_prefix: "./snapshots/experiment_1/rtsd-r1/orig"
+solver_mode: GPU
+device_id: 0
+train_state {
+  level: 0
+  stage: ""
+}
+iter_size: 1
+type: "Adam"
+F0401 23:37:18.527042 28262 solver.cpp:450] Cannot write to snapshot prefix './snapshots/experiment_1/rtsd-r1/orig'.  Make sure that the directory exists and is writeable.
 *** Check failure stack trace: ***
-    @     0x7fb8209d65cd  google::LogMessage::Fail()
-    @     0x7fb8209d8433  google::LogMessage::SendToLog()
-    @     0x7fb8209d615b  google::LogMessage::Flush()
-    @     0x7fb8209d8e1e  google::LogMessageFatal::~LogMessageFatal()
-    @     0x7fb821049a31  caffe::ReadSolverParamsFromTextFileOrDie()
-    @           0x40abea  train()
+    @     0x7f6f6e38b5cd  google::LogMessage::Fail()
+    @     0x7f6f6e38d433  google::LogMessage::SendToLog()
+    @     0x7f6f6e38b15b  google::LogMessage::Flush()
+    @     0x7f6f6e38de1e  google::LogMessageFatal::~LogMessageFatal()
+    @     0x7f6f6eb704ed  caffe::Solver<>::CheckSnapshotWritePermissions()
+    @     0x7f6f6eb73b44  caffe::Solver<>::Init()
+    @     0x7f6f6eb73efa  caffe::Solver<>::Solver()
+    @     0x7f6f6e9b9a43  caffe::Creator_AdamSolver<>()
+    @           0x40afb9  train()
     @           0x4077c8  main
-    @     0x7fb81f16d830  __libc_start_main
+    @     0x7f6f6cb22830  __libc_start_main
     @           0x408099  _start
     @              (nil)  (unknown)
