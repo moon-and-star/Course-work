@@ -185,7 +185,8 @@ def launch():
                 print("Generating architectures")
                 print("{} {} {}".format(dataset, mode, phase))
                 
-                mean_path = '{}/{}/{}/{}/mean.txt'.format(data_prefix,dataset, mode, phase)
+                # mean_path = '{}/{}/{}/{}/mean.txt'.format(data_prefix,dataset, mode, phase)
+                mean_path = '{}/lmdb/{}/{}/{}/mean.txt'.format(data_prefix,dataset, mode, phase)
                 safe_mkdir('{}/{}/{}/'.format(proto_pref,dataset,mode))
                 with open('{}/{}/{}/{}.prototxt'.format(proto_pref, dataset,mode,phase), 'w') as f:
                     f.write(str(make_net(initWithData(
