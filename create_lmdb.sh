@@ -1,6 +1,6 @@
-#!/usr/bin/env bash
-TOOLS=/home/katydagoth/Downloads/caffe3/caffe-master/build/tools
-# TOOLS=/opt/caffe/build/tools
+# !/usr/bin/env bash
+# TOOLS=/home/katydagoth/Downloads/caffe3/caffe-master/build/tools
+TOOLS=/opt/caffe/build/tools
 
 prefix="../local_data"
 datasets=("rtsd-r1" "rtsd-r3")

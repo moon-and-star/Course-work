@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
 
-# TOOLS=/opt/caffe/.build_release/tools
-# EXTRA_TOOLS=/opt/caffe/tools/extra
-TOOLS=/home/katydagoth/Downloads/caffe3/caffe-master/.build_release/tools
-EXTRA_TOOLS=/home/katydagoth/Downloads/caffe3/caffe-master/tools/extra
+TOOLS=/opt/caffe/.build_release/tools
+EXTRA_TOOLS=/opt/caffe/tools/extra
+# TOOLS=/home/katydagoth/Downloads/caffe3/caffe-master/.build_release/tools
+# EXTRA_TOOLS=/home/katydagoth/Downloads/caffe3/caffe-master/tools/extra
 
 # echo $TOOLS
  #--weights=pretrained.caffemodel

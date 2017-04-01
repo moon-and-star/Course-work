@@ -163,7 +163,7 @@ def make_net(n, num_of_classes = 43):
 
 
 def launch():
-    parser= gen_parser()
+    parser = gen_parser()
     args = parser.parse_args()
     exp_num = args.EXPERIMENT_NUMBER
     batch_size = args.batch_size
@@ -171,6 +171,7 @@ def launch():
     snap_pref = args.snap_pref
 
     data_prefix = "../local_data"
+
     modes = ["orig", "histeq", "AHE", "imajust", "CoNorm" ]
     for dataset in ["rtsd-r1","rtsd-r3"]:
         if dataset == "rtsd-r1":
@@ -181,9 +182,10 @@ def launch():
 
         for mode in modes:
             for phase in ['train', 'test']:
-                print("{} {} {}\n".format(dataset, mode, phase))
                 print("Generating architectures")
-                mean_path = '{}/lmdb/{}/{}/{}/mean.txt'.format(data_prefix,dataset, mode, phase)
+                print("{} {} {}".format(dataset, mode, phase))
+                
+                mean_path = '{}/{}/{}/{}/mean.txt'.format(data_prefix,dataset, mode, phase)
                 safe_mkdir('{}/{}/{}/'.format(proto_pref,dataset,mode))
                 with open('{}/{}/{}/{}.prototxt'.format(proto_pref, dataset,mode,phase), 'w') as f:
                     f.write(str(make_net(initWithData(
@@ -196,6 +198,7 @@ def launch():
                                         num_of_classes=num_of_classes
                     )))
 
+                print("")
             gen_solver(dataset, mode, args)
               
 
