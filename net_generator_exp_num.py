@@ -3,8 +3,8 @@
 import sys
 sys.path.append('/opt/caffe/python/')
 
-import util
-import solver_params.py
+from util import safe_mkdir, gen_parser
+from solver_params import gen_solver
 
 import caffe
 from caffe import layers as L
@@ -159,35 +159,6 @@ def make_net(n, num_of_classes = 43):
 
 
 
-
-
-# solver_template = """
-# train_net: "{proto_pref}/{dataset}/{mode}/train.prototxt"
-# test_net: "{proto_pref}/{dataset}/{mode}/test.prototxt"
-
-# test_iter: {test_iter}
-# test_interval: {test_interval}
-
-# type : "Adam"
-# base_lr: 0.0005
-# lr_policy: "step"
-# gamma: 0.1
-# stepsize: 1000
-# iter_size: 1
-
-# momentum: 0.9
-# weight_decay: 0.0005
-# display: 1
-# max_iter: 5000
-# snapshot: 500
-# snapshot_prefix: "{snap_pref}/{dataset}/{mode}/{exp_num}/RTSD"
-# solver_mode: GPU
-# """
-
-
-
-
-
         
 
 
@@ -202,8 +173,6 @@ def launch():
     data_prefix = "../local_data"
     modes = ["orig", "histeq", "AHE", "imajust", "CoNorm" ]
     for dataset in ["rtsd-r1","rtsd-r3"]:
-
-
         if dataset == "rtsd-r1":
             num_of_classes = 67
         elif dataset == "rtsd-r3":
@@ -227,10 +196,7 @@ def launch():
                                         num_of_classes=num_of_classes
                     )))
 
-            prepare_solver(proto_pref=proto_pref, snap_pref=snap_pref,
-                           dataset=dataset, mode=mode, exp_num=exp_num)
-
-
+            gen_solver(dataset, mode, args)
               
 
 

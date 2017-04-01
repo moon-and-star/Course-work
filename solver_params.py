@@ -1,7 +1,5 @@
 from math import ceil
 import argparse
-# import sys
-# sys.path.append('./')
 from util import safe_mkdir, gen_parser
 
 solver_template = """
@@ -112,7 +110,7 @@ def get_dataset_size(path=None, dataset='', phase='', mode=''):
        
 
 
-def prepare_solver(dataset, mode, args):
+def gen_solver(dataset, mode, args):
 
     train_size = get_dataset_size(dataset=dataset, phase="train", mode=mode)
     test_size = get_dataset_size(dataset=dataset, phase="test", mode=mode) 
@@ -145,11 +143,3 @@ def prepare_solver(dataset, mode, args):
         # print(p.solvet_txt)
     
 
-
-
-
-
-parser= gen_parser()
-args = parser.parse_args()
-prepare_solver("rtsd-r1", 'orig', args)
-# print solver.
