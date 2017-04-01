@@ -3,7 +3,7 @@
 import sys
 sys.path.append('/opt/caffe/python/')
 
-from util import safe_mkdir, gen_parser
+from util import safe_mkdir, gen_parser, load_image_mean
 from solver_params import gen_solver
 
 import caffe
