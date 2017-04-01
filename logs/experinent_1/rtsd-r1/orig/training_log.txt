@@ -1,0 +1,13 @@
+[libprotobuf ERROR google/protobuf/text_format.cc:274] Error parsing text-format caffe.SolverParameter: 8:12: Expected string.
+F0401 23:22:32.746562 21661 upgrade_proto.cpp:1095] Check failed: ReadProtoFromTextFile(param_file, param) Failed to parse SolverParameter file: ./logs/experinent_1/rtsd-r1/orig/solver.prototxt
+*** Check failure stack trace: ***
+    @     0x7ff210a3c5cd  google::LogMessage::Fail()
+    @     0x7ff210a3e433  google::LogMessage::SendToLog()
+    @     0x7ff210a3c15b  google::LogMessage::Flush()
+    @     0x7ff210a3ee1e  google::LogMessageFatal::~LogMessageFatal()
+    @     0x7ff2110afa31  caffe::ReadSolverParamsFromTextFileOrDie()
+    @           0x40abea  train()
+    @           0x4077c8  main
+    @     0x7ff20f1d3830  __libc_start_main
+    @           0x408099  _start
+    @              (nil)  (unknown)
