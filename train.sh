@@ -17,11 +17,12 @@ EPOCH=100
 TEST_FR=10
 SNAP_FR=10
 STEP_FR=10
-LR=1e-3
+GAMMA=0.5
+LR=1e-2
 
 printf "\n\n GENERATING ARCHITECTURES\n\n"
 ./net_generator_exp_num.py -b $BATCH_SZ -e $EPOCH -tf $TEST_FR -sn $SNAP_FR \
-						   -st $STEP_FR $EXPERIMENT_NUM -lr $LR
+						   -st $STEP_FR $EXPERIMENT_NUM -lr $LR -g $GAMMA
 
 
 
