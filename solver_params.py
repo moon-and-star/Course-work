@@ -2,8 +2,8 @@ from math import ceil
 import argparse
 from util import safe_mkdir, gen_parser
 
-solver_template = 
-""" train_net: "{train_path}"
+solver_template = """ 
+    train_net: "{train_path}"
     test_net: "{test_path}"
 
     test_iter: {test_iter}
