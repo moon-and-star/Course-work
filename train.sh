@@ -18,7 +18,7 @@ TEST_FR=10
 SNAP_FR=10
 STEP_FR=20
 GAMMA=0.5
-LR=1e-2
+LR=1e-4
 
 printf "\n\n GENERATING ARCHITECTURES\n\n"
 ./net_generator_exp_num.py -b $BATCH_SZ -e $EPOCH -tf $TEST_FR -sn $SNAP_FR \
@@ -90,7 +90,7 @@ do
 			./logs/experiment_${EXPERIMENT_NUM}/${i}/${j}/
 
 		./plot_logs.py ./logs/experiment_${EXPERIMENT_NUM}/${i}/${j}     training_log.txt 
-		
+
 		git pull
 		git add ./logs
 		git commit -m "training log for ${i} ${j}"
