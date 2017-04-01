@@ -3,10 +3,7 @@
 import sys
 sys.path.append('/opt/caffe/python/')
 
-import argparse
-
-import os.path as osp
-from os import makedirs
+import util.py
 
 import caffe
 from caffe import layers as L
@@ -116,25 +113,6 @@ def accuracy(name, bottom, labels, top_k):
     )
 
 
-
-
-# def load_image_mean():
-#     if osp.exists('gtsrb_cropped/train/orig/mean.txt'):
-#         return map(float, open('gtsrb_processed/mean.txt', 'r').read().split())
-#     return None
-def load_image_mean(mean_path):
-    if osp.exists(mean_path):
-        return map(float, open(mean_path, 'r').read().split())
-    else:
-        print('WARNING: no mean file!')
-    return None
-
-
-def safe_mkdir(directory_name):
-    if not osp.exists(directory_name):
-        makedirs(directory_name)
-
-
 def initWithData(lmdb, phase, batch_size, mean_path):
     n = caffe.NetSpec()
     mean = load_image_mean(mean_path)
@@ -163,8 +141,6 @@ def initWithData(lmdb, phase, batch_size, mean_path):
 
 
 
-
-
 def make_net(n, num_of_classes = 43):
     n.pool1 = maxpool("pool1", conv1(n, "conv1", n.data, 100, kernel_size = 7, pad = 0))
     n.pool2 = maxpool("pool2", conv1(n, "conv2", n.pool1, 150, kernel_size = 4, pad = 0))
@@ -182,88 +158,36 @@ def make_net(n, num_of_classes = 43):
 
 
 
-def gen_parser():
-    description = """
-    DESCRIPTION:
-    This program generates network architectures and solver
-    for particular experiment and stores them into prototxt
-    files in special folder (which is specified in current code)
-    """
-    parser = argparse.ArgumentParser(description=description)
-
-    parser.add_argument("EXPERIMENT_NUMBER",type=int, 
-                        help='the number of current experiment with nets ')
-    parser.add_argument('-b','--batch_size',default=512, type=int, 
-                        help='size of batch for training (default=512)')
-
-    parser.add_argument('-p','--proto_pref',default="./Prototxt", type=str, 
-                        help='Path for saving prototxt files (common prefix for all experiments)')
-    parser.add_argument('-s', '--snap_pref',default="./snapshots", type=str, 
-                        help='Path for saving snapshot files (common prefix for all experiments)')
 
 
-    return parser
+# solver_template = """
+# train_net: "{proto_pref}/{dataset}/{mode}/train.prototxt"
+# test_net: "{proto_pref}/{dataset}/{mode}/test.prototxt"
+
+# test_iter: {test_iter}
+# test_interval: {test_interval}
+
+# type : "Adam"
+# base_lr: 0.0005
+# lr_policy: "step"
+# gamma: 0.1
+# stepsize: 1000
+# iter_size: 1
+
+# momentum: 0.9
+# weight_decay: 0.0005
+# display: 1
+# max_iter: 5000
+# snapshot: 500
+# snapshot_prefix: "{snap_pref}/{dataset}/{mode}/{exp_num}/RTSD"
+# solver_mode: GPU
+# """
 
 
-solver_template = """
-train_net: "{proto_pref}/{dataset}/{mode}/train.prototxt"
-test_net: "{proto_pref}/{dataset}/{mode}/test.prototxt"
-
-test_iter: 3
-test_interval: 2
-
-base_lr: 0.0005
-lr_policy: "step"
-gamma: 0.1
-stepsize: 1000
-iter_size: 1
-
-momentum: 0.9
-weight_decay: 0.0005
-display: 1
-max_iter: 5000
-snapshot: 500
-snapshot_prefix: "{snap_pref}/{dataset}/{mode}/{exp_num}/RTSD"
-solver_mode: GPU
-"""
 
 
-def dataset_size(dataset, phase):
-    r1_train = 25432
-    r1_test = 7551
 
-    r3_train = 70687
-    r3_test = 22967
-    if dataset == 'rtsd-r1':
-        if phase == 'train':
-            return r1_train
-        elif phase == 'test':
-            return r1_test
-        else:
-            return None
-    elif dataset == 'rtsd-r3':
-        if phase == 'train':
-            return r3_train
-        elif phase == 'test':
-            return r3_test
-        else:
-            return None
-    else:
-        return None
-
-
-def prepare_solver(dataset, mode, proto_pref='./Prototxt', snap_pref='./snapshots'):
-    train_size = dataset_size(dataset, "train")
-    test_size = dataset_size(dataset, "test") 
-
-    print("Generating solver")
-    print("{} {}\n\n\n".format(dataset, mode))     
-    safe_mkdir('{}/{}/{}/'.format(proto_pref,dataset,mode))   
-    solver =  solver_template.format(proto_pref=proto_pref, snap_pref=snap_pref,
-                                      dataset=dataset, mode=mode)
-    with open('{}/{}/{}/solver.prototxt'.format(proto_pref,dataset, mode), 'w') as f:
-        f.write() 
-            
+        
 
 
 def launch():
