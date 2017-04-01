@@ -13,35 +13,45 @@ from skimage.io import imread, imsave
 from skimage.transform import rotate, rescale
 from skimage.color import rgb2lab, lab2rgb 
 from skimage.exposure import equalize_adapthist, equalize_hist
-# from skimage.exposure import histogram
+
 
 def histeq(img):
-    tmp = rgb2lab(img)
-    tmp[:,:,0] = 128 * equalize_hist(tmp[:,:,0] / 128)
-    return lab2rgb(tmp)
+    ycbcr = cv2.cvtColor(img, cv2.COLOR_BGR2YCR_CB)
+    ycbcr[:,:,0] = cv2.equalizeHist(ycbcr[:,:,0])
+    return cv2.cvtColor(ycbcr, cv2.COLOR_YCR_CB2BGR)
 
 
 
-def autoContrast(img, frac=0.01):
-    tmp = rgb2lab(img)
-    Y = tmp[:,:, 0]
+
+def autoContrast(img, frac=0.1):
+    lab = cv2.cvtColor(img, cv2.COLOR_BGR2LAB)
+    Y = lab[:,:, 0].astype(np.float32)
     Ysorted = np.sort(Y.reshape(-1))
-    m = int(len(Ysorted) * 0.01)
+    m = int(len(Ysorted) * frac)
     Ysorted = Ysorted[m:-m]
 
     ymin, ymax = Ysorted[0], Ysorted[-1]
-    alpha = 127. / (ymax-ymin)
-
+    alpha = 255. / (ymax-ymin)
     # print((Y - ymin) * alpha)
     # print ((ymax - ymin) * alpha )
-    tmp[:,: ,0] = ((Y - ymin) * alpha)
-    return lab2rgb(tmp)
+
+    Y =  ((Y - ymin) * alpha)
+    Y[Y < 0] = 0
+    Y[Y > 255] = 255
+    lab[:,: ,0] = Y.astype(np.uint8)
+    return cv2.cvtColor(lab, cv2.COLOR_LAB2BGR)
+
 
 
 def adaHE(img):
-    tmp = rgb2lab(img)
-    tmp[:,:,0] = 128* equalize_adapthist(tmp[:,:,0] / 128 , clip_limit=0.01, kernel_size=(6,6))
-    return lab2rgb(tmp)
+    clahe = cv2.createCLAHE(clipLimit=3.0, tileGridSize=(2,2))
+
+    lab = cv2.cvtColor(img, cv2.COLOR_BGR2LAB)
+    lab[:,:,0] = clahe.apply(lab[:,:,0])
+
+    return cv2.cvtColor(lab, cv2.COLOR_LAB2BGR)
+
+
 
 def contrastNorm(img):
     size = 5
@@ -194,6 +204,9 @@ def process(rootpath, outpath, phase, mode):
             image_id = image_id + 1
 
     total_images = image_id
+    with open("{}/{}_size.txt".format(outpath, phase), 'w') as f:
+        f.write(str(total_images))
+
     mean[0] = mean[0] / float(total_images)
     mean[1] = mean[1] / float(total_images)
     mean[2] = mean[2] / float(total_images)
@@ -209,8 +222,10 @@ def process(rootpath, outpath, phase, mode):
 
 
 
+
+
 def launch():
-    # modes = ['histeq']
+    # modes = ['orig']
     # for dataset in ["rtsd-r1"]:
         # for phase in ["test"]:
     modes = ["orig", "histeq", "AHE", "imajust", "CoNorm" ]
@@ -219,8 +234,8 @@ def launch():
             rootpath = "../global_data/Traffic_signs/RTSD/classification/" + dataset
 
             for mode in modes:
-                print("\n\n\n\n          current_path=", rootpath,'\n')
-                print("          mode=", mode,'\n')
+                print("\nCurrent_path = {}\n".format(rootpath))
+                print("Mode = {}\n".format(mode))
 
                 outpath = "../local_data/"+ dataset + "/" + mode
                 if phase == "train":
