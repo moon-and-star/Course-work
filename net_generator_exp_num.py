@@ -252,17 +252,17 @@ def dataset_size(dataset, phase):
         return None
 
 
-def prepare_solver(dataset, mode, proto_pref='./', snap_pref='./'):
+def prepare_solver(dataset, mode, proto_pref='./Prototxt', snap_pref='./snapshots'):
     train_size = dataset_size(dataset, "train")
     test_size = dataset_size(dataset, "test") 
-    
+
     print("Generating solver")
-    print("{} {}\n\n\n".format(dataset, mode)) 
-        
-    safe_mkdir('{}/{}/{}/'.format(proto_pref,dataset,mode))    
+    print("{} {}\n\n\n".format(dataset, mode))     
+    safe_mkdir('{}/{}/{}/'.format(proto_pref,dataset,mode))   
+    solver =  solver_template.format(proto_pref=proto_pref, snap_pref=snap_pref,
+                                      dataset=dataset, mode=mode)
     with open('{}/{}/{}/solver.prototxt'.format(proto_pref,dataset, mode), 'w') as f:
-        f.write(solver.format(proto_pref=proto_pref, snap_pref=snap_pref,
-                                      dataset=dataset, mode=mode)) 
+        f.write() 
             
 
 
@@ -303,7 +303,7 @@ def launch():
                     )))
 
             prepare_solver(proto_pref=proto_pref, snap_pref=snap_pref,
-                           dataset=dataset, mode=mode)
+                           dataset=dataset, mode=mode, exp_num=exp_num)
 
 
               
