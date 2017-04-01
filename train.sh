@@ -12,13 +12,13 @@ echo " tools = ${TOOLS}"
 
 EXPERIMENT_NUM=1
 GPU_NUM=0
-BATCH_SZ=512
+BATCH_SZ=1024
 EPOCH=100
 TEST_FR=10
 SNAP_FR=10
-STEP_FR=20
+STEP_FR=10
 GAMMA=0.5
-LR=1e-4
+LR=1e-3
 
 printf "\n\n GENERATING ARCHITECTURES\n\n"
 ./net_generator_exp_num.py -b $BATCH_SZ -e $EPOCH -tf $TEST_FR -sn $SNAP_FR \
