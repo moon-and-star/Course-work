@@ -1,0 +1,13 @@
+F0402 13:46:59.100646 30608 io.cpp:36] Check failed: fd != -1 (-1 vs. -1) File not found: ./Prototxt/experiment_3/rtsd-r1/CoNorm/solver.prototxt
+*** Check failure stack trace: ***
+    @     0x7fc2067c05cd  google::LogMessage::Fail()
+    @     0x7fc2067c2433  google::LogMessage::SendToLog()
+    @     0x7fc2067c015b  google::LogMessage::Flush()
+    @     0x7fc2067c2e1e  google::LogMessageFatal::~LogMessageFatal()
+    @     0x7fc206e2e728  caffe::ReadProtoFromTextFile()
+    @     0x7fc206e339a6  caffe::ReadSolverParamsFromTextFileOrDie()
+    @           0x40abea  train()
+    @           0x4077c8  main
+    @     0x7fc204f57830  __libc_start_main
+    @           0x408099  _start
+    @              (nil)  (unknown)
