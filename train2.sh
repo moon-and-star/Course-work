@@ -21,7 +21,7 @@ GAMMA=0.5
 LR=1e-2
 
 printf "\n\n GENERATING ARCHITECTURES\n\n"
-./net_generator_exp_num.py -b $BATCH_SZ -e $EPOCH -tf $TEST_FR -sn $SNAP_FR \
+python2 ./net_generator_exp_num.py -b $BATCH_SZ -e $EPOCH -tf $TEST_FR -sn $SNAP_FR \
 						   -st $STEP_FR $EXPERIMENT_NUM -lr $LR -g $GAMMA
 
 
