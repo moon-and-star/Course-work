@@ -142,7 +142,7 @@ def gen_solver(dataset, mode, args):
 
 
     
-    with open('{}/{}/{}/solver.prototxt'.format(args.proto_pref,dataset, mode), 'w') as f:
+    with open('{}/experiment_{}/{}/{}/solver.prototxt'.format(args.proto_pref, args.EXPERIMENT_NUMBER, dataset, mode), 'w') as f:
         f.write(p.solvet_txt) 
         print(p.solvet_txt)
     
