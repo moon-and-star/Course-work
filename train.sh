@@ -10,7 +10,7 @@ EXTRA_TOOLS=/opt/caffe/tools/extra
 echo " tools = ${TOOLS}"
 
 
-EXPERIMENT_NUM=0
+EXPERIMENT_NUM=4
 GPU_NUM=0
 BATCH_SZ=1024
 EPOCH=100
@@ -58,18 +58,18 @@ done
 
 
 
-printf "\n\n\n Copying prototxt files\n"
+# printf "\n\n\n Copying prototxt files\n"
 
-for i in "${datasets[@]}"
-do
-	for j in "${modes[@]}"
-	do
-		printf "\ndataset = ${i},  mode = ${j} \n"
-		cp -v -u ./Prototxt/${i}/${j}/train.prototxt ./logs/experiment_${EXPERIMENT_NUM}/${i}/${j}/
-		cp -v -u ./Prototxt/${i}/${j}/test.prototxt ./logs/experiment_${EXPERIMENT_NUM}/${i}/${j}/
-		cp -v -u ./Prototxt/${i}/${j}/solver.prototxt ./logs/experiment_${EXPERIMENT_NUM}/${i}/${j}/
-	done
-done
+# for i in "${datasets[@]}"
+# do
+# 	for j in "${modes[@]}"
+# 	do
+# 		printf "\ndataset = ${i},  mode = ${j} \n"
+# 		cp -v -u ./Prototxt/experiment_$EXPERIMENT_NUM/${i}/${j}/train.prototxt ./logs/experiment_${EXPERIMENT_NUM}/${i}/${j}/
+# 		cp -v -u ./Prototxt/experiment_$EXPERIMENT_NUM/${i}/${j}/test.prototxt ./logs/experiment_${EXPERIMENT_NUM}/${i}/${j}/
+# 		cp -v -u ./Prototxt/experiment_$EXPERIMENT_NUM/${i}/${j}/solver.prototxt ./logs/experiment_${EXPERIMENT_NUM}/${i}/${j}/
+# 	done
+# done
 
 
 
@@ -82,7 +82,7 @@ do
 	do
 		printf "\n\n\n  dataset = ${i},  mode = ${j} \n"
 		GLOG_logtostderr=0 $TOOLS/caffe train -gpu ${GPU_NUM}    \
-			--solver=./logs/experiment_${EXPERIMENT_NUM}/${i}/${j}/solver.prototxt    \
+			--solver=./Prototxt/experiment_${EXPERIMENT_NUM}/${i}/${j}/solver.prototxt    \
 			2>&1| tee ./logs/experiment_${EXPERIMENT_NUM}/${i}/${j}/training_log.txt
 			
 		GLOG_logtostderr=0 $EXTRA_TOOLS/parse_log.py  --verbose     \
@@ -93,6 +93,7 @@ do
 
 		git pull
 		git add ./logs/experiment_${EXPERIMENT_NUM}/${i}/${j}
+		git add ./Prototxt/experiment_${EXPERIMENT_NUM}/${i}/${j}
 		git commit -m "training log for ${i} ${j}"
 		git push
 	done
