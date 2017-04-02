@@ -93,7 +93,7 @@ do
 
 		git pull
 		git add ./logs/experiment_${EXPERIMENT_NUM}/${i}/${j}
-		git add ./Prototxt/experiment_${EXPERIMENT_NUM}/${i}/${j}
+		git add -f ./Prototxt/experiment_${EXPERIMENT_NUM}/${i}/${j}
 		git commit -m "training log for ${i} ${j}"
 		git push
 	done
