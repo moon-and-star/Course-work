@@ -1,6 +1,6 @@
  
-    train_net: "./Prototxt/experiment_4/rtsd-r3/CoNorm/train.prototxt"
-    test_net: "./Prototxt/experiment_4/rtsd-r3/CoNorm/test.prototxt"
+    train_net: "./Prototxt/rtsd-r3/CoNorm/train.prototxt"
+    test_net: "./Prototxt/rtsd-r3/CoNorm/test.prototxt"
 
     test_iter: 23
     test_interval: 70
@@ -18,6 +18,6 @@
     display: 1
     max_iter: 7000
     snapshot: 700
-    snapshot_prefix: "./snapshots/experiment_4/rtsd-r3/CoNorm/snap"
+    snapshot_prefix: "./snapshots/experiment_0/rtsd-r3/CoNorm/snap"
     solver_mode: GPU
     
