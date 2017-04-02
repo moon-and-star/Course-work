@@ -15,7 +15,7 @@ layer {
   }
   data_param {
     source: "../local_data/lmdb/rtsd-r3/orig/test/lmdb"
-    batch_size: 512
+    batch_size: 1024
     backend: LMDB
   }
 }
