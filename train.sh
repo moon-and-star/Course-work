@@ -10,13 +10,13 @@ EXTRA_TOOLS=/opt/caffe/tools/extra
 echo " tools = ${TOOLS}"
 
 
-EXPERIMENT_NUM=1
+EXPERIMENT_NUM=0
 GPU_NUM=0
 BATCH_SZ=1024
 EPOCH=100
-TEST_FR=10
+TEST_FR=1
 SNAP_FR=10
-STEP_FR=10
+STEP_FR=20
 GAMMA=0.5
 LR=1e-3
 
@@ -92,7 +92,7 @@ do
 		./plot_logs.py ./logs/experiment_${EXPERIMENT_NUM}/${i}/${j}     training_log.txt 
 
 		git pull
-		git add ./logs
+		git add ./logs/experiment_${EXPERIMENT_NUM}/${i}/${j}
 		git commit -m "training log for ${i} ${j}"
 		git push
 	done
