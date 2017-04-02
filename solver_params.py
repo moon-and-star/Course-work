@@ -122,7 +122,7 @@ def gen_solver(dataset, mode, args):
     epoch_sz = ceil(train_size / float(args.batch_size))
 
 
-    directory = "{}/{}/{}".format(args.proto_pref, dataset, mode)
+    directory = "{}/experiment_{}/{}/{}".format(args.proto_pref,  args.EXPERIMENT_NUMBER, dataset, mode)
     train_path = "{}/train.prototxt".format(directory)
     test_path = "{}/test.prototxt".format(directory)
 
@@ -142,7 +142,7 @@ def gen_solver(dataset, mode, args):
 
 
     
-    with open('{}/experiment_{}/{}/{}/solver.prototxt'.format(args.proto_pref, args.EXPERIMENT_NUMBER, dataset, mode), 'w') as f:
+    with open('{}/solver.prototxt'.format(directory), 'w') as f:
         f.write(p.solvet_txt) 
         print(p.solvet_txt)
     

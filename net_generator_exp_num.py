@@ -181,14 +181,17 @@ def launch():
 
 
         for mode in modes:
+            mean_path = '{}/lmdb/{}/{}/{}/mean.txt'.format(data_prefix,dataset, mode, phase)
+            # mean_path = '{}/{}/{}/{}/mean.txt'.format(data_prefix,dataset, mode, phase)
+            directory = '{}/{}/{}/{}/'.format(proto_pref,exp_num, dataset,mode)
+            safe_mkdir(directory)
             for phase in ['train', 'test']:
                 print("Generating architectures")
                 print("{} {} {}".format(dataset, mode, phase))
                 
-                # mean_path = '{}/{}/{}/{}/mean.txt'.format(data_prefix,dataset, mode, phase)
-                mean_path = '{}/lmdb/{}/{}/{}/mean.txt'.format(data_prefix,dataset, mode, phase)
-                safe_mkdir('{}/{}/{}/'.format(proto_pref,dataset,mode))
-                with open('{}/experiment_{}/{}/{}/{}.prototxt'.format(proto_pref, args.EXPERIMENT_NUMBER, dataset,mode,phase), 'w') as f:
+                
+                
+                with open('{}/{}.prototxt'.format(directory), 'w') as f:
                     f.write(str(make_net(initWithData(
                                             '{}/lmdb/{}/{}/{}/lmdb'.format(data_prefix, 
                                                                     dataset, mode, phase), 
