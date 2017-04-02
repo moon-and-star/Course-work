@@ -10,15 +10,15 @@ EXTRA_TOOLS=/opt/caffe/tools/extra
 echo " tools = ${TOOLS}"
 
 
-EXPERIMENT_NUM=3
+EXPERIMENT_NUM=4
 GPU_NUM=0
 BATCH_SZ=1024
 EPOCH=100
 TEST_FR=1
 SNAP_FR=10
-STEP_FR=10
+STEP_FR=20
 GAMMA=0.5
-LR=1e-2
+LR=1e-3
 
 printf "\n\n GENERATING ARCHITECTURES\n\n"
 ./net_generator_exp_num.py -b $BATCH_SZ -e $EPOCH -tf $TEST_FR -sn $SNAP_FR \
