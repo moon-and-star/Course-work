@@ -27,12 +27,12 @@ python2 ./net_generator_exp_num.py -b $BATCH_SZ -e $EPOCH -tf $TEST_FR -sn $SNAP
 
 
 
-# datasets=("rtsd-r1")
-# modes=("orig")
+datasets=("rtsd-r1")
+modes=("orig")
 
 
-datasets=("rtsd-r1" "rtsd-r3")
-modes=("CoNorm" "orig" "AHE" "histeq" "imajust")
+# datasets=("rtsd-r1" "rtsd-r3")
+# modes=("CoNorm" "orig" "AHE" "histeq" "imajust")
 
 
 
@@ -58,22 +58,6 @@ done
 
 
 
-# printf "\n\n\n Copying prototxt files\n"
-
-# for i in "${datasets[@]}"
-# do
-# 	for j in "${modes[@]}"
-# 	do
-# 		printf "\ndataset = ${i},  mode = ${j} \n"
-# 		cp -v -u ./Prototxt/experiment_$EXPERIMENT_NUM/${i}/${j}/train.prototxt ./logs/experiment_${EXPERIMENT_NUM}/${i}/${j}/
-# 		cp -v -u ./Prototxt/experiment_$EXPERIMENT_NUM/${i}/${j}/test.prototxt ./logs/experiment_${EXPERIMENT_NUM}/${i}/${j}/
-# 		cp -v -u ./Prototxt/experiment_$EXPERIMENT_NUM/${i}/${j}/solver.prototxt ./logs/experiment_${EXPERIMENT_NUM}/${i}/${j}/
-# 	done
-# done
-
-
-
-
 printf "\n\n\n Training nets \n"
 
 for i in "${datasets[@]}"
@@ -85,11 +69,11 @@ do
 			--solver=./Prototxt/experiment_${EXPERIMENT_NUM}/${i}/${j}/solver.prototxt    \
 			2>&1| tee ./logs/experiment_${EXPERIMENT_NUM}/${i}/${j}/training_log.txt
 			
-		GLOG_logtostderr=0 $EXTRA_TOOLS/parse_log.py  --verbose     \
+		GLOG_logtostderr=0 python2 $EXTRA_TOOLS/parse_log.py  --verbose     \
 			./logs/experiment_${EXPERIMENT_NUM}/${i}/${j}/training_log.txt    \
 			./logs/experiment_${EXPERIMENT_NUM}/${i}/${j}/
 
-		./plot_logs.py ./logs/experiment_${EXPERIMENT_NUM}/${i}/${j}     training_log.txt 
+		python2 ./plot_logs.py ./logs/experiment_${EXPERIMENT_NUM}/${i}/${j}     training_log.txt 
 
 		git pull
 		git add ./logs/experiment_${EXPERIMENT_NUM}/${i}/${j}
