@@ -169,8 +169,8 @@ operations = {
 
 
 rate = 100
-
-def process(rootpath, outpath, phase, mode):
+#sample_factor = how many samples to produse from 1 sample (data augmentation)
+def process(rootpath, outpath, phase, mode, sample_factor=1, random=False):
     safe_mkdir(outpath) #create outpath
     labels = open("{}/gt_{}.txt".format(outpath, phase), 'w') #create file to write labels in
     markup = open('{}/gt_{}.csv'.format(rootpath, phase), 'r').readlines() # open file to read labels (and, may be coords)
@@ -190,8 +190,8 @@ def process(rootpath, outpath, phase, mode):
 
         m, n, _ = img.shape
         patch = operations[mode](crop(img, x1=0, y1=0, y2 = m - 1, x2=n - 1, expand = 3))
-        for i in range(1):
-            transformed = randTrans(patch, scaled=False, rotated=False)
+        for i in range(sample_factor):
+            transformed = randTrans(patch, scaled=random, rotated=random)
             mean[0] += transformed[:, :, 0]
             mean[1] += transformed[:, :, 1]
             mean[2] += transformed[:, :, 2]
@@ -224,6 +224,8 @@ def process(rootpath, outpath, phase, mode):
 
 
 def launch():
+    samples = 10
+    random = True
     # modes = ['orig']
     # for dataset in ["rtsd-r1"]:
         # for phase in ["test"]:
@@ -237,10 +239,11 @@ def launch():
                 print("Mode = {}\n".format(mode))
 
                 outpath = "../local_data/"+ dataset + "/" + mode
-                if phase == "train":
-                    process(rootpath, outpath, phase, mode)
-                elif phase == "test":
-                    process(rootpath, outpath, phase, mode)
+                process(rootpath, outpath, phase, mode, sample_factor=samples, random=random)
+                # if phase == "train":
+                #     process(rootpath, outpath, phase, mode)
+                # elif phase == "test":
+                #     process(rootpath, outpath, phase, mode)
 
 
 launch()
