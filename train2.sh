@@ -39,20 +39,20 @@ modes=("CoNorm" "orig" "AHE" "histeq" "imajust")
 
 
 
-printf "\n\n\n Creating log and snapshot folders(if necessary)\n"
+# printf "\n\n\n Creating log and snapshot folders(if necessary)\n"
 
-mkdir -p logs
-mkdir -p snapshots
-for i in "${datasets[@]}"
-do
-	for j in "${modes[@]}"
-	do
-		printf "dataset = ${i},  mode = ${j}\n"
-		#safe directory creating
-		mkdir -p ./logs/experiment_${EXPERIMENT_NUM}/${i}/${j}/
-		mkdir -p ./snapshots/experiment_${EXPERIMENT_NUM}/${i}/${j}/
-	done
-done
+# mkdir -p logs
+# mkdir -p snapshots
+# for i in "${datasets[@]}"
+# do
+# 	for j in "${modes[@]}"
+# 	do
+# 		printf "dataset = ${i},  mode = ${j}\n"
+# 		#safe directory creating
+# 		mkdir -p ./logs/experiment_${EXPERIMENT_NUM}/${i}/${j}/
+# 		mkdir -p ./snapshots/experiment_${EXPERIMENT_NUM}/${i}/${j}/
+# 	done
+# done
 
 
 
@@ -81,15 +81,15 @@ do
 	for j in "${modes[@]}"
 	do
 		printf "\n\n\n  dataset = ${i},  mode = ${j} \n"
-		GLOG_logtostderr=0 $TOOLS/caffe train -gpu ${GPU_NUM}    \
-			--solver=./Prototxt/experiment_${EXPERIMENT_NUM}/${i}/${j}/solver.prototxt    \
-			2>&1| tee ./logs/experiment_${EXPERIMENT_NUM}/${i}/${j}/training_log.txt
+		# GLOG_logtostderr=0 $TOOLS/caffe train -gpu ${GPU_NUM}    \
+		# 	--solver=./Prototxt/experiment_${EXPERIMENT_NUM}/${i}/${j}/solver.prototxt    \
+		# 	2>&1| tee ./logs/experiment_${EXPERIMENT_NUM}/${i}/${j}/training_log.txt
 			
-		GLOG_logtostderr=0 $EXTRA_TOOLS/parse_log.py  --verbose     \
+		GLOG_logtostderr=0 python2 $EXTRA_TOOLS/parse_log.py  --verbose     \
 			./logs/experiment_${EXPERIMENT_NUM}/${i}/${j}/training_log.txt    \
 			./logs/experiment_${EXPERIMENT_NUM}/${i}/${j}/
 
-		./plot_logs.py ./logs/experiment_${EXPERIMENT_NUM}/${i}/${j}     training_log.txt 
+		python2 ./plot_logs.py ./logs/experiment_${EXPERIMENT_NUM}/${i}/${j}     training_log.txt 
 
 		git pull
 		git add ./logs/experiment_${EXPERIMENT_NUM}/${i}/${j}
