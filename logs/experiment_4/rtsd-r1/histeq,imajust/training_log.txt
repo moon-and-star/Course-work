@@ -1,0 +1,13 @@
+F0404 00:17:40.172075  9418 io.cpp:36] Check failed: fd != -1 (-1 vs. -1) File not found: ./Prototxt/experiment_4/rtsd-r1/histeq,imajust/solver.prototxt
+*** Check failure stack trace: ***
+    @     0x7f768a4355cd  google::LogMessage::Fail()
+    @     0x7f768a437433  google::LogMessage::SendToLog()
+    @     0x7f768a43515b  google::LogMessage::Flush()
+    @     0x7f768a437e1e  google::LogMessageFatal::~LogMessageFatal()
+    @     0x7f768aaa3728  caffe::ReadProtoFromTextFile()
+    @     0x7f768aaa89a6  caffe::ReadSolverParamsFromTextFileOrDie()
+    @           0x40abea  train()
+    @           0x4077c8  main
+    @     0x7f7688bcc830  __libc_start_main
+    @           0x408099  _start
+    @              (nil)  (unknown)
