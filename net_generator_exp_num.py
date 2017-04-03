@@ -198,7 +198,7 @@ def launch():
                                             mean_path=mean_path
                                             ),
                                         num_of_classes=num_of_classes,
-                                        activ=args.active
+                                        activ=args.activation
                     )))
 
                 print("")

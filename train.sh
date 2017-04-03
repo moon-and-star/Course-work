@@ -19,10 +19,12 @@ SNAP_FR=10
 STEP_FR=20
 GAMMA=0.5
 LR=1e-3
+activation="relu"
+
 
 printf "\n\n GENERATING ARCHITECTURES\n\n"
 python2 ./net_generator_exp_num.py -b $BATCH_SZ -e $EPOCH -tf $TEST_FR -sn $SNAP_FR \
-						   -st $STEP_FR $EXPERIMENT_NUM -lr $LR -g $GAMMA
+						   -st $STEP_FR $EXPERIMENT_NUM -lr $LR -g $GAMMA -a $activation
 
 
 
