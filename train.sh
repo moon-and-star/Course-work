@@ -10,17 +10,17 @@ EXTRA_TOOLS=/opt/caffe/tools/extra
 echo " tools = ${TOOLS}"
 
 
-EXPERIMENT_NUM=4
-GPU_NUM=0
-BATCH_SZ=1500
-EPOCH=100
+EXPERIMENT_NUM=5
+GPU_NUM=1
+BATCH_SZ=1024
+EPOCH=60
 TEST_FR=1
 SNAP_FR=10
-STEP_FR=20
+STEP_FR=10
 GAMMA=0.5
 LR=1e-3
-# activation="scaled_tanh"
-activation="relu"
+activation="scaled_tanh"
+# activation="relu"
 
 
 printf "\n\n GENERATING ARCHITECTURES\n\n"
@@ -30,11 +30,11 @@ python2 ./net_generator_exp_num.py -b $BATCH_SZ -e $EPOCH -tf $TEST_FR -sn $SNAP
 
 
 
-# datasets=("rtsd-r1")
+datasets=("rtsd-r1")
 # modes=("histeq" "imajust")
 
 
-datasets=("rtsd-r1" "rtsd-r3")
+# datasets=("rtsd-r1" "rtsd-r3")
 modes=("CoNorm" "orig" "AHE" "histeq" "imajust")
 
 
