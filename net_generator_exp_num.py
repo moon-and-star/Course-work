@@ -142,10 +142,10 @@ def initWithData(lmdb, phase, batch_size, mean_path):
 
 
 
-def make_net(n, num_of_classes = 43):
-    n.pool1 = maxpool("pool1", conv1(n, "conv1", n.data, 100, kernel_size = 7, pad = 0))
-    n.pool2 = maxpool("pool2", conv1(n, "conv2", n.pool1, 150, kernel_size = 4, pad = 0))
-    n.pool3 = maxpool("pool3", conv1(n, "conv3", n.pool2, 250, kernel_size = 4, pad = 0))
+def make_net(n, num_of_classes = 43, activ="relu"):
+    n.pool1 = maxpool("pool1", conv1(n, "conv1", n.data, 100, kernel_size = 7, pad = 0, activ=activ))
+    n.pool2 = maxpool("pool2", conv1(n, "conv2", n.pool1, 150, kernel_size = 4, pad = 0, activ=activ))
+    n.pool3 = maxpool("pool3", conv1(n, "conv3", n.pool2, 250, kernel_size = 4, pad = 0, activ=activ))
 
     n.fc4_300, n.relu4 = fc_relu("fc4", n.pool3, num_output = 300)
     n.drop4 = dropout("drop4", n.relu4, dropout_ratio = 0.4)
@@ -197,7 +197,8 @@ def launch():
                                             phase=phase,
                                             mean_path=mean_path
                                             ),
-                                        num_of_classes=num_of_classes
+                                        num_of_classes=num_of_classes,
+                                        activ=args.active
                     )))
 
                 print("")

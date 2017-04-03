@@ -51,6 +51,9 @@ def gen_parser():
     parser.add_argument('-g','--gamma',default=0.5, type=float, 
                         help='learning rate decrease factor (default=0.5)')
 
+    parser.add_argument('-a','--activation',default="scaled_tanh", type=str, 
+                        help='learning rate decrease factor (default = \'scaled_tanh\' )')
+
 
     parser.add_argument('-p','--proto_pref',default="./Prototxt", type=str, 
                         help='Path for saving prototxt files (common prefix for all experiments)')
