@@ -11,9 +11,9 @@ echo " tools = ${TOOLS}"
 
 
 EXPERIMENT_NUM=4
-GPU_NUM=1
-BATCH_SZ=1024
-EPOCH=60
+GPU_NUM=0
+BATCH_SZ=1500
+EPOCH=100
 TEST_FR=1
 SNAP_FR=10
 STEP_FR=20
@@ -30,12 +30,12 @@ python2 ./net_generator_exp_num.py -b $BATCH_SZ -e $EPOCH -tf $TEST_FR -sn $SNAP
 
 
 
-datasets=("rtsd-r1")
-modes=("histeq" "imajust")
+# datasets=("rtsd-r1")
+# modes=("histeq" "imajust")
 
 
-# datasets=("rtsd-r1" "rtsd-r3")
-# modes=("CoNorm" "orig" "AHE" "histeq" "imajust")
+datasets=("rtsd-r1" "rtsd-r3")
+modes=("CoNorm" "orig" "AHE" "histeq" "imajust")
 
 
 
