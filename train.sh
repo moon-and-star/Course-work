@@ -30,12 +30,12 @@ python2 ./net_generator_exp_num.py -b $BATCH_SZ -e $EPOCH -tf $TEST_FR -sn $SNAP
 
 
 
-datasets=("rtsd-r3")
-# modes=("histeq" "imajust")
+datasets=("rtsd-r1")
+modes=("histeq" "imajust")
 
 
 # datasets=("rtsd-r1" "rtsd-r3")
-modes=("CoNorm" "orig" "AHE" "histeq" "imajust")
+# modes=("CoNorm" "orig" "AHE" "histeq" "imajust")
 
 
 
