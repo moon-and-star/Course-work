@@ -28,7 +28,7 @@ python2 ./net_generator_exp_num.py -b $BATCH_SZ -e $EPOCH -tf $TEST_FR -sn $SNAP
 
 
 datasets=("rtsd-r1")
-modes=("CoNorm")
+modes=("AHE")
 
 
 # datasets=("rtsd-r1" "rtsd-r3")
