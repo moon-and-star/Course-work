@@ -12,13 +12,13 @@ echo " tools = ${TOOLS}"
 
 EXPERIMENT_NUM=5
 GPU_NUM=1
-BATCH_SZ=1024
+BATCH_SZ=1500
 EPOCH=100
 TEST_FR=1
 SNAP_FR=10
 STEP_FR=20
 GAMMA=0.5
-LR=1e-2
+LR=1e-3
 activation="scaled_tanh"
 # activation="relu"
 
