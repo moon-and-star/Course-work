@@ -1,0 +1,214 @@
+I0404 01:08:38.007007  2892 caffe.cpp:217] Using GPUs 0
+I0404 01:08:38.043768  2892 caffe.cpp:222] GPU 0: GeForce GTX 1070
+I0404 01:08:39.043382  2892 solver.cpp:60] Initializing solver from parameters: 
+train_net: "./Prototxt/experiment_4/rtsd-r3/histeq/train.prototxt"
+test_net: "./Prototxt/experiment_4/rtsd-r3/histeq/test.prototxt"
+test_iter: 154
+test_interval: 472
+base_lr: 0.001
+display: 1
+max_iter: 47200
+lr_policy: "step"
+gamma: 0.5
+momentum: 0.9
+weight_decay: 0.0005
+stepsize: 9440
+snapshot: 4720
+snapshot_prefix: "./snapshots/experiment_4/rtsd-r3/histeq/snap"
+solver_mode: GPU
+device_id: 0
+train_state {
+  level: 0
+  stage: ""
+}
+iter_size: 1
+type: "Adam"
+I0404 01:08:39.043522  2892 solver.cpp:93] Creating training net from train_net file: ./Prototxt/experiment_4/rtsd-r3/histeq/train.prototxt
+I0404 01:08:39.043776  2892 net.cpp:322] The NetState phase (0) differed from the phase (1) specified by a rule in layer accuracy_1
+I0404 01:08:39.043787  2892 net.cpp:322] The NetState phase (0) differed from the phase (1) specified by a rule in layer accuracy_5
+I0404 01:08:39.043876  2892 net.cpp:58] Initializing net from parameters: 
+state {
+  phase: TRAIN
+  level: 0
+  stage: ""
+}
+layer {
+  name: "data"
+  type: "Data"
+  top: "data"
+  top: "label"
+  include {
+    phase: TRAIN
+  }
+  transform_param {
+    mirror: false
+    crop_size: 48
+  }
+  data_param {
+    source: "../local_data/lmdb/rtsd-r3/histeq/train/lmdb"
+    batch_size: 1500
+    backend: LMDB
+  }
+}
+layer {
+  name: "conv1"
+  type: "Convolution"
+  bottom: "data"
+  top: "conv1"
+  convolution_param {
+    num_output: 100
+    pad: 0
+    kernel_size: 7
+    group: 1
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "conv1_relu"
+  type: "ReLU"
+  bottom: "conv1"
+  top: "conv1"
+}
+layer {
+  name: "pool1"
+  type: "Pooling"
+  bottom: "conv1"
+  top: "pool1"
+  pooling_param {
+    pool: MAX
+    kernel_size: 2
+    stride: 2
+  }
+}
+layer {
+  name: "conv2"
+  type: "Convolution"
+  bottom: "pool1"
+  top: "conv2"
+  convolution_param {
+    num_output: 150
+    pad: 0
+    kernel_size: 4
+    group: 1
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "conv2_relu"
+  type: "ReLU"
+  bottom: "conv2"
+  top: "conv2"
+}
+layer {
+  name: "pool2"
+  type: "Pooling"
+  bottom: "conv2"
+  top: "pool2"
+  pooling_param {
+    pool: MAX
+    kernel_size: 2
+    stride: 2
+  }
+}
+layer {
+  name: "conv3"
+  type: "Convolution"
+  bottom: "pool2"
+  top: "conv3"
+  convolution_param {
+    num_output: 250
+    pad: 0
+    kernel_size: 4
+    group: 1
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "conv3_relu"
+  type: "ReLU"
+  bottom: "conv3"
+  top: "conv3"
+}
+layer {
+  name: "pool3"
+  type: "Pooling"
+  bottom: "conv3"
+  top: "pool3"
+  pooling_param {
+    pool: MAX
+    kernel_size: 2
+    stride: 2
+  }
+}
+layer {
+  name: "fc4_300"
+  type: "InnerProduct"
+  bottom: "pool3"
+  top: "fc4_300"
+  inner_product_param {
+    num_output: 300
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "fc4_relu"
+  type: "ReLU"
+  bottom: "fc4_300"
+  top: "fc4_300"
+}
+layer {
+  name: "drop4"
+  type: "Dropout"
+  bottom: "fc4_300"
+  top: "fc4_300"
+  dropout_param {
+    dropout_ratio: 0.4
+  }
+}
+layer {
+  name: "fc5_106"
+  type: "InnerProduct"
+  bottom: "fc4_300"
+  top: "fc5_classes"
+  inner_product_param {
+    num_output: 106
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "loss"
+  type: "SoftmaxWithLoss"
+  bottom: "fc5_classes"
+  bottom: "label"
+  top: "loss"
+}
+I0404 01:08:39.043949  2892 layer_factory.hpp:77] Creating layer data
+I0404 01:08:39.045508  2892 net.cpp:100] Creating Layer data
+I0404 01:08:39.045523  2892 net.cpp:408] data -> data
+I0404 01:08:39.045544  2892 net.cpp:408] data -> label
+F0404 01:08:39.046921  2981 db_lmdb.hpp:15] Check failed: mdb_status == 0 (2 vs. 0) No such file or directory
+*** Check failure stack trace: ***
+    @     0x7f66dc6c85cd  google::LogMessage::Fail()
+    @     0x7f66dc6ca433  google::LogMessage::SendToLog()
+    @     0x7f66dc6c815b  google::LogMessage::Flush()
+    @     0x7f66dc6cae1e  google::LogMessageFatal::~LogMessageFatal()
+    @     0x7f66dcd1ebc0  caffe::db::LMDB::Open()
+    @     0x7f66dcce0806  caffe::DataReader::Body::InternalThreadEntry()
+    @     0x7f66dcd4ffd5  caffe::InternalThread::entry()
+    @     0x7f66d2bf25d5  (unknown)
+    @     0x7f66cb85a6ba  start_thread
+    @     0x7f66daf4582d  clone
+    @              (nil)  (unknown)

@@ -1,0 +1,23 @@
+ 
+    train_net: "./Prototxt/experiment_5/rtsd-r3/imajust/train.prototxt"
+    test_net: "./Prototxt/experiment_5/rtsd-r3/imajust/test.prototxt"
+
+    test_iter: 225
+    test_interval: 691
+
+    type : "Adam"
+    base_lr: 0.001
+    stepsize: 6910
+
+    lr_policy: "step"
+    gamma: 0.5
+    iter_size: 1
+
+    momentum: 0.9
+    weight_decay: 0.0005
+    display: 1
+    max_iter: 41460
+    snapshot: 6910
+    snapshot_prefix: "./snapshots/experiment_5/rtsd-r3/imajust/snap"
+    solver_mode: GPU
+    
