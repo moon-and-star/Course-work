@@ -9,10 +9,13 @@ layer {
   transform_param {
     mirror: false
     crop_size: 48
+    mean_value: 124
+    mean_value: 124
+    mean_value: 124
   }
   data_param {
     source: "../local_data/lmdb/rtsd-r1/CoNorm/test/lmdb"
-    batch_size: 1024
+    batch_size: 1500
     backend: LMDB
   }
 }
