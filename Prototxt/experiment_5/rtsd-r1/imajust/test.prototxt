@@ -9,6 +9,9 @@ layer {
   transform_param {
     mirror: false
     crop_size: 48
+    mean_value: 102
+    mean_value: 99
+    mean_value: 118
   }
   data_param {
     source: "../local_data/lmdb/rtsd-r1/imajust/test/lmdb"
