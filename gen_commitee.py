@@ -203,10 +203,7 @@ def FcDropAct(n, net_num, classes, activ):
     fc_name = "fc{}_5".format(net_num)
     n[fc_name], n[act_name] = fc(name=fc_name, bottom=n[bott_name], num_output=classes, activ=activ)
 
-    # n.fc4_300, n.relu4 = fc_relu("fc4_{}".format(i), n.pool3, num_output = 300)
-    # n.drop4 = dropout("drop4_{}".format(i), n.relu4, dropout_ratio=0.4)
-    # n.fc5_classes, relu5 = fc_relu("fc5_{}".format(i), n.relu4, num_output = num_of_classes)
- 
+    
 
 
 def make_net(n, num_of_classes = 43, activ="relu"):
@@ -214,21 +211,7 @@ def make_net(n, num_of_classes = 43, activ="relu"):
         ConvPoolAct(n=n, net_num=i , activ=activ)
         FcDropAct(n=n, net_num=i, classes=num_of_classes, activ=activ)
        
-        # if activ=="relu":
-        # #     n.fc4_300, n.relu4 = fc_relu("fc4_{}".format(i), n.pool3, num_output = 300)
-        # #     n.drop4 = dropout("drop4_{}".format(i), n.relu4, dropout_ratio=0.4)
-        # #     n.fc5_classes, relu5 = fc_relu("fc5_{}".format(i), n.relu4, num_output = num_of_classes)
-      
-        # elif activ == "scaled_tanh":
-        #     n.fc4_300, n.stanh4 = fc_stanh("fc4_{}".format(i), d["pool1_{}".format(i)], num_output = 300)
-        #     n.drop4 = dropout("drop4_{}".format(i), n.stanh4, dropout_ratio=0.4)
-        #     n.fc5_classes, stanh5 = fc_stanh("fc5_{}".format(i), n.stanh4, num_output = num_of_classes)
-
-
-
-
-
-    #     n.softmax=L.Softmax(n.fc5_classes)
+        n.softmax=L.Softmax(n.fc5_classes)
     
     # n.__dict__.update(d)
 
