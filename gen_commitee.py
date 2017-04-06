@@ -125,6 +125,7 @@ def fc(name, bottom, num_output, activ="relu"):
         return fc, scale2
 
     elif activ=="softmax":
+        return fc, L.Softmax(fc)
 
 
 
@@ -227,7 +228,7 @@ def make_net(n, num_of_classes = 43, activ="relu"):
 
 
 
-        n.softmax=L.Softmax(n.fc5_classes)
+        # n.softmax=L.Softmax(n.fc5_classes)
     
     # n.__dict__.update(d)
 
