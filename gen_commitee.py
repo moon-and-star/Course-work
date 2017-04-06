@@ -103,7 +103,7 @@ def avepool(name, bottom, kernel_size = 2, stride = 2):
 #                      )
 
 #     return fc, scale2
-def fc(name, bottom. num_output, activ="relu"):
+def fc(name, bottom, num_output, activ="relu"):
     fc = L.InnerProduct(
         bottom,
         num_output = num_output,
@@ -178,8 +178,8 @@ def ConvPoolAct(n, net_num, activ):
     ker_sz = [7, 4, 4]
 
     for j in range(3):
-        p_name = "pool{}_{}".format(j, net_num)
-        c_name="conv{}_{}".format(j, net_num)
+        p_name = "pool{}_{}".format(net_num, j)
+        c_name="conv{}_{}".format(net_num, j)
         conv = conv1(n=n, name=c_name, 
                      bottom=cbott[j], num_output=out_num[j], 
                      kernel_size = ker_sz[j], 
@@ -191,18 +191,17 @@ def ConvPoolAct(n, net_num, activ):
 def FcDropAct(n, net_num, classes, activ):
     act_name = "{}__{}".format(activ, net_num)
 
-    fc_name = "fc4__{}".format(net_num)
-    bott_name = "pool3__{}".format(net_num)
+    fc_name = "fc{}_4".format(net_num)
+    bott_name = "pool{}_2".format(net_num)
     n[fc_name], n[act_name] = fc(name=fc_name, bottom=n[bott_name], num_output=300, activ=activ)
     bott_name = fc_name
 
-    d_name = "drop4__{}".format(net_num)
+    d_name = "drop{}_4".format(net_num)
     n[d_name] = dropout(d_name, n[bott_name], dropout_ratio=0.4)
     bott_name = d_name
 
-    fc_name = "fc5__{}".format(net_num)
-    bott_name = "pool3__{}".format(net_num)
-    n[fc_name], n[act_name] = fc(name=fc_name, bottom=n[bott_name], num_output=num_of_classes, activ=activ)
+    fc_name = "fc{}_5".format(net_num)
+    n[fc_name], n[act_name] = fc(name=fc_name, bottom=n[bott_name], num_output=classes, activ=activ)
 
     # n.fc4_300, n.relu4 = fc_relu("fc4_{}".format(i), n.pool3, num_output = 300)
     # n.drop4 = dropout("drop4_{}".format(i), n.relu4, dropout_ratio=0.4)
