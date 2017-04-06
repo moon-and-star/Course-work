@@ -113,6 +113,7 @@ def fc(name, bottom. num_output, activ="relu"):
 
     if activ=="relu":
         return fc, L.ReLU(fc, in_place = True, name = "{}_relu".format(name))
+
     elif activ=="scaled_tanh":
         scale1 = L.Scale(fc, in_place = True, name = "{}_prescale".format(name),
                          param=dict(lr_mult=0, decay_mult=0),
@@ -187,7 +188,10 @@ def ConvPoolAct(n, net_num, activ):
         n[p_name]=pool
         cbott += [pool]
 
-def FcDropAct(n=n, classes=num_of_classes, activ=activ):
+def FcDropAct(n, net_num, classes, activ):
+    fc_name = "fc4_300"
+    n[fc_name]
+
     n.fc4_300, n.relu4 = fc_relu("fc4_{}".format(i), n.pool3, num_output = 300)
     n.drop4 = dropout("drop4_{}".format(i), n.relu4, dropout_ratio=0.4)
     n.fc5_classes, relu5 = fc_relu("fc5_{}".format(i), n.relu4, num_output = num_of_classes)
@@ -197,7 +201,7 @@ def FcDropAct(n=n, classes=num_of_classes, activ=activ):
 def make_net(n, num_of_classes = 43, activ="relu"):
     for i in range(1):
         ConvPoolAct(n=n, net_num=i , activ=activ)
-        FcDropAct(n=n, classes=num_of_classes, activ=activ)
+        FcDropAct(n=n, net_num=i, classes=num_of_classes, activ=activ)
        
         # if activ=="relu":
         # #     n.fc4_300, n.relu4 = fc_relu("fc4_{}".format(i), n.pool3, num_output = 300)
