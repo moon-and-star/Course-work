@@ -65,24 +65,10 @@ def conv1(n, name, bottom, num_output, kernel_size = 3, pad = None, activ = "rel
         return scale2
     
 
-def conv2(n, name, bottom, num_output, kernel_size = 3, pad = None):
-    if pad is None: pad = kernel_size / 2
-    conv1, relu1 = conv_relu(n, "{}1".format(name), bottom, kernel_size, num_output, pad = pad)
-    conv2, relu2 = conv_relu(n, "{}2".format(name), relu1, kernel_size, num_output, pad = pad)
-    return relu2
-
-def conv3(n, name, bottom, num_output, kernel_size = 3, pad = None):
-    if pad is None: pad = kernel_size / 2
-    conv1, relu1 = conv_relu(n, "{}1".format(name), bottom, kernel_size, num_output, pad = pad)
-    conv2, relu2 = conv_relu(n, "{}2".format(name), relu1, kernel_size, num_output, pad = pad)
-    conv3, relu3 = conv_relu(n, "{}3".format(name), relu2, kernel_size, num_output, pad = pad)
-    return relu3
-
-
-
 
 def maxpool(name, bottom, kernel_size = 2, stride = 2):
-    return L.Pooling(bottom, kernel_size = kernel_size, stride = stride, pool = P.Pooling.MAX, name = name)
+    print(name)
+    return L.Pooling(bottom, top=name, kernel_size = kernel_size, stride = stride, pool = P.Pooling.MAX, name = name)
 
 def avepool(name, bottom, kernel_size = 2, stride = 2):
     return L.Pooling(bottom, kernel_size = kernel_size, stride = stride, pool = P.Pooling.AVE, name = name)
@@ -164,35 +150,71 @@ def initWithData(lmdb, phase, batch_size, mean_path):
 
     return n
 
-def ConvPoolAct(d, net_num, activ):
-    for j in range(3):
+def ConvPoolAct(n, net_num, activ):
+    d = {}
+    cbott = [n.data]
+    out_num = [100, 150, 250]
+    ker_sz = [7, 4, 4]
 
-        d["pool{}_{}".format(j, net_num)] = maxpool("pool1_{}".format(net_num), conv1(n, "conv1_{}".format(net_num), n.data, 100, kernel_size = 7, pad = 0, activ=activ))
-        # d["pool2_{}".format(net_num)] = maxpool("pool2_{}".format(net_num), conv1(n, "conv2_{}".format(net_num), d["pool1_{}".format(i)], 150, kernel_size = 4, pad = 0, activ=activ))
-        # d["pool3_{}".format(net_num)] = maxpool("pool3_{}".format(net_num), conv1(n, "conv3_{}".format(net_num), d["pool2_{}".format(i)], 250, kernel_size = 4, pad = 0, activ=activ))
+    for j in range(3):
+        p_name = "pool{}_{}".format(j+1, net_num)
+        c_name="conv{}_{}".format(j+1, net_num)
+        conv = conv1(n=n, name=c_name, 
+                     bottom=cbott[j], num_output=out_num[j], 
+                     kernel_size = ker_sz[j], 
+                     pad = 0, activ=activ)
+        pool = maxpool(name=p_name, bottom=conv)
+        # d[p_name] = pool
+        n[p_name]=pool
+        cbott += [pool]
+
+
+    # p_name = "pool{}_{}".format(1, net_num)
+    # c_name="conv1_{}".format(net_num)
+    # d[p_name] = maxpool(
+    #                 name=p_name, 
+    #                 bottom=conv1(
+    #                     n=n, name=c_name, 
+    #                     bottom=n.data, num_output=100, kernel_size = 7, 
+    #                     pad = 0, activ=activ))
+
+    # p_name = "pool{}_{}".format(2, net_num)
+    # c_name="conv2_{}".format(net_num)
+    # d[p_name] = maxpool(name=p_name, 
+    #                 bottom=conv1(
+    #                     n=n, name=c_name, 
+    #                     bottom=d["pool1_{}".format(i)], 150, kernel_size = 4, pad = 0, activ=activ))
+    #     # d["pool3_{}".format(net_num)] = maxpool("pool3_{}".format(net_num), conv1(n, "conv3_{}".format(net_num), d["pool2_{}".format(i)], 250, kernel_size = 4, pad = 0, activ=activ))
+    
+    n.__dict__.update(d)
 
 
 def make_net(n, num_of_classes = 43, activ="relu"):
-    d = n.__dict__
-    print(d)
+    # d = n.__dict__
+    # print(d)
     for i in range(1):
         # n.pool1 = maxpool("pool1_{}".format(i), conv1(n, "conv1_{}".format(i), n.data, 100, kernel_size = 7, pad = 0, activ=activ))
         # n.pool2 = maxpool("pool2_{}".format(i), conv1(n, "conv2_{}".format(i), n.pool1, 150, kernel_size = 4, pad = 0, activ=activ))
         # n.pool3 = maxpool("pool3_{}".format(i), conv1(n, "conv3_{}".format(i), n.pool2, 250, kernel_size = 4, pad = 0, activ=activ))
-        ConvPoolAct(d=d, net_num=i, activ=activ)
+        ConvPoolAct(n=n, net_num=i, activ=activ)
         
-        if activ=="relu":
-        #     n.fc4_300, n.relu4 = fc_relu("fc4_{}".format(i), n.pool3, num_output = 300)
-        #     n.drop4 = dropout("drop4_{}".format(i), n.relu4, dropout_ratio=0.4)
-        #     n.fc5_classes, relu5 = fc_relu("fc5_{}".format(i), n.relu4, num_output = num_of_classes)
-            d["fc4_{}__300".format(i)], d["relu4_{}".format(i)] = fc_relu("fc4_{}".format(i), d["pool3_{}".format(i)], num_output = 300)
-            d["drop4_{}".format(i)] = dropout("drop4_{}".format(i), n.relu4, dropout_ratio=0.4)
-            d["fc5_{}__classes".format(i)], relu5 = fc_relu("fc5_{}".format(i), n.relu4, num_output = num_of_classes)
+        n.pool4 = maxpool("pool1_{}".format(i), conv1(n, "conv1_{}".format(i), n.data, 100, kernel_size = 7, pad = 0, activ=activ))
 
-        elif activ == "scaled_tanh":
-            n.fc4_300, n.stanh4 = fc_stanh("fc4_{}".format(i), d["pool1_{}".format(i)], num_output = 300)
-            n.drop4 = dropout("drop4_{}".format(i), n.stanh4, dropout_ratio=0.4)
-            n.fc5_classes, stanh5 = fc_stanh("fc5_{}".format(i), n.stanh4, num_output = num_of_classes)
+        # if activ=="relu":
+        # #     n.fc4_300, n.relu4 = fc_relu("fc4_{}".format(i), n.pool3, num_output = 300)
+        # #     n.drop4 = dropout("drop4_{}".format(i), n.relu4, dropout_ratio=0.4)
+        # #     n.fc5_classes, relu5 = fc_relu("fc5_{}".format(i), n.relu4, num_output = num_of_classes)
+        #     d["fc4_{}__300".format(i)], d["relu4_{}".format(i)] = fc_relu("fc4_{}".format(i), d["pool3_{}".format(i)], num_output = 300)
+        #     d["drop4_{}".format(i)] = dropout("drop4_{}".format(i), n.relu4, dropout_ratio=0.4)
+        #     d["fc5_{}__classes".format(i)], relu5 = fc_relu("fc5_{}".format(i), n.relu4, num_output = num_of_classes)
+
+        # elif activ == "scaled_tanh":
+        #     n.fc4_300, n.stanh4 = fc_stanh("fc4_{}".format(i), d["pool1_{}".format(i)], num_output = 300)
+        #     n.drop4 = dropout("drop4_{}".format(i), n.stanh4, dropout_ratio=0.4)
+        #     n.fc5_classes, stanh5 = fc_stanh("fc5_{}".format(i), n.stanh4, num_output = num_of_classes)
+
+
+
 
 
     #     n.softmax=L.Softmax(n.fc5_classes)
@@ -204,7 +226,7 @@ def make_net(n, num_of_classes = 43, activ="relu"):
     # n.accuracy_1 = accuracy("accuracy_1", n.fc5_classes, n.label, 1)
     # n.accuracy_5 = accuracy("accuracy_5", n.fc5_classes, n.label, 5)
 
-    # return n.to_proto()
+    return n.to_proto()
 
 
 
@@ -252,7 +274,8 @@ def launch():
                                         activ=args.activation
                     ))
                     f.write(content)
-                    print(content)
+                    if phase=="train":
+                        print(content)
 
                 print("")
             gen_solver(dataset, mode, args)
