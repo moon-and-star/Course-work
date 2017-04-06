@@ -68,7 +68,7 @@ def conv1(n, name, bottom, num_output, kernel_size = 3, pad = None, activ = "rel
 
 def maxpool(name, bottom, kernel_size = 2, stride = 2):
     print(name)
-    return L.Pooling(bottom, top=name, kernel_size = kernel_size, stride = stride, pool = P.Pooling.MAX, name = name)
+    return L.Pooling(bottom, kernel_size = kernel_size, stride = stride, pool = P.Pooling.MAX, name = name)
 
 def avepool(name, bottom, kernel_size = 2, stride = 2):
     return L.Pooling(bottom, kernel_size = kernel_size, stride = stride, pool = P.Pooling.AVE, name = name)
@@ -151,7 +151,6 @@ def initWithData(lmdb, phase, batch_size, mean_path):
     return n
 
 def ConvPoolAct(n, net_num, activ):
-    d = {}
     cbott = [n.data]
     out_num = [100, 150, 250]
     ker_sz = [7, 4, 4]
@@ -164,7 +163,6 @@ def ConvPoolAct(n, net_num, activ):
                      kernel_size = ker_sz[j], 
                      pad = 0, activ=activ)
         pool = maxpool(name=p_name, bottom=conv)
-        # d[p_name] = pool
         n[p_name]=pool
         cbott += [pool]
 
@@ -186,7 +184,6 @@ def ConvPoolAct(n, net_num, activ):
     #                     bottom=d["pool1_{}".format(i)], 150, kernel_size = 4, pad = 0, activ=activ))
     #     # d["pool3_{}".format(net_num)] = maxpool("pool3_{}".format(net_num), conv1(n, "conv3_{}".format(net_num), d["pool2_{}".format(i)], 250, kernel_size = 4, pad = 0, activ=activ))
     
-    n.__dict__.update(d)
 
 
 def make_net(n, num_of_classes = 43, activ="relu"):
@@ -198,8 +195,7 @@ def make_net(n, num_of_classes = 43, activ="relu"):
         # n.pool3 = maxpool("pool3_{}".format(i), conv1(n, "conv3_{}".format(i), n.pool2, 250, kernel_size = 4, pad = 0, activ=activ))
         ConvPoolAct(n=n, net_num=i, activ=activ)
         
-        n.pool4 = maxpool("pool1_{}".format(i), conv1(n, "conv1_{}".format(i), n.data, 100, kernel_size = 7, pad = 0, activ=activ))
-
+       
         # if activ=="relu":
         # #     n.fc4_300, n.relu4 = fc_relu("fc4_{}".format(i), n.pool3, num_output = 300)
         # #     n.drop4 = dropout("drop4_{}".format(i), n.relu4, dropout_ratio=0.4)
