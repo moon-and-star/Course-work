@@ -167,32 +167,8 @@ def ConvPoolAct(n, net_num, activ):
         cbott += [pool]
 
 
-    # p_name = "pool{}_{}".format(1, net_num)
-    # c_name="conv1_{}".format(net_num)
-    # d[p_name] = maxpool(
-    #                 name=p_name, 
-    #                 bottom=conv1(
-    #                     n=n, name=c_name, 
-    #                     bottom=n.data, num_output=100, kernel_size = 7, 
-    #                     pad = 0, activ=activ))
-
-    # p_name = "pool{}_{}".format(2, net_num)
-    # c_name="conv2_{}".format(net_num)
-    # d[p_name] = maxpool(name=p_name, 
-    #                 bottom=conv1(
-    #                     n=n, name=c_name, 
-    #                     bottom=d["pool1_{}".format(i)], 150, kernel_size = 4, pad = 0, activ=activ))
-    #     # d["pool3_{}".format(net_num)] = maxpool("pool3_{}".format(net_num), conv1(n, "conv3_{}".format(net_num), d["pool2_{}".format(i)], 250, kernel_size = 4, pad = 0, activ=activ))
-    
-
-
 def make_net(n, num_of_classes = 43, activ="relu"):
-    # d = n.__dict__
-    # print(d)
     for i in range(1):
-        # n.pool1 = maxpool("pool1_{}".format(i), conv1(n, "conv1_{}".format(i), n.data, 100, kernel_size = 7, pad = 0, activ=activ))
-        # n.pool2 = maxpool("pool2_{}".format(i), conv1(n, "conv2_{}".format(i), n.pool1, 150, kernel_size = 4, pad = 0, activ=activ))
-        # n.pool3 = maxpool("pool3_{}".format(i), conv1(n, "conv3_{}".format(i), n.pool2, 250, kernel_size = 4, pad = 0, activ=activ))
         ConvPoolAct(n=n, net_num=i, activ=activ)
         
        
@@ -279,6 +255,3 @@ def launch():
 
 
 launch()
-
-# with open('Prototxt/{}/{}/test.prototxt'.format(dataset,mode), 'w') as f:
-                #     f.write(str(make_net(initWithData('{}/lmdb/{}/{}/test_lmdb'.format(data_prefix,dataset, mode), 128))))
