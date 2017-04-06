@@ -189,12 +189,24 @@ def ConvPoolAct(n, net_num, activ):
         cbott += [pool]
 
 def FcDropAct(n, net_num, classes, activ):
-    fc_name = "fc4_300"
-    n[fc_name]
+    act_name = "{}__{}".format(activ, net_num)
 
-    n.fc4_300, n.relu4 = fc_relu("fc4_{}".format(i), n.pool3, num_output = 300)
-    n.drop4 = dropout("drop4_{}".format(i), n.relu4, dropout_ratio=0.4)
-    n.fc5_classes, relu5 = fc_relu("fc5_{}".format(i), n.relu4, num_output = num_of_classes)
+    fc_name = "fc4__{}".format(net_num)
+    bott_name = "pool3__{}".format(net_num)
+    n[fc_name], n[act_name] = fc(name=fc_name, bottom=n[bott_name], num_output=300, activ=activ)
+    bott_name = fc_name
+
+    d_name = "drop4__{}".format(net_num)
+    n[d_name] = dropout(d_name, n[bott_name], dropout_ratio=0.4)
+    bott_name = d_name
+
+    fc_name = "fc5__{}".format(net_num)
+    bott_name = "pool3__{}".format(net_num)
+    n[fc_name], n[act_name] = fc(name=fc_name, bottom=n[bott_name], num_output=num_of_classes, activ=activ)
+
+    # n.fc4_300, n.relu4 = fc_relu("fc4_{}".format(i), n.pool3, num_output = 300)
+    # n.drop4 = dropout("drop4_{}".format(i), n.relu4, dropout_ratio=0.4)
+    # n.fc5_classes, relu5 = fc_relu("fc5_{}".format(i), n.relu4, num_output = num_of_classes)
  
 
 
