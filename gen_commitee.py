@@ -145,7 +145,7 @@ def Data(n, net_num, lmdb, phase, batch_size, mean_path):
 
     global silence
     if net_num > 0:
-        silence += [L.Silence(n[l_name])]
+        silence += [n[l_name]]
         # n["silence"+ str(net_num%5)] = L.Silence(n[l_name])
 
  
