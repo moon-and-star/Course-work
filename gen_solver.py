@@ -68,7 +68,7 @@ def CommiteeSolver(dataset, args):
     print("Generating solver")
     print("{}\n".format(dataset))     
     # safe_mkdir('{}/{}/'.format(args.proto_pref,dataset))
-    snap_pref = "{}/experiment_{}/{}/snap".format(args.snap_pref,args.EXPERIMENT_NUMBER, dataset) 
+    snap_pref = "{}/experiment_{}/{}/commitee/snap".format(args.snap_pref,args.EXPERIMENT_NUMBER, dataset) 
 
     
 
