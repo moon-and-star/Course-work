@@ -179,16 +179,15 @@ def FcDropAct(n, net_num, classes, activ):
     
 def EltWizeSoftWithLoss(n, num):
     bottoms = []
+    coef = [1.0 / num] * num
     for i in range(num):
         soft_name = "softmax_{}".format(i)
         bottoms += [n[soft_name]]
 
+    #operation=1 means SUM
     n.eltwize = L.Eltwise(*bottoms,name="averaging", 
-                            eltwise_param =dict(operation=1))
-    # n.scale = L.Scale(n.eltwize, in_place = True, name = "scale_for_average",
-    #                   param=dict(lr_mult=0, decay_mult=0),
-    #                   scale_param=dict(filler=dict(value=1.0 / num)))
-    # n.loss = L.MultinomialLogisticLoss(n.scale, n.label)
+                            eltwise_param=dict(operation=1, coeff=coef))
+    n.loss = L.MultinomialLogisticLoss(n.eltwize, n.label)
     
     # n.accuracy_1 = accuracy("accuracy_1", n.scale, n.label, 1)
     # n.accuracy_5 = accuracy("accuracy_5", n.scale, n.label, 5)
