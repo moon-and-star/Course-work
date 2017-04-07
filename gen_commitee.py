@@ -145,8 +145,8 @@ def Data(n, net_num, lmdb, phase, batch_size, mean_path):
 
     global silence
     if net_num > 0:
-        # silence += [L.Silence(n[l_name])]
-        n["silence"+ str(net_num%5)] = L.Silence(n[l_name])
+        silence += [L.Silence(n[l_name])]
+        # n["silence"+ str(net_num%5)] = L.Silence(n[l_name])
 
  
     
@@ -232,7 +232,7 @@ def make_net(dataset, args, phase="train"):
         FcDropAct(n=n, net_num=i, classes=num_of_classes, activ=activ)
 
     EltWizeSoftWithLoss(n=n, num=num_of_nets) 
-    # n.silence = L.Silence(*silence, top="ololo")
+    n.silence = L.Silence(*silence, ntop=0)
 
     content = str(n.to_proto())
     return content
