@@ -209,8 +209,8 @@ def make_net(dataset, args, phase="train"):
     num_of_classes = NumOfClasses(dataset)
     data_prefix = "../local_data"
     modes = ["orig", "histeq", "AHE", "imajust", "CoNorm" ]
-    num_of_nets=5
-    group_size = 1
+    num_of_nets=25
+    group_size = 5
 
 
     n = caffe.NetSpec()
@@ -224,7 +224,7 @@ def make_net(dataset, args, phase="train"):
         Data(n=n, net_num=i, lmdb=lmdb_path, mean_path=mean_path, batch_size=batch_size, phase=phase)
         ConvPoolAct(n=n, net_num=i , activ=activ)
         FcDropAct(n=n, net_num=i, classes=num_of_classes, activ=activ)
-   
+
     EltWizeSoftWithLoss(n=n, num=num_of_nets) 
 
 
@@ -242,8 +242,8 @@ def launch():
     exp_num = args.EXPERIMENT_NUMBER
     proto_pref = args.proto_pref
 
-    for dataset in ["rtsd-r1"]:
-    # for dataset in ["rtsd-r1","rtsd-r3"]:
+    # for dataset in ["rtsd-r1"]:
+    for dataset in ["rtsd-r1","rtsd-r3"]:
         directory = '{}/experiment_{}/{}/commitee/'.format(proto_pref,exp_num, dataset)
         safe_mkdir(directory)
         for phase in ['train', 'test']:
