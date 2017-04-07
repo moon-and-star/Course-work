@@ -2,12 +2,12 @@
     train_net: "./Prototxt/experiment_6/rtsd-r1/commitee/train.prototxt"
     test_net: "./Prototxt/experiment_6/rtsd-r1/commitee/test.prototxt"
 
-    test_iter: 1180
-    test_interval: 39740
+    test_iter: 590
+    test_interval: 19870
 
     type : "Adam"
     base_lr: 0.001
-    stepsize: 79480
+    stepsize: 39740
 
     lr_policy: "step"
     gamma: 0.5
@@ -16,8 +16,8 @@
     momentum: 0.9
     weight_decay: 0.0005
     display: 1
-    max_iter: 397400
-    snapshot: 39740
+    max_iter: 198700
+    snapshot: 19870
     snapshot_prefix: "./snapshots/experiment_6/rtsd-r1/commitee/snap"
     solver_mode: GPU
     

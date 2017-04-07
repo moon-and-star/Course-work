@@ -15,7 +15,7 @@ layer {
   }
   data_param {
     source: "../local_data/lmdb/rtsd-r1/orig/test/lmdb"
-    batch_size: 64
+    batch_size: 128
     backend: LMDB
   }
 }
@@ -1356,7 +1356,7 @@ layer {
   }
   data_param {
     source: "../local_data/lmdb/rtsd-r1/histeq/test/lmdb"
-    batch_size: 64
+    batch_size: 128
     backend: LMDB
   }
 }
@@ -2697,7 +2697,7 @@ layer {
   }
   data_param {
     source: "../local_data/lmdb/rtsd-r1/AHE/test/lmdb"
-    batch_size: 64
+    batch_size: 128
     backend: LMDB
   }
 }
@@ -4038,7 +4038,7 @@ layer {
   }
   data_param {
     source: "../local_data/lmdb/rtsd-r1/imajust/test/lmdb"
-    batch_size: 64
+    batch_size: 128
     backend: LMDB
   }
 }
@@ -5379,7 +5379,7 @@ layer {
   }
   data_param {
     source: "../local_data/lmdb/rtsd-r1/CoNorm/test/lmdb"
-    batch_size: 64
+    batch_size: 128
     backend: LMDB
   }
 }
@@ -6795,148 +6795,10 @@ layer {
   }
 }
 layer {
-  name: "data_1"
-  type: "Data"
-  top: "Data1"
-  top: "Data2"
-  include {
-    phase: TRAIN
-  }
-  transform_param {
-    mirror: false
-    crop_size: 48
-    mean_value: 122
-    mean_value: 115
-    mean_value: 128
-  }
-  data_param {
-    source: "../local_data/lmdb/rtsd-r1/histeq/train/lmdb"
-    batch_size: 64
-    backend: LMDB
-  }
-}
-layer {
-  name: "Silence1"
-  type: "Silence"
-  bottom: "Data2"
-  top: "Silence1"
-}
-layer {
-  name: "data_2"
-  type: "Data"
-  top: "Data3"
-  top: "Data4"
-  include {
-    phase: TRAIN
-  }
-  transform_param {
-    mirror: false
-    crop_size: 48
-    mean_value: 125
-    mean_value: 118
-    mean_value: 131
-  }
-  data_param {
-    source: "../local_data/lmdb/rtsd-r1/AHE/train/lmdb"
-    batch_size: 64
-    backend: LMDB
-  }
-}
-layer {
-  name: "Silence2"
-  type: "Silence"
-  bottom: "Data4"
-  top: "Silence2"
-}
-layer {
-  name: "data_3"
-  type: "Data"
-  top: "Data5"
-  top: "Data6"
-  include {
-    phase: TRAIN
-  }
-  transform_param {
-    mirror: false
-    crop_size: 48
-    mean_value: 108
-    mean_value: 101
-    mean_value: 114
-  }
-  data_param {
-    source: "../local_data/lmdb/rtsd-r1/imajust/train/lmdb"
-    batch_size: 64
-    backend: LMDB
-  }
-}
-layer {
-  name: "Silence3"
-  type: "Silence"
-  bottom: "Data6"
-  top: "Silence3"
-}
-layer {
-  name: "data_4"
-  type: "Data"
-  top: "Data7"
-  top: "Data8"
-  include {
-    phase: TRAIN
-  }
-  transform_param {
-    mirror: false
-    crop_size: 48
-    mean_value: 124
-    mean_value: 123
-    mean_value: 123
-  }
-  data_param {
-    source: "../local_data/lmdb/rtsd-r1/CoNorm/train/lmdb"
-    batch_size: 64
-    backend: LMDB
-  }
-}
-layer {
-  name: "Silence4"
-  type: "Silence"
-  bottom: "Data8"
-  top: "Silence4"
-}
-layer {
-  name: "Silence5"
-  type: "Silence"
-  bottom: "label_1"
-  top: "Silence5"
-}
-layer {
-  name: "Silence6"
-  type: "Silence"
-  bottom: "label_2"
-  top: "Silence6"
-}
-layer {
-  name: "Silence7"
-  type: "Silence"
-  bottom: "label_3"
-  top: "Silence7"
-}
-layer {
-  name: "Silence8"
-  type: "Silence"
-  bottom: "label_4"
-  top: "Silence8"
-}
-layer {
   name: "silence"
   type: "Silence"
-  bottom: "Silence1"
-  bottom: "Silence2"
-  bottom: "Silence3"
-  bottom: "Silence4"
-  bottom: "Silence5"
-  bottom: "Silence6"
-  bottom: "Silence7"
-  bottom: "Silence8"
-  top: "silence"
-  top: "ololo"
+  bottom: "label_1"
+  bottom: "label_2"
+  bottom: "label_3"
+  bottom: "label_4"
 }
