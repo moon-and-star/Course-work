@@ -198,18 +198,7 @@ def make_net(n, num_of_classes = 43, activ="relu"):
         ConvPoolAct(n=n, net_num=i , activ=activ)
         FcDropAct(n=n, net_num=i, classes=num_of_classes, activ=activ)
        
-    EltWizeSoftWithLoss(n=n, num=num_of_nets)
-        # soft_name = "softmax_{}".format(i)
-        # n.loss = L.MultinomialLogisticLoss(n[soft_name], n.label)
-        # n.accuracy_1 = accuracy("accuracy_1", n[soft_name], n.label, 1)
-        # n.accuracy_5 = accuracy("accuracy_5", n[soft_name], n.label, 5)
-
-
-    # n.loss = L.MultinomialLogisticLoss(n.softmax, n.label)
-    # # n.loss = L.SoftmaxWithLoss(n.fc5_classes, n.label)
-    # n.accuracy_1 = accuracy("accuracy_1", n.fc5_classes, n.label, 1)
-    # n.accuracy_5 = accuracy("accuracy_5", n.fc5_classes, n.label, 5)
-
+    EltWizeSoftWithLoss(n=n, num=num_of_nets) 
     return n.to_proto()
 
 
