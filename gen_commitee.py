@@ -231,7 +231,7 @@ def make_net(dataset, args, phase="train"):
         FcDropAct(n=n, net_num=i, classes=num_of_classes, activ=activ)
 
     EltWizeSoftWithLoss(n=n, num=num_of_nets) 
-    n.silince = L.Silence(*silince)
+    n.silince = L.Silence(*silince,top="ololo")
 
     content = str(n.to_proto())
     return content
