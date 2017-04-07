@@ -6,8 +6,8 @@
     test_interval: 691
 
     type : "Adam"
-    base_lr: 0.001
-    stepsize: 6910
+    base_lr: 0.0001
+    stepsize: 13820
 
     lr_policy: "step"
     gamma: 0.5
@@ -16,7 +16,7 @@
     momentum: 0.9
     weight_decay: 0.0005
     display: 1
-    max_iter: 41460
+    max_iter: 69100
     snapshot: 6910
     snapshot_prefix: "./snapshots/experiment_5/rtsd-r3/AHE/snap"
     solver_mode: GPU

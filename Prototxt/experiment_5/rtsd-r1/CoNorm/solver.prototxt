@@ -6,8 +6,8 @@
     test_interval: 249
 
     type : "Adam"
-    base_lr: 0.001
-    stepsize: 2490
+    base_lr: 0.0001
+    stepsize: 4980
 
     lr_policy: "step"
     gamma: 0.5
@@ -16,7 +16,7 @@
     momentum: 0.9
     weight_decay: 0.0005
     display: 1
-    max_iter: 14940
+    max_iter: 24900
     snapshot: 2490
     snapshot_prefix: "./snapshots/experiment_5/rtsd-r1/CoNorm/snap"
     solver_mode: GPU
