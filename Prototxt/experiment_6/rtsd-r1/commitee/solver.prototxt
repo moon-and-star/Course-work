@@ -1,0 +1,23 @@
+ 
+    train_net: "./Prototxt/experiment_6/rtsd-r1/commitee/train.prototxt"
+    test_net: "./Prototxt/experiment_6/rtsd-r1/commitee/test.prototxt"
+
+    test_iter: 1180
+    test_interval: 39740
+
+    type : "Adam"
+    base_lr: 0.001
+    stepsize: 79480
+
+    lr_policy: "step"
+    gamma: 0.5
+    iter_size: 1
+
+    momentum: 0.9
+    weight_decay: 0.0005
+    display: 1
+    max_iter: 397400
+    snapshot: 39740
+    snapshot_prefix: "./snapshots/experiment_6/rtsd-r1/commitee/snap"
+    solver_mode: GPU
+    
