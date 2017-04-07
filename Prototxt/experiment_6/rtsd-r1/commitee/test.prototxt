@@ -6927,7 +6927,7 @@ layer {
   top: "Silence8"
 }
 layer {
-  name: "silince"
+  name: "silence"
   type: "Silence"
   bottom: "Silence1"
   bottom: "Silence2"
@@ -6937,6 +6937,5 @@ layer {
   bottom: "Silence6"
   bottom: "Silence7"
   bottom: "Silence8"
-  top: "silince"
-  top: "ololo"
+  top: "silence"
 }
