@@ -117,7 +117,7 @@ def accuracy(name, bottom, labels, top_k):
     )
 
 
-silence = []
+silence = None
 
 def Data(n, net_num, lmdb, phase, batch_size, mean_path):
     mean = load_image_mean(mean_path)
@@ -209,6 +209,7 @@ def NumOfClasses(dataset):
 
 def make_net(dataset, args, phase="train"):
     global silence
+    silence = []
     activ=args.activation
     batch_size = args.batch_size
 
