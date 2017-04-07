@@ -117,19 +117,45 @@ def accuracy(name, bottom, labels, top_k):
     )
 
 
-def initWithData(lmdb, phase, batch_size, mean_path):
-    n = caffe.NetSpec()
-    mean = load_image_mean(mean_path)
+# def initWithData(lmdb, phase, batch_size, mean_path):
+#     n = caffe.NetSpec()
+#     mean = load_image_mean(mean_path)
 
+#     if mean is not None:
+#         transform_param = dict(mirror=False, crop_size = 48, mean_value = map(int, mean))
+#     else:
+#         transform_param = dict(mirror=False, crop_size = 48)
+
+#     if phase == "train":
+#         PHASE = "TRAIN"
+#     elif phase == "test":
+#         PHASE = "TEST"
+
+#     n.data, n.label = L.Data(
+#         batch_size = batch_size,
+#         backend = P.Data.LMDB,
+#         source = lmdb,
+#         transform_param=transform_param,
+#         ntop = 2,
+#         include = dict(phase = caffe_pb2.Phase.Value(PHASE)),
+#         name = "data"
+#     )
+
+#     return n
+
+def Data(n, net_num, lmdb, phase, batch_size, mean_path):
+    mean = load_image_mean(mean_path)
     if mean is not None:
         transform_param = dict(mirror=False, crop_size = 48, mean_value = map(int, mean))
     else:
         transform_param = dict(mirror=False, crop_size = 48)
 
+
     if phase == "train":
         PHASE = "TRAIN"
     elif phase == "test":
         PHASE = "TEST"
+
 
     n.data, n.label = L.Data(
         batch_size = batch_size,
@@ -138,10 +164,9 @@ def initWithData(lmdb, phase, batch_size, mean_path):
         transform_param=transform_param,
         ntop = 2,
         include = dict(phase = caffe_pb2.Phase.Value(PHASE)),
-        name = "data"
-    )
+        name = "data_{}".format(net_num))
 
-    return n
+    
 
 def ConvPoolAct(n, net_num, activ):
     cbott = [n.data]
@@ -191,15 +216,51 @@ def EltWizeSoftWithLoss(n, num):
     n.accuracy_1 = accuracy("accuracy_1", n.eltwize, n.label, 1)
     n.accuracy_5 = accuracy("accuracy_5", n.eltwize, n.label, 5)
 
+def NumOfClasses(dataset):
+    if dataset == "rtsd-r1":
+        return 67
+    elif dataset == "rtsd-r3":
+        return 106
 
-def make_net(n, num_of_classes = 43, activ="relu"):
-    num_of_nets=5
+
+def make_net(dataset, args, phase="train"):
+    activ=args.activation
+    batch_size = args.batch_size
+
+    num_of_classes = NumOfClasses(dataset)
+    data_prefix = "../local_data"
+    modes = ["orig", "histeq", "AHE", "imajust", "CoNorm" ]
+    num_of_nets=1
+    group_size = 1
+
+
+    n = caffe.NetSpec()
+
+
     for i in range(num_of_nets):
+        mode = modes[num_of_nets//group_size]
+        mean_path = '{}/lmdb/{}/{}/{}/mean.txt'.format(data_prefix,dataset, mode, phase)
+        lmdb_path = '{}/lmdb/{}/{}/{}/lmdb'.format(data_prefix, dataset, mode, phase)
+
+        Data(n=n, net_num=i, lmdb=lmdb_path, mean_path=mean_path, batch_size=batch_size, phase=phase)
         ConvPoolAct(n=n, net_num=i , activ=activ)
         FcDropAct(n=n, net_num=i, classes=num_of_classes, activ=activ)
-       
+   
     EltWizeSoftWithLoss(n=n, num=num_of_nets) 
-    return n.to_proto()
+
+
+    # content = str(make_net(initWithData(
+    #                                     '{}/lmdb/{}/{}/{}/lmdb'.format(data_prefix, 
+    #                                                             dataset, mode, phase), 
+    #                                     batch_size=batch_size,
+    #                                     phase=phase,
+    #                                     mean_path=mean_path
+    #                                     ),
+    #                                 num_of_classes=num_of_classes,
+    #                                 activ=args.activation
+    #             ))
+    content = str(n.to_proto())
+    return content
 
 
 
@@ -210,49 +271,78 @@ def launch():
     parser = gen_parser()
     args = parser.parse_args()
     exp_num = args.EXPERIMENT_NUMBER
-    batch_size = args.batch_size
     proto_pref = args.proto_pref
-    snap_pref = args.snap_pref
 
-    data_prefix = "../local_data"
-
-    modes = ["orig"]
     for dataset in ["rtsd-r1"]:
-    # modes = ["orig", "histeq", "AHE", "imajust", "CoNorm" ]
     # for dataset in ["rtsd-r1","rtsd-r3"]:
-        if dataset == "rtsd-r1":
-            num_of_classes = 67
-        elif dataset == "rtsd-r3":
-            num_of_classes = 106
+        directory = '{}/experiment_{}/{}/commitee/'.format(proto_pref,exp_num, dataset)
+        safe_mkdir(directory)
+        for phase in ['train', 'test']:
+            print("Generating architectures")
+            print("{}  {}".format(directory, phase))
+            with open('{}/{}.prototxt'.format(directory, phase), 'w') as f:
+                content = make_net(dataset=dataset, phase=phase, args=args)
+                f.write(content)
+                if phase=="train":
+                    print(content)
 
-
-        for mode in modes:
-            directory = '{}/experiment_{}/{}/{}/'.format(proto_pref,exp_num, dataset,mode)
-            safe_mkdir(directory)
-            for phase in ['train', 'test']:
-                print("Generating architectures")
-                print("{}  {}".format(directory, phase))
-
-                mean_path = '{}/lmdb/{}/{}/{}/mean.txt'.format(data_prefix,dataset, mode, phase)
-                # mean_path = '{}/{}/{}/{}/mean.txt'.format(data_prefix,dataset, mode, phase)
-                with open('{}/{}.prototxt'.format(directory, phase), 'w') as f:
-                    content = str(make_net(initWithData(
-                                            '{}/lmdb/{}/{}/{}/lmdb'.format(data_prefix, 
-                                                                    dataset, mode, phase), 
-                                            batch_size=batch_size,
-                                            phase=phase,
-                                            mean_path=mean_path
-                                            ),
-                                        num_of_classes=num_of_classes,
-                                        activ=args.activation
-                    ))
-                    f.write(content)
-                    if phase=="train":
-                        print(content)
-
-                print("")
-            gen_solver(dataset, mode, args)
+        print("")
+        gen_solver(dataset, mode, args)
               
+
+
+
+
+# def launch():
+#     parser = gen_parser()
+#     args = parser.parse_args()
+#     exp_num = args.EXPERIMENT_NUMBER
+#     batch_size = args.batch_size
+#     proto_pref = args.proto_pref
+#     snap_pref = args.snap_pref
+
+#     data_prefix = "../local_data"
+
+#     modes = ["orig"]
+#     for dataset in ["rtsd-r1"]:
+#     # modes = ["orig", "histeq", "AHE", "imajust", "CoNorm" ]
+#     # for dataset in ["rtsd-r1","rtsd-r3"]:
+#         if dataset == "rtsd-r1":
+#             num_of_classes = 67
+#         elif dataset == "rtsd-r3":
+#             num_of_classes = 106
+
+
+#         for mode in modes:
+#             directory = '{}/experiment_{}/{}/{}/'.format(proto_pref,exp_num, dataset,mode)
+#             safe_mkdir(directory)
+#             for phase in ['train', 'test']:
+#                 print("Generating architectures")
+#                 print("{}  {}".format(directory, phase))
+
+#                 mean_path = '{}/lmdb/{}/{}/{}/mean.txt'.format(data_prefix,dataset, mode, phase)
+#                 # mean_path = '{}/{}/{}/{}/mean.txt'.format(data_prefix,dataset, mode, phase)
+#                 with open('{}/{}.prototxt'.format(directory, phase), 'w') as f:
+#                     content = str(make_net(initWithData(
+#                                             '{}/lmdb/{}/{}/{}/lmdb'.format(data_prefix, 
+#                                                                     dataset, mode, phase), 
+#                                             batch_size=batch_size,
+#                                             phase=phase,
+#                                             mean_path=mean_path
+#                                             ),
+#                                         num_of_classes=num_of_classes,
+#                                         activ=args.activation
+#                     ))
+#                     f.write(content)
+#                     if phase=="train":
+#                         print(content)
+
+#                 print("")
+#             gen_solver(dataset, mode, args)
+              
+
+
+
 
 
 launch()
