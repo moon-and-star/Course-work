@@ -117,7 +117,7 @@ def accuracy(name, bottom, labels, top_k):
     )
 
 
-
+silince = []
 
 def Data(n, net_num, lmdb, phase, batch_size, mean_path):
     mean = load_image_mean(mean_path)
@@ -143,11 +143,15 @@ def Data(n, net_num, lmdb, phase, batch_size, mean_path):
         include = dict(phase = caffe_pb2.Phase.Value(PHASE)),
         name = d_name)
 
+    global silince
+    if net_num > 0:
+        silince += [L.Silence(n[l_name])]
+
  
     
 
-def ConvPoolAct(n, net_num, activ):
-    d_name = "data_{}".format(net_num)
+def ConvPoolAct(n, net_num, activ, group_size):
+    d_name = "data_{}".format(net_num//group_size)
     cbott = [n[d_name]]
     out_num = [100, 150, 250]
     ker_sz = [7, 4, 4]
@@ -203,6 +207,7 @@ def NumOfClasses(dataset):
 
 
 def make_net(dataset, args, phase="train"):
+    global silince
     activ=args.activation
     batch_size = args.batch_size
 
@@ -220,13 +225,13 @@ def make_net(dataset, args, phase="train"):
         mode = modes[i // group_size]
         mean_path = '{}/lmdb/{}/{}/{}/mean.txt'.format(data_prefix,dataset, mode, phase)
         lmdb_path = '{}/lmdb/{}/{}/{}/lmdb'.format(data_prefix, dataset, mode, phase)
-
-        Data(n=n, net_num=i, lmdb=lmdb_path, mean_path=mean_path, batch_size=batch_size, phase=phase)
-        ConvPoolAct(n=n, net_num=i , activ=activ)
+        if i %group_size == 0:
+            Data(n=n, net_num=i//group_size, lmdb=lmdb_path, mean_path=mean_path, batch_size=batch_size, phase=phase)
+        ConvPoolAct(n=n, net_num=i , activ=activ, group_size=group_size)
         FcDropAct(n=n, net_num=i, classes=num_of_classes, activ=activ)
 
     EltWizeSoftWithLoss(n=n, num=num_of_nets) 
-
+    n.silince = L.Silence(*silince)
 
     content = str(n.to_proto())
     return content
