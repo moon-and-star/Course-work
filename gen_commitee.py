@@ -188,13 +188,12 @@ def EltWizeSoftWithLoss(n, num):
     n.eltwize = L.Eltwise(*bottoms,name="averaging", 
                             eltwise_param=dict(operation=1, coeff=coef))
     n.loss = L.MultinomialLogisticLoss(n.eltwize, n.label)
-    
-    # n.accuracy_1 = accuracy("accuracy_1", n.scale, n.label, 1)
-    # n.accuracy_5 = accuracy("accuracy_5", n.scale, n.label, 5)
+    n.accuracy_1 = accuracy("accuracy_1", n.eltwize, n.label, 1)
+    n.accuracy_5 = accuracy("accuracy_5", n.eltwize, n.label, 5)
 
 
 def make_net(n, num_of_classes = 43, activ="relu"):
-    num_of_nets=1
+    num_of_nets=2
     for i in range(num_of_nets):
         ConvPoolAct(n=n, net_num=i , activ=activ)
         FcDropAct(n=n, net_num=i, classes=num_of_classes, activ=activ)
