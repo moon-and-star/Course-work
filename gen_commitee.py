@@ -4,7 +4,7 @@ import sys
 sys.path.append('/opt/caffe/python/')
 
 from util import safe_mkdir, gen_parser, load_image_mean
-from solver_params import gen_solver
+from gen_solver import CommiteeSolver
 
 import caffe
 from caffe import layers as L
@@ -287,7 +287,7 @@ def launch():
                     print(content)
 
         print("")
-        gen_solver(dataset, mode, args)
+        CommiteeSolver(dataset=dataset, args=args)
               
 
 
