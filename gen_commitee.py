@@ -117,7 +117,7 @@ def accuracy(name, bottom, labels, top_k):
     )
 
 
-silince = []
+silence = []
 
 def Data(n, net_num, lmdb, phase, batch_size, mean_path):
     mean = load_image_mean(mean_path)
@@ -143,9 +143,9 @@ def Data(n, net_num, lmdb, phase, batch_size, mean_path):
         include = dict(phase = caffe_pb2.Phase.Value(PHASE)),
         name = d_name)
 
-    global silince
+    global silence
     if net_num > 0:
-        silince += [L.Silence(n[l_name])]
+        silence += [L.Silence(n[l_name])]
 
  
     
@@ -207,7 +207,7 @@ def NumOfClasses(dataset):
 
 
 def make_net(dataset, args, phase="train"):
-    global silince
+    global silence
     activ=args.activation
     batch_size = args.batch_size
 
@@ -231,7 +231,7 @@ def make_net(dataset, args, phase="train"):
         FcDropAct(n=n, net_num=i, classes=num_of_classes, activ=activ)
 
     EltWizeSoftWithLoss(n=n, num=num_of_nets) 
-    n.silince = L.Silence(*silince,top="ololo")
+    n.silence = L.Silence(*silence)
 
     content = str(n.to_proto())
     return content
