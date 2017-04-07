@@ -52,8 +52,10 @@ do
 		for k in "${phases[@]}"
 		do
 			printf "dataset = ${i},  mode = ${j},  phase = ${k} \n"
+			#WARNING: do not shuffle for commitee
 			#input data folder    input label file      output lmdb file
-			GLOG_logtostderr=1 $TOOLS/convert_imageset -shuffle -backend lmdb  \
+			GLOG_logtostderr=1 $TOOLS/convert_imageset -backend lmdb  \
+			# GLOG_logtostderr=1 $TOOLS/convert_imageset -shuffle -backend lmdb  \
 			     ${prefix}/${i}/${j}/${k}/          \
 			     ${prefix}/${i}/${j}/gt_${k}.txt    \
 			     ${prefix}/lmdb/${i}/${j}/${k}/lmdb
