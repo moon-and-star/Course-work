@@ -238,7 +238,7 @@ def make_net(dataset, args, phase="train"):
 
 
     for i in range(num_of_nets):
-        mode = modes[num_of_nets//group_size]
+        mode = modes[i // group_size]
         mean_path = '{}/lmdb/{}/{}/{}/mean.txt'.format(data_prefix,dataset, mode, phase)
         lmdb_path = '{}/lmdb/{}/{}/{}/lmdb'.format(data_prefix, dataset, mode, phase)
 
