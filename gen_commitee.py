@@ -193,7 +193,7 @@ def EltWizeSoftWithLoss(n, num):
 
 
 def make_net(n, num_of_classes = 43, activ="relu"):
-    num_of_nets=2
+    num_of_nets=5
     for i in range(num_of_nets):
         ConvPoolAct(n=n, net_num=i , activ=activ)
         FcDropAct(n=n, net_num=i, classes=num_of_classes, activ=activ)
