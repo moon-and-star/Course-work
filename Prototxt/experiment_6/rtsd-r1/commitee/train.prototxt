@@ -6795,36 +6795,10 @@ layer {
   }
 }
 layer {
-  name: "Silence1"
-  type: "Silence"
-  bottom: "label_1"
-  top: "Silence1"
-}
-layer {
-  name: "Silence2"
-  type: "Silence"
-  bottom: "label_2"
-  top: "Silence2"
-}
-layer {
-  name: "Silence3"
-  type: "Silence"
-  bottom: "label_3"
-  top: "Silence3"
-}
-layer {
-  name: "Silence4"
-  type: "Silence"
-  bottom: "label_4"
-  top: "Silence4"
-}
-layer {
   name: "silence"
   type: "Silence"
-  bottom: "Silence1"
-  bottom: "Silence2"
-  bottom: "Silence3"
-  bottom: "Silence4"
-  top: "silence"
-  top: "ololo"
+  bottom: "label_1"
+  bottom: "label_2"
+  bottom: "label_3"
+  bottom: "label_4"
 }
