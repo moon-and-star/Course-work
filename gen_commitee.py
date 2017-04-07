@@ -73,36 +73,6 @@ def maxpool(name, bottom, kernel_size = 2, stride = 2):
 def avepool(name, bottom, kernel_size = 2, stride = 2):
     return L.Pooling(bottom, kernel_size = kernel_size, stride = stride, pool = P.Pooling.AVE, name = name)
 
-# def fc_relu(name, bottom, num_output):
-#     fc = L.InnerProduct(
-#         bottom,
-#         num_output = num_output,
-#         weight_filler = dict(type = 'xavier'),
-#         name = "{}_{}".format(name, num_output)
-#     )
-#     return fc, L.ReLU(fc, in_place = True, name = "{}_relu".format(name))
-
-
-# def fc_stanh(name, bottom, num_output):
-#     # fc = L.OLOLO(
-#     fc = L.InnerProduct(
-#         bottom,
-#         num_output = num_output,
-#         weight_filler = dict(type = 'xavier'),
-#         name = "{}_{}".format(name, num_output)
-#     )
-
-#     scale1 = L.Scale(fc, in_place = True, name = "{}_prescale".format(name),
-#                      param=dict(lr_mult=0, decay_mult=0),
-#                      scale_param=dict(filler=dict(value=0.6666))
-#                      )
-#     tanh =  L.TanH(scale1, in_place = True, name = "{}_sTanH".format(name))
-#     scale2 = L.Scale(tanh, in_place = True, name = "{}_postscale".format(name),
-#                      param=dict(lr_mult=0, decay_mult=0),
-#                      scale_param=dict(filler=dict(value=1.7159))
-#                      )
-
-#     return fc, scale2
 def fc(name, bottom, num_output, activ="relu"):
     fc = L.InnerProduct(
         bottom,
@@ -207,17 +177,34 @@ def FcDropAct(n, net_num, classes, activ):
     n[fc_name], n[act_name] = fc(name=fc_name, bottom=n[bott_name], num_output=classes, activ="softmax")
 
     
+def EltWizeSoft(n, num):
+    bottoms = []
+    for i in range(num):
+        soft_name = "softmax_{}".format(i)
+        bottoms += [n[soft_name]]
+
+    n.eltwize = L.EltwiseOp(name="eltwize_sum", type="Eltwise", bottom=bottoms, 
+                            eltwise_param =dict(operation=eltwize_sum))
+    n.scale = L.Scale(n.eltwize, in_place = True, name = "scale_for_average",
+                      param=dict(lr_mult=0, decay_mult=0),
+                      scale_param=dict(filler=dict(value=1.0 / num)))
+    n.loss = L.MultinomialLogisticLoss(n.scale, n.label)
+    
+    n.accuracy_1 = accuracy("accuracy_1", n.scale, n.label, 1)
+    n.accuracy_5 = accuracy("accuracy_5", n.scale, n.label, 5)
 
 
 def make_net(n, num_of_classes = 43, activ="relu"):
-    for i in range(1):
+    num_of_nets=1
+    for i in range(num_of_nets):
         ConvPoolAct(n=n, net_num=i , activ=activ)
         FcDropAct(n=n, net_num=i, classes=num_of_classes, activ=activ)
        
-        soft_name = "softmax_{}".format(i)
-        n.loss = L.MultinomialLogisticLoss(n[soft_name], n.label)
-        n.accuracy_1 = accuracy("accuracy_1", n[soft_name], n.label, 1)
-        n.accuracy_5 = accuracy("accuracy_5", n[soft_name], n.label, 5)
+    EltWizeSoftWithLoss(n=n, num=num_of_nets)
+        # soft_name = "softmax_{}".format(i)
+        # n.loss = L.MultinomialLogisticLoss(n[soft_name], n.label)
+        # n.accuracy_1 = accuracy("accuracy_1", n[soft_name], n.label, 1)
+        # n.accuracy_5 = accuracy("accuracy_5", n[soft_name], n.label, 5)
 
 
     # n.loss = L.MultinomialLogisticLoss(n.softmax, n.label)
