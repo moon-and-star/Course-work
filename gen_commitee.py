@@ -177,21 +177,21 @@ def FcDropAct(n, net_num, classes, activ):
     n[fc_name], n[act_name] = fc(name=fc_name, bottom=n[bott_name], num_output=classes, activ="softmax")
 
     
-def EltWizeSoft(n, num):
+def EltWizeSoftWithLoss(n, num):
     bottoms = []
     for i in range(num):
         soft_name = "softmax_{}".format(i)
         bottoms += [n[soft_name]]
 
-    n.eltwize = L.EltwiseOp(name="eltwize_sum", type="Eltwise", bottom=bottoms, 
-                            eltwise_param =dict(operation=eltwize_sum))
-    n.scale = L.Scale(n.eltwize, in_place = True, name = "scale_for_average",
-                      param=dict(lr_mult=0, decay_mult=0),
-                      scale_param=dict(filler=dict(value=1.0 / num)))
-    n.loss = L.MultinomialLogisticLoss(n.scale, n.label)
+    n.eltwize = L.Eltwise(*bottoms,name="averaging", 
+                            eltwise_param =dict(operation=1))
+    # n.scale = L.Scale(n.eltwize, in_place = True, name = "scale_for_average",
+    #                   param=dict(lr_mult=0, decay_mult=0),
+    #                   scale_param=dict(filler=dict(value=1.0 / num)))
+    # n.loss = L.MultinomialLogisticLoss(n.scale, n.label)
     
-    n.accuracy_1 = accuracy("accuracy_1", n.scale, n.label, 1)
-    n.accuracy_5 = accuracy("accuracy_5", n.scale, n.label, 5)
+    # n.accuracy_1 = accuracy("accuracy_1", n.scale, n.label, 1)
+    # n.accuracy_5 = accuracy("accuracy_5", n.scale, n.label, 5)
 
 
 def make_net(n, num_of_classes = 43, activ="relu"):
