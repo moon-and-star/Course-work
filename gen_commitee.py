@@ -156,20 +156,26 @@ def Data(n, net_num, lmdb, phase, batch_size, mean_path):
     elif phase == "test":
         PHASE = "TEST"
 
-
-    n.data, n.label = L.Data(
+    d_name = "data_{}".format(net_num)
+    l_name = "label_{}".format(net_num)
+    # n.data, n.label = L.Data(
+    n[d_name], n[l_name] = L.Data(
         batch_size = batch_size,
         backend = P.Data.LMDB,
         source = lmdb,
         transform_param=transform_param,
         ntop = 2,
+        # top = [d_name,l_name],
         include = dict(phase = caffe_pb2.Phase.Value(PHASE)),
-        name = "data_{}".format(net_num))
+        name = d_name)
+
+    # print(n.data.top)
 
     
 
 def ConvPoolAct(n, net_num, activ):
-    cbott = [n.data]
+    d_name = "data_{}".format(net_num)
+    cbott = [n[d_name]]
     out_num = [100, 150, 250]
     ker_sz = [7, 4, 4]
 
@@ -212,9 +218,9 @@ def EltWizeSoftWithLoss(n, num):
     #operation=1 means SUM
     n.eltwize = L.Eltwise(*bottoms,name="averaging", 
                             eltwise_param=dict(operation=1, coeff=coef))
-    n.loss = L.MultinomialLogisticLoss(n.eltwize, n.label)
-    n.accuracy_1 = accuracy("accuracy_1", n.eltwize, n.label, 1)
-    n.accuracy_5 = accuracy("accuracy_5", n.eltwize, n.label, 5)
+    n.loss = L.MultinomialLogisticLoss(n.eltwize, n.label_0)
+    n.accuracy_1 = accuracy("accuracy_1", n.eltwize, n.label_0, 1)
+    n.accuracy_5 = accuracy("accuracy_5", n.eltwize, n.label_0, 5)
 
 def NumOfClasses(dataset):
     if dataset == "rtsd-r1":
@@ -230,7 +236,7 @@ def make_net(dataset, args, phase="train"):
     num_of_classes = NumOfClasses(dataset)
     data_prefix = "../local_data"
     modes = ["orig", "histeq", "AHE", "imajust", "CoNorm" ]
-    num_of_nets=1
+    num_of_nets=5
     group_size = 1
 
 
