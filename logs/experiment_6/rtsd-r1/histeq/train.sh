@@ -19,7 +19,7 @@ TEST_FR=1
 SNAP_FR=10
 STEP_FR=20
 GAMMA=0.5
-LR=1e-2
+LR=1e-4
 
 CONV_GROUP=1
 activation="scaled_tanh"
