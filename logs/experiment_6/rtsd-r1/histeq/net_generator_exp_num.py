@@ -106,6 +106,8 @@ def fc(name, bottom, num_output, activ="relu"):
 
     elif activ=="softmax":
         return fc, L.Softmax(fc, in_place=True)
+    else:
+        return fc
 
 
 
@@ -162,7 +164,7 @@ def make_net(n, num_of_classes = 43, activ="relu"):
 
     n.fc4_300, n.relu4 = fc("fc4", n.pool3, num_output = 300, activ=activ)
     n.drop4 = dropout("drop4", n.relu4, dropout_ratio = 0.4)
-    n.fc5_classes, relu5 = fc("fc5", n.relu4, num_output = num_of_classes, activ="softmax")
+    n.fc5_classes = fc("fc5", n.relu4, num_output = num_of_classes, activ=None)
 
     n.loss = L.SoftmaxWithLoss(n.fc5_classes, n.label)
     n.accuracy_1 = accuracy("accuracy_1", n.fc5_classes, n.label, 1)
