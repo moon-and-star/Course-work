@@ -4,17 +4,17 @@ layer {
   top: "data_0"
   top: "label_0"
   include {
-    phase: TEST
+    phase: TRAIN
   }
   transform_param {
     mirror: false
     crop_size: 48
-    mean_value: 106
-    mean_value: 103
-    mean_value: 123
+    mean_value: 115
+    mean_value: 107
+    mean_value: 120
   }
   data_param {
-    source: "../local_data/lmdb/rtsd-r1/orig/test/lmdb"
+    source: "../local_data/lmdb/rtsd-r1/orig/train/lmdb"
     batch_size: 64
     backend: LMDB
   }
@@ -1345,17 +1345,17 @@ layer {
   top: "data_1"
   top: "label_1"
   include {
-    phase: TEST
+    phase: TRAIN
   }
   transform_param {
     mirror: false
     crop_size: 48
-    mean_value: 117
-    mean_value: 114
-    mean_value: 133
+    mean_value: 122
+    mean_value: 115
+    mean_value: 128
   }
   data_param {
-    source: "../local_data/lmdb/rtsd-r1/histeq/test/lmdb"
+    source: "../local_data/lmdb/rtsd-r1/histeq/train/lmdb"
     batch_size: 64
     backend: LMDB
   }
@@ -2686,17 +2686,17 @@ layer {
   top: "data_2"
   top: "label_2"
   include {
-    phase: TEST
+    phase: TRAIN
   }
   transform_param {
     mirror: false
     crop_size: 48
-    mean_value: 119
-    mean_value: 116
-    mean_value: 136
+    mean_value: 125
+    mean_value: 118
+    mean_value: 131
   }
   data_param {
-    source: "../local_data/lmdb/rtsd-r1/AHE/test/lmdb"
+    source: "../local_data/lmdb/rtsd-r1/AHE/train/lmdb"
     batch_size: 64
     backend: LMDB
   }
@@ -4027,17 +4027,17 @@ layer {
   top: "data_3"
   top: "label_3"
   include {
-    phase: TEST
+    phase: TRAIN
   }
   transform_param {
     mirror: false
     crop_size: 48
-    mean_value: 102
-    mean_value: 99
-    mean_value: 118
+    mean_value: 108
+    mean_value: 101
+    mean_value: 114
   }
   data_param {
-    source: "../local_data/lmdb/rtsd-r1/imajust/test/lmdb"
+    source: "../local_data/lmdb/rtsd-r1/imajust/train/lmdb"
     batch_size: 64
     backend: LMDB
   }
@@ -5368,17 +5368,17 @@ layer {
   top: "data_4"
   top: "label_4"
   include {
-    phase: TEST
+    phase: TRAIN
   }
   transform_param {
     mirror: false
     crop_size: 48
     mean_value: 124
-    mean_value: 124
-    mean_value: 124
+    mean_value: 123
+    mean_value: 123
   }
   data_param {
-    source: "../local_data/lmdb/rtsd-r1/CoNorm/test/lmdb"
+    source: "../local_data/lmdb/rtsd-r1/CoNorm/train/lmdb"
     batch_size: 64
     backend: LMDB
   }
