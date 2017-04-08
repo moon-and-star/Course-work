@@ -60,13 +60,14 @@ printf "\n\n GENERATING ARCHITECTURES\n\n"
 for k in $(seq 1 $TRY_NUM); do
 	snap_pref="./snapshots"
 	proto_pref="./Prototxt"
-	python2 ./net_generator_exp_num.py -b $BATCH_SZ -e $EPOCH -tf $TEST_FR -sn $SNAP_FR \
-			-st $STEP_FR $EXPERIMENT_NUM -lr $LR -g $GAMMA -a $activation \
+	python2 ./net_generator_exp_num.py \
+			$EXPERIMENT_NUM -b $BATCH_SZ -e $EPOCH -tf $TEST_FR -sn $SNAP_FR \
+			-st $STEP_FR  -lr $LR -g $GAMMA -a $activation \
 			-cg $CONV_GROUP -s $snap_pref -p $proto_pref -tn $k
 done
 
 
-exit
+
 
 printf "\n\n\n Creating log and snapshot folders(if necessary)\n"
 
@@ -77,10 +78,10 @@ do
 	for j in "${modes[@]}"
 	do
 		for k in $(seq 1 $TRY_NUM); do
-			printf "dataset = ${i},  mode = ${j}  trial = $k\n"
+			printf "dataset = ${i},  mode = ${j}  trial = trial_$k\n"
 			#safe directory creating
-			mkdir -p ./logs/experiment_${EXPERIMENT_NUM}/${i}/${j}/$k
-			mkdir -p ./snapshots/experiment_${EXPERIMENT_NUM}/${i}/${j}/$k
+			mkdir -p ./logs/experiment_${EXPERIMENT_NUM}/${i}/${j}/trial_$k
+			mkdir -p ./snapshots/experiment_${EXPERIMENT_NUM}/${i}/${j}/trial_$k
 		    
 		done
 
@@ -88,7 +89,7 @@ do
 done
 
 
-
+exit
 
 
 
@@ -107,22 +108,22 @@ do
 
 
 		for k in $(seq 1 $TRY_NUM); do
-			printf "Training: dataset = ${i},  mode = ${j} trial=$k \n"
+			printf "Training: dataset = ${i},  mode = ${j} trial=trial_$k \n"
 
 			GLOG_logtostderr=0 $TOOLS/caffe train -gpu ${GPU_NUM}    \
-				--solver=./Prototxt/experiment_${EXPERIMENT_NUM}/${i}/${j}/$k/solver.prototxt    \
-				2>&1| tee ./logs/experiment_${EXPERIMENT_NUM}/${i}/${j}/$k/training_log.txt
+				--solver=./Prototxt/experiment_${EXPERIMENT_NUM}/${i}/${j}/trial_$k/solver.prototxt    \
+				2>&1| tee ./logs/experiment_${EXPERIMENT_NUM}/${i}/${j}/trial_$k/training_log.txt
 				
 			GLOG_logtostderr=0 python2 $EXTRA_TOOLS/parse_log.py  --verbose     \
-				./logs/experiment_${EXPERIMENT_NUM}/${i}/${j}/$k/training_log.txt    \
-				./logs/experiment_${EXPERIMENT_NUM}/${i}/${j}/$k
+				./logs/experiment_${EXPERIMENT_NUM}/${i}/${j}/trial_$k/training_log.txt    \
+				./logs/experiment_${EXPERIMENT_NUM}/${i}/${j}/trial_$k
 
-			python2 ./plot_logs.py ./logs/experiment_${EXPERIMENT_NUM}/${i}/${j}/$k     training_log.txt 
+			python2 ./plot_logs.py ./logs/experiment_${EXPERIMENT_NUM}/${i}/${j}/trial_$k     training_log.txt 
 
 
-			git add ./logs/experiment_${EXPERIMENT_NUM}/${i}/${j}/$k
+			git add ./logs/experiment_${EXPERIMENT_NUM}/${i}/${j}/trial_$k
 			# git add -f ./Prototxt/experiment_${EXPERIMENT_NUM}/${i}/${j}
-			git commit -m "training log for ${i} ${j} trial=$k"
+			git commit -m "training log for ${i} ${j} trial=trial_$k"
 			git push
 		done
 	done
