@@ -23,7 +23,8 @@ def GenSingleNetSolver(dataset, mode, args):
     epoch_sz = ceil(train_size / float(args.batch_size))
 
 
-    directory = "{}/experiment_{}/{}/{}".format(args.proto_pref,  args.EXPERIMENT_NUMBER, dataset, mode)
+    directory = "{}/experiment_{}/{}/{}/trial_{}".format(
+        args.proto_pref,  args.EXPERIMENT_NUMBER,  dataset, mode, args.trial_number)
     train_path = "{}/train.prototxt".format(directory)
     test_path = "{}/test.prototxt".format(directory)
 
@@ -32,7 +33,8 @@ def GenSingleNetSolver(dataset, mode, args):
     print("{} {}\n".format(dataset, mode))    
     #why do I need this path? 
     # safe_mkdir('{}/{}/{}/'.format(args.proto_pref,dataset,mode))
-    snap_pref = "{}/experiment_{}/{}/{}/snap".format(args.snap_pref,args.EXPERIMENT_NUMBER, dataset, mode) 
+    snap_pref = "{}/experiment_{}/{}/{}/trial_{}/snap".format(
+        args.snap_pref,args.EXPERIMENT_NUMBER, dataset, mode, args.trial_number) 
 
     
 

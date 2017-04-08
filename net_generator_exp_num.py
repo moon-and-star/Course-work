@@ -181,7 +181,7 @@ def launch():
 
 
         for mode in modes:
-            directory = '{}/experiment_{}/{}/{}/'.format(proto_pref,exp_num, dataset,mode)
+            directory = '{}/experiment_{}/{}/{}/trial_{}/'.format(proto_pref,exp_num, dataset,mode, args.trial_number)
             safe_mkdir(directory)
             for phase in ['train', 'test']:
                 print("Generating architectures")
