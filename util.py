@@ -52,7 +52,10 @@ def gen_parser():
                         help='learning rate decrease factor (default=0.5)')
 
     parser.add_argument('-a','--activation',default="scaled_tanh", type=str, 
-                        help='learning rate decrease factor (default = \'scaled_tanh\' )')
+                        help='activation function type (default = \'scaled_tanh\' )')
+
+    parser.add_argument('-cg','--conv_group',default=1, type=int, 
+                        help='how many groups of filters within conv layers (default = 1 )')
 
 
     parser.add_argument('-p','--proto_pref',default="./Prototxt", type=str, 
