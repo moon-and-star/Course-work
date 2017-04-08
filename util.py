@@ -57,8 +57,11 @@ def gen_parser():
     parser.add_argument('-cg','--conv_group',default=1, type=int, 
                         help='how many groups of filters within conv layers (default = 1 )')
 <<<<<<< HEAD
+<<<<<<< HEAD
     parser.add_argument('-tn','--trial_number',default=1, type=int, 
                         help='number of trial for 1 net (default = 5 )')
+=======
+>>>>>>> parent of 980a15c... new option in arg parser
 =======
 >>>>>>> parent of 980a15c... new option in arg parser
 
