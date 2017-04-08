@@ -4,7 +4,7 @@ import sys
 sys.path.append('/opt/caffe/python/')
 
 from util import safe_mkdir, gen_parser, load_image_mean
-from gen_solver import
+from gen_solver import GenSingleNetSolver
 
 import caffe
 from caffe import layers as L
@@ -65,18 +65,18 @@ def conv1(n, name, bottom, num_output, kernel_size = 3, pad = None, activ = "rel
         return scale2
     
 
-def conv2(n, name, bottom, num_output, kernel_size = 3, pad = None):
-    if pad is None: pad = kernel_size / 2
-    conv1, relu1 = conv_relu(n, "{}1".format(name), bottom, kernel_size, num_output, pad = pad)
-    conv2, relu2 = conv_relu(n, "{}2".format(name), relu1, kernel_size, num_output, pad = pad)
-    return relu2
+# def conv2(n, name, bottom, num_output, kernel_size = 3, pad = None):
+#     if pad is None: pad = kernel_size / 2
+#     conv1, relu1 = conv_relu(n, "{}1".format(name), bottom, kernel_size, num_output, pad = pad)
+#     conv2, relu2 = conv_relu(n, "{}2".format(name), relu1, kernel_size, num_output, pad = pad)
+#     return relu2
 
-def conv3(n, name, bottom, num_output, kernel_size = 3, pad = None):
-    if pad is None: pad = kernel_size / 2
-    conv1, relu1 = conv_relu(n, "{}1".format(name), bottom, kernel_size, num_output, pad = pad)
-    conv2, relu2 = conv_relu(n, "{}2".format(name), relu1, kernel_size, num_output, pad = pad)
-    conv3, relu3 = conv_relu(n, "{}3".format(name), relu2, kernel_size, num_output, pad = pad)
-    return relu3
+# def conv3(n, name, bottom, num_output, kernel_size = 3, pad = None):
+#     if pad is None: pad = kernel_size / 2
+#     conv1, relu1 = conv_relu(n, "{}1".format(name), bottom, kernel_size, num_output, pad = pad)
+#     conv2, relu2 = conv_relu(n, "{}2".format(name), relu1, kernel_size, num_output, pad = pad)
+#     conv3, relu3 = conv_relu(n, "{}3".format(name), relu2, kernel_size, num_output, pad = pad)
+#     return relu3
 
 
 
