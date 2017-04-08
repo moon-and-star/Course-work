@@ -15,7 +15,7 @@ layer {
   }
   data_param {
     source: "../local_data/lmdb/rtsd-r1/orig/train/lmdb"
-    batch_size: 200
+    batch_size: 150
     backend: LMDB
   }
 }
@@ -300,7 +300,7 @@ layer {
   }
   data_param {
     source: "../local_data/lmdb/rtsd-r1/histeq/train/lmdb"
-    batch_size: 200
+    batch_size: 150
     backend: LMDB
   }
 }
@@ -585,7 +585,7 @@ layer {
   }
   data_param {
     source: "../local_data/lmdb/rtsd-r1/AHE/train/lmdb"
-    batch_size: 200
+    batch_size: 150
     backend: LMDB
   }
 }
@@ -870,7 +870,7 @@ layer {
   }
   data_param {
     source: "../local_data/lmdb/rtsd-r1/imajust/train/lmdb"
-    batch_size: 200
+    batch_size: 150
     backend: LMDB
   }
 }
@@ -1155,7 +1155,7 @@ layer {
   }
   data_param {
     source: "../local_data/lmdb/rtsd-r1/CoNorm/train/lmdb"
-    batch_size: 200
+    batch_size: 150
     backend: LMDB
   }
 }
