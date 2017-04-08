@@ -21,8 +21,8 @@ GAMMA=0.5
 LR=1e-3
 
 CONV_GROUP=1
-# activation="scaled_tanh"
-activation="relu"
+activation="scaled_tanh"
+# activation="relu"
 
 TRY_NUM=5
 
@@ -46,12 +46,12 @@ printf "$msg\n"
 
 
 
-# datasets=("rtsd-r1")
-# modes=("histeq" "imajust")
+datasets=("rtsd-r1")
+modes=("histeq" "imajust")
 
 
-datasets=("rtsd-r1" "rtsd-r3")
-modes=("CoNorm" "orig" "AHE" "histeq" "imajust")
+# datasets=("rtsd-r1" "rtsd-r3")
+# modes=("CoNorm" "orig" "AHE" "histeq" "imajust")
 
 
 
@@ -107,6 +107,8 @@ do
 		git push
 
 
+
+
 		for k in $(seq 1 $TRY_NUM); do
 			printf "Training: dataset = ${i},  mode = ${j} trial=trial_$k \n"
 
@@ -125,6 +127,9 @@ do
 			# git add -f ./Prototxt/experiment_${EXPERIMENT_NUM}/${i}/${j}
 			git commit -m "training log for ${i} ${j} trial=trial_$k"
 			git push
+
+
+			
 		done
 	done
 done
