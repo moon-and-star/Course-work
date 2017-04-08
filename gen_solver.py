@@ -31,7 +31,7 @@ def GenSingleNetSolver(dataset, mode, args):
     print("Generating solver")
     print("{} {}\n".format(dataset, mode))    
     #why do I need this path? 
-    safe_mkdir('{}/{}/{}/'.format(args.proto_pref,dataset,mode))
+    # safe_mkdir('{}/{}/{}/'.format(args.proto_pref,dataset,mode))
     snap_pref = "{}/experiment_{}/{}/{}/snap".format(args.snap_pref,args.EXPERIMENT_NUMBER, dataset, mode) 
 
     
