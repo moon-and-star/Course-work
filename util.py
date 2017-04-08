@@ -56,6 +56,8 @@ def gen_parser():
 
     parser.add_argument('-cg','--conv_group',default=1, type=int, 
                         help='how many groups of filters within conv layers (default = 1 )')
+    parser.add_argument('-tn','--trial_number',default=1, type=int, 
+                        help='number of trial for 1 net (default = 5 )')
 
 
     parser.add_argument('-p','--proto_pref',default="./Prototxt", type=str, 
