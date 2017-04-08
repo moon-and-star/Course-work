@@ -65,19 +65,6 @@ def conv1(n, name, bottom, num_output, kernel_size = 3, pad = None, activ = "rel
         return scale2
     
 
-# def conv2(n, name, bottom, num_output, kernel_size = 3, pad = None):
-#     if pad is None: pad = kernel_size / 2
-#     conv1, relu1 = conv_relu(n, "{}1".format(name), bottom, kernel_size, num_output, pad = pad)
-#     conv2, relu2 = conv_relu(n, "{}2".format(name), relu1, kernel_size, num_output, pad = pad)
-#     return relu2
-
-# def conv3(n, name, bottom, num_output, kernel_size = 3, pad = None):
-#     if pad is None: pad = kernel_size / 2
-#     conv1, relu1 = conv_relu(n, "{}1".format(name), bottom, kernel_size, num_output, pad = pad)
-#     conv2, relu2 = conv_relu(n, "{}2".format(name), relu1, kernel_size, num_output, pad = pad)
-#     conv3, relu3 = conv_relu(n, "{}3".format(name), relu2, kernel_size, num_output, pad = pad)
-#     return relu3
-
 
 
 
@@ -87,14 +74,42 @@ def maxpool(name, bottom, kernel_size = 2, stride = 2):
 def avepool(name, bottom, kernel_size = 2, stride = 2):
     return L.Pooling(bottom, kernel_size = kernel_size, stride = stride, pool = P.Pooling.AVE, name = name)
 
-def fc_relu(name, bottom, num_output):
+# def fc_relu(name, bottom, num_output):
+#     fc = L.InnerProduct(
+#         bottom,
+#         num_output = num_output,
+#         weight_filler = dict(type = 'xavier'),
+#         name = "{}_{}".format(name, num_output)
+#     )
+#     return fc, L.ReLU(fc, in_place = True, name = "{}_relu".format(name))
+
+def fc(name, bottom, num_output, activ="relu"):
     fc = L.InnerProduct(
         bottom,
         num_output = num_output,
         weight_filler = dict(type = 'xavier'),
         name = "{}_{}".format(name, num_output)
     )
-    return fc, L.ReLU(fc, in_place = True, name = "{}_relu".format(name))
+
+    if activ=="relu":
+        return fc, L.ReLU(fc, in_place = True, name = "{}_relu".format(name))
+
+    elif activ=="scaled_tanh":
+        scale1 = L.Scale(fc, in_place = True, name = "{}_prescale".format(name),
+                         param=dict(lr_mult=0, decay_mult=0),
+                         scale_param=dict(filler=dict(value=0.6666)))
+        tanh =  L.TanH(scale1, in_place = True, name = "{}_sTanH".format(name))
+        scale2 = L.Scale(tanh, in_place = True, name = "{}_postscale".format(name),
+                         param=dict(lr_mult=0, decay_mult=0),
+                         scale_param=dict(filler=dict(value=1.7159)))
+        return fc, scale2
+
+    elif activ=="softmax":
+        return fc, L.Softmax(fc, in_place=True)
+    else:
+        return fc
+
+
 
 def dropout(name, bottom, dropout_ratio):
     return L.Dropout(
@@ -147,9 +162,9 @@ def make_net(n, num_of_classes = 43, activ="relu"):
     n.pool2 = maxpool("pool2", conv1(n, "conv2", n.pool1, 150, kernel_size = 4, pad = 0, activ=activ))
     n.pool3 = maxpool("pool3", conv1(n, "conv3", n.pool2, 250, kernel_size = 4, pad = 0, activ=activ))
 
-    n.fc4_300, n.relu4 = fc_relu("fc4", n.pool3, num_output = 300)
+    n.fc4_300, n.relu4 = fc("fc4", n.pool3, num_output = 300, activ=activ)
     n.drop4 = dropout("drop4", n.relu4, dropout_ratio = 0.4)
-    n.fc5_classes, relu5 = fc_relu("fc5", n.relu4, num_output = num_of_classes)
+    n.fc5_classes = fc("fc5", n.relu4, num_output = num_of_classes, activ=None)
 
     n.loss = L.SoftmaxWithLoss(n.fc5_classes, n.label)
     n.accuracy_1 = accuracy("accuracy_1", n.fc5_classes, n.label, 1)
