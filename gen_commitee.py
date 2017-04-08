@@ -216,8 +216,8 @@ def make_net(dataset, args, phase="train"):
     num_of_classes = NumOfClasses(dataset)
     data_prefix = "../local_data"
     modes = ["orig", "histeq", "AHE", "imajust", "CoNorm" ]
-    num_of_nets=25
-    group_size = 5
+    num_of_nets=5
+    group_size = 1
 
 
     n = caffe.NetSpec()
