@@ -224,8 +224,8 @@ def process(rootpath, outpath, phase, mode, sample_factor=1, random=False):
 
 
 def launch():
-    samples = 10
-    random = True
+    samples = 1
+    random = False
     # modes = ['orig']
     # for dataset in ["rtsd-r1"]:
         # for phase in ["test"]:
