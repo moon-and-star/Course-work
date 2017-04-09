@@ -22,8 +22,8 @@ GAMMA=0.5
 LR=1e-3
 
 CONV_GROUP=1
-activation="scaled_tanh"
-# activation="relu"
+#activation="scaled_tanh"
+activation="relu"
 
 TRY_NUM=5
 
