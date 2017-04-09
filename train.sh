@@ -48,11 +48,11 @@ printf "$msg\n"
 
 
 datasets=("rtsd-r1")
-modes=("histeq" "imajust")
+# modes=("histeq" "imajust")
 
 
 # datasets=("rtsd-r1" "rtsd-r3")
-# modes=("CoNorm" "orig" "AHE" "histeq" "imajust")
+modes=("CoNorm" "orig" "AHE" "histeq" "imajust")
 
 
 
