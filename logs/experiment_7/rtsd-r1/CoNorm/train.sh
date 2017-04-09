@@ -11,7 +11,7 @@ EXTRA_TOOLS=/opt/caffe/tools/extra
 echo " tools = ${TOOLS}"
 
 
-EXPERIMENT_NUM=6
+EXPERIMENT_NUM=7
 GPU_NUM=1
 BATCH_SZ=1024
 EPOCH=100
@@ -19,11 +19,11 @@ TEST_FR=1
 SNAP_FR=10
 STEP_FR=20
 GAMMA=0.5
-LR=1e-3
+LR=5e-5
 
 CONV_GROUP=1
-#activation="scaled_tanh"
-activation="relu"
+activation="scaled_tanh"
+#activation="relu"
 
 TRY_NUM=5
 
