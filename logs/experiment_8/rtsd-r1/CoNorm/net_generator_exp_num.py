@@ -45,12 +45,12 @@ def conv_stanh(n, name, bottom, kernel_size, num_output, stride=1, pad=1, group=
     
     scale1 = L.Scale(conv, in_place = True, name = "{}_prescale".format(name),
                      param=dict(lr_mult=0, decay_mult=0),
-                     scale_param=dict(filler=dict(value=0.6666))
+                     scale_param=dict(filler=dict(value=0.6666), bias_term=False)
                      )
     tanh =  L.TanH(scale1, in_place = True, name = "{}_sTanH".format(name))
     scale2 = L.Scale(tanh, in_place = True, name = "{}_postscale".format(name),
                      param=dict(lr_mult=0, decay_mult=0),
-                     scale_param=dict(filler=dict(value=1.7159))
+                     scale_param=dict(filler=dict(value=1.7159), bias_term=False)
                      )
     # scale2 =  L.TanH(conv, in_place = True, name = "{}_sTanH".format(name))
     return conv, scale2
