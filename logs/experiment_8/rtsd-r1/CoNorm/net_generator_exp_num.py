@@ -165,7 +165,7 @@ def make_net(n, num_of_classes = 43, activ="relu"):
     n.pool3 = maxpool("pool3", conv1(n, "conv3", n.pool2, 250, kernel_size = 4, pad = 0, activ=activ))
 
     n.fc4_300, n.relu4 = fc("fc4", n.pool3, num_output = 300, activ=activ)
-    n.drop4 = dropout("drop4", n.relu4, dropout_ratio = 0.4)
+    # n.drop4 = dropout("drop4", n.relu4, dropout_ratio = 0.4)
     n.fc5_classes = fc("fc5", n.relu4, num_output = num_of_classes, activ=None)
 
     n.loss = L.SoftmaxWithLoss(n.fc5_classes, n.label)
