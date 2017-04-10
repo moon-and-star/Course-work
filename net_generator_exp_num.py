@@ -136,9 +136,9 @@ def initWithData(lmdb, phase, batch_size, mean_path):
     mean = load_image_mean(mean_path)
 
     if mean is not None:
-        transform_param = dict(mirror=False, crop_size = 48, mean_value = map(int, mean))
+        transform_param = dict(mirror=False, crop_size = 48, scale=1.0/255, mean_value = map(int, mean))
     else:
-        transform_param = dict(mirror=False, crop_size = 48)
+        transform_param = dict(mirror=False, crop_size = 48, scale=1.0/255)
 
     if phase == "train":
         PHASE = "TRAIN"
