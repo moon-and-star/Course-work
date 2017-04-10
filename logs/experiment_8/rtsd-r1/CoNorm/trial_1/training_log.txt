@@ -1,6 +1,6 @@
-I0411 01:10:19.864645 26017 caffe.cpp:217] Using GPUs 1
-I0411 01:10:20.179471 26017 caffe.cpp:222] GPU 1: GeForce GTX 1070
-I0411 01:10:21.057770 26017 solver.cpp:60] Initializing solver from parameters: 
+I0411 01:10:35.303855 27681 caffe.cpp:217] Using GPUs 1
+I0411 01:10:35.686962 27681 caffe.cpp:222] GPU 1: GeForce GTX 1070
+I0411 01:10:36.548784 27681 solver.cpp:60] Initializing solver from parameters: 
 train_net: "./Prototxt/experiment_8/rtsd-r1/CoNorm/trial_1/train.prototxt"
 test_net: "./Prototxt/experiment_8/rtsd-r1/CoNorm/trial_1/test.prototxt"
 test_iter: 8
@@ -23,10 +23,10 @@ train_state {
 }
 iter_size: 1
 type: "Adam"
-I0411 01:10:21.057910 26017 solver.cpp:93] Creating training net from train_net file: ./Prototxt/experiment_8/rtsd-r1/CoNorm/trial_1/train.prototxt
-I0411 01:10:21.058231 26017 net.cpp:322] The NetState phase (0) differed from the phase (1) specified by a rule in layer accuracy_1
-I0411 01:10:21.058243 26017 net.cpp:322] The NetState phase (0) differed from the phase (1) specified by a rule in layer accuracy_5
-I0411 01:10:21.058394 26017 net.cpp:58] Initializing net from parameters: 
+I0411 01:10:36.548921 27681 solver.cpp:93] Creating training net from train_net file: ./Prototxt/experiment_8/rtsd-r1/CoNorm/trial_1/train.prototxt
+I0411 01:10:36.549242 27681 net.cpp:322] The NetState phase (0) differed from the phase (1) specified by a rule in layer accuracy_1
+I0411 01:10:36.549253 27681 net.cpp:322] The NetState phase (0) differed from the phase (1) specified by a rule in layer accuracy_5
+I0411 01:10:36.549404 27681 net.cpp:58] Initializing net from parameters: 
 state {
   phase: TRAIN
   level: 0
@@ -329,44 +329,44 @@ layer {
   bottom: "label"
   top: "loss"
 }
-I0411 01:10:21.058501 26017 layer_factory.hpp:77] Creating layer data
-I0411 01:10:21.059581 26017 net.cpp:100] Creating Layer data
-I0411 01:10:21.059598 26017 net.cpp:408] data -> data
-I0411 01:10:21.059623 26017 net.cpp:408] data -> label
-I0411 01:10:21.061616 26107 db_lmdb.cpp:35] Opened lmdb ../local_data/lmdb/rtsd-r1/CoNorm/train/lmdb
-I0411 01:10:21.079422 26017 data_layer.cpp:41] output data size: 1024,3,48,48
-I0411 01:10:21.129782 26017 net.cpp:150] Setting up data
-I0411 01:10:21.129814 26017 net.cpp:157] Top shape: 1024 3 48 48 (7077888)
-I0411 01:10:21.129820 26017 net.cpp:157] Top shape: 1024 (1024)
-I0411 01:10:21.129825 26017 net.cpp:165] Memory required for data: 28315648
-I0411 01:10:21.129834 26017 layer_factory.hpp:77] Creating layer conv1
-I0411 01:10:21.129856 26017 net.cpp:100] Creating Layer conv1
-I0411 01:10:21.129864 26017 net.cpp:434] conv1 <- data
-I0411 01:10:21.129878 26017 net.cpp:408] conv1 -> conv1
-I0411 01:10:21.485958 26017 net.cpp:150] Setting up conv1
-I0411 01:10:21.485991 26017 net.cpp:157] Top shape: 1024 100 42 42 (180633600)
-I0411 01:10:21.485996 26017 net.cpp:165] Memory required for data: 750850048
-I0411 01:10:21.486022 26017 layer_factory.hpp:77] Creating layer conv1_prescale
-I0411 01:10:21.486039 26017 net.cpp:100] Creating Layer conv1_prescale
-I0411 01:10:21.486050 26017 net.cpp:434] conv1_prescale <- conv1
-I0411 01:10:21.486058 26017 net.cpp:395] conv1_prescale -> conv1 (in-place)
-I0411 01:10:21.486192 26017 net.cpp:150] Setting up conv1_prescale
-I0411 01:10:21.486203 26017 net.cpp:157] Top shape: 1024 100 42 42 (180633600)
-I0411 01:10:21.486209 26017 net.cpp:165] Memory required for data: 1473384448
-F0411 01:10:21.486220 26017 net.cpp:169] Check failed: param_size <= num_param_blobs (2 vs. 1) Too many params specified for layer conv1_prescale
+I0411 01:10:36.549515 27681 layer_factory.hpp:77] Creating layer data
+I0411 01:10:36.550618 27681 net.cpp:100] Creating Layer data
+I0411 01:10:36.550633 27681 net.cpp:408] data -> data
+I0411 01:10:36.550657 27681 net.cpp:408] data -> label
+I0411 01:10:36.552834 27790 db_lmdb.cpp:35] Opened lmdb ../local_data/lmdb/rtsd-r1/CoNorm/train/lmdb
+I0411 01:10:36.570011 27681 data_layer.cpp:41] output data size: 1024,3,48,48
+I0411 01:10:36.624572 27681 net.cpp:150] Setting up data
+I0411 01:10:36.624604 27681 net.cpp:157] Top shape: 1024 3 48 48 (7077888)
+I0411 01:10:36.624609 27681 net.cpp:157] Top shape: 1024 (1024)
+I0411 01:10:36.624613 27681 net.cpp:165] Memory required for data: 28315648
+I0411 01:10:36.624622 27681 layer_factory.hpp:77] Creating layer conv1
+I0411 01:10:36.624645 27681 net.cpp:100] Creating Layer conv1
+I0411 01:10:36.624653 27681 net.cpp:434] conv1 <- data
+I0411 01:10:36.624668 27681 net.cpp:408] conv1 -> conv1
+I0411 01:10:36.918682 27681 net.cpp:150] Setting up conv1
+I0411 01:10:36.918710 27681 net.cpp:157] Top shape: 1024 100 42 42 (180633600)
+I0411 01:10:36.918715 27681 net.cpp:165] Memory required for data: 750850048
+I0411 01:10:36.918736 27681 layer_factory.hpp:77] Creating layer conv1_prescale
+I0411 01:10:36.918751 27681 net.cpp:100] Creating Layer conv1_prescale
+I0411 01:10:36.918754 27681 net.cpp:434] conv1_prescale <- conv1
+I0411 01:10:36.918761 27681 net.cpp:395] conv1_prescale -> conv1 (in-place)
+I0411 01:10:36.918880 27681 net.cpp:150] Setting up conv1_prescale
+I0411 01:10:36.918890 27681 net.cpp:157] Top shape: 1024 100 42 42 (180633600)
+I0411 01:10:36.918893 27681 net.cpp:165] Memory required for data: 1473384448
+F0411 01:10:36.918903 27681 net.cpp:169] Check failed: param_size <= num_param_blobs (2 vs. 1) Too many params specified for layer conv1_prescale
 *** Check failure stack trace: ***
-    @     0x7fef8d2a05cd  google::LogMessage::Fail()
-    @     0x7fef8d2a2433  google::LogMessage::SendToLog()
-    @     0x7fef8d2a015b  google::LogMessage::Flush()
-    @     0x7fef8d2a2e1e  google::LogMessageFatal::~LogMessageFatal()
-    @     0x7fef8da7dbef  caffe::Net<>::Init()
-    @     0x7fef8da7f131  caffe::Net<>::Net()
-    @     0x7fef8da8785a  caffe::Solver<>::InitTrainNet()
-    @     0x7fef8da88b57  caffe::Solver<>::Init()
-    @     0x7fef8da88efa  caffe::Solver<>::Solver()
-    @     0x7fef8d8cea43  caffe::Creator_AdamSolver<>()
+    @     0x7f57963875cd  google::LogMessage::Fail()
+    @     0x7f5796389433  google::LogMessage::SendToLog()
+    @     0x7f579638715b  google::LogMessage::Flush()
+    @     0x7f5796389e1e  google::LogMessageFatal::~LogMessageFatal()
+    @     0x7f5796b64bef  caffe::Net<>::Init()
+    @     0x7f5796b66131  caffe::Net<>::Net()
+    @     0x7f5796b6e85a  caffe::Solver<>::InitTrainNet()
+    @     0x7f5796b6fb57  caffe::Solver<>::Init()
+    @     0x7f5796b6fefa  caffe::Solver<>::Solver()
+    @     0x7f57969b5a43  caffe::Creator_AdamSolver<>()
     @           0x40afb9  train()
     @           0x4077c8  main
-    @     0x7fef8ba37830  __libc_start_main
+    @     0x7f5794b1e830  __libc_start_main
     @           0x408099  _start
     @              (nil)  (unknown)
