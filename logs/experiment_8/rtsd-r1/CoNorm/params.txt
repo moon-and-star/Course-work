@@ -7,7 +7,7 @@
 	SNAP_FR=10     
 	STEP_FR=20     
 	GAMMA=0.5     
-	LR=1e-5   
+	LR=1e-4   
 	activation=scaled_tanh  
 	CONV_GROUP=1
 	TRY_NUM=5
