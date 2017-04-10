@@ -98,11 +98,11 @@ def fc(name, bottom, num_output, activ="relu"):
     elif activ=="scaled_tanh":
         scale1 = L.Scale(fc, in_place = True, name = "{}_prescale".format(name),
                          param=dict(lr_mult=0, decay_mult=0),
-                         scale_param=dict(filler=dict(value=0.6666)))
+                         scale_param=dict(filler=dict(value=0.6666), bias_term=False))
         tanh =  L.TanH(scale1, in_place = True, name = "{}_sTanH".format(name))
         scale2 = L.Scale(tanh, in_place = True, name = "{}_postscale".format(name),
                          param=dict(lr_mult=0, decay_mult=0),
-                         scale_param=dict(filler=dict(value=1.7159)))
+                         scale_param=dict(filler=dict(value=1.7159), bias_term=False))
         # scale2 =  L.TanH(fc, in_place = True, name = "{}_sTanH".format(name))
         return fc, scale2
 
