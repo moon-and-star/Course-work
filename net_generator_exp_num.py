@@ -75,15 +75,6 @@ def maxpool(name, bottom, kernel_size = 2, stride = 2):
 def avepool(name, bottom, kernel_size = 2, stride = 2):
     return L.Pooling(bottom, kernel_size = kernel_size, stride = stride, pool = P.Pooling.AVE, name = name)
 
-# def fc_relu(name, bottom, num_output):
-#     fc = L.InnerProduct(
-#         bottom,
-#         num_output = num_output,
-#         weight_filler = dict(type = 'xavier'),
-#         name = "{}_{}".format(name, num_output)
-#     )
-#     return fc, L.ReLU(fc, in_place = True, name = "{}_relu".format(name))
-
 def fc(name, bottom, num_output, activ="relu"):
     fc = L.InnerProduct(
         bottom,
@@ -107,7 +98,8 @@ def fc(name, bottom, num_output, activ="relu"):
         return fc, scale2
 
     elif activ=="softmax":
-        return fc, L.Softmax(fc, in_place=True)
+        # return fc, L.Softmax(fc, in_place=True)
+        return fc, L.Softmax(fc, in_place=False)
     else:
         return fc
 
@@ -166,9 +158,11 @@ def make_net(n, num_of_classes = 43, activ="relu"):
 
     n.fc4_300, n.relu4 = fc("fc4", n.pool3, num_output = 300, activ=activ)
     n.drop4 = dropout("drop4", n.relu4, dropout_ratio = 0.4)
-    n.fc5_classes = fc("fc5", n.relu4, num_output = num_of_classes, activ=None)
+    n.fc5_classes, n.softmax = fc("fc5", n.relu4, num_output = num_of_classes, activ="softmax")
 
-    n.loss = L.SoftmaxWithLoss(n.fc5_classes, n.label)
+
+    # n.loss = L.SoftmaxWithLoss(n.fc5_classes, n.label)
+    n.loss = L.MultinomialLogisticLoss(n.softmax, n.label)
     n.accuracy_1 = accuracy("accuracy_1", n.fc5_classes, n.label, 1)
     n.accuracy_5 = accuracy("accuracy_5", n.fc5_classes, n.label, 5)
 
