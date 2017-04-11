@@ -15,9 +15,12 @@ TRY_NUM=5
 
 
 
-snap_pref="./snapshots"
-proto_pref="./Prototxt"
-python2 ./net_generator_exp_num.py \
-		$EXPERIMENT_NUM -b $BATCH_SZ -e $EPOCH -tf $TEST_FR -sn $SNAP_FR \
-		-st $STEP_FR  -lr $LR -g $GAMMA -a $activation \
-		-cg $CONV_GROUP -s $snap_pref -p $proto_pref -tn $k
+printf "\n\n GENERATING ARCHITECTURES\n\n"
+for k in $(seq 1 $TRY_NUM); do
+	snap_pref="./snapshots"
+	proto_pref="./Prototxt"
+	python2 ./net_generator_exp_num.py \
+			$EXPERIMENT_NUM -b $BATCH_SZ -e $EPOCH -tf $TEST_FR -sn $SNAP_FR \
+			-st $STEP_FR  -lr $LR -g $GAMMA -a $activation \
+			-cg $CONV_GROUP -s $snap_pref -p $proto_pref -tn $k
+done
