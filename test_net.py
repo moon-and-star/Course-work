@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 
+import sys
+sys.path.append('/opt/caffe/python/')
+
+
 import caffe
 
 net = caffe.Net('./Prototxt/experiment_6/rtsd-r1/imajust/trial_1/train.prototxt',
