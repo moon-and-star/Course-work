@@ -118,7 +118,7 @@ def accuracy(name, bottom, labels, top_k):
         bottom,
         labels,
         accuracy_param = dict(top_k = top_k),
-        include = dict(phase = caffe_pb2.Phase.Value("TEST")),
+        #include = dict(phase = caffe_pb2.Phase.Value("TEST")),
         name = name
     )
 
