@@ -215,7 +215,8 @@ def make_net(args, dataset, mode, phase):
     n.accuracy_1 = accuracy("accuracy_1", n.fc5_classes, n.label, 1)
     n.accuracy_5 = accuracy("accuracy_5", n.fc5_classes, n.label, 5)
 
-
+    if phase == "train":
+        n.silence = L.Silence(n.accuracy_1, n.accuracy_5, ntop=0)
 
     return n.to_proto()
 
