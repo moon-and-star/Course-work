@@ -182,6 +182,14 @@ def Data(n, lmdb, phase, batch_size, mean_path):
 
  
 
+def NumOfClasses(dataset):
+    if dataset == "rtsd-r1":
+        return 67
+    elif dataset == "rtsd-r3":
+        return 106
+
+
+
 
 def make_net(n, args, num_of_classes = 43):
     activ=args.activation
