@@ -13,7 +13,7 @@ echo " tools = ${TOOLS}"
 
 
 EXPERIMENT_NUM=10    
-GPU_NUM=1   
+GPU_NUM=2   
 BATCH_SZ=1024    
 EPOCH=100     
 TEST_FR=1     
@@ -22,7 +22,7 @@ STEP_FR=20
 GAMMA=0.5     
 LR=1e-3   
 activation=relu
-drop=true
+drop=false
 drop_ratio=0.5
 CONV_GROUP=1
 TRY_NUM=5
