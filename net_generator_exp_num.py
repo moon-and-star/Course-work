@@ -183,7 +183,8 @@ def Data(n, lmdb, phase, batch_size, mean_path):
  
 
 
-def make_net(n, args, num_of_classes = 43, activ="relu"):
+def make_net(n, args, num_of_classes = 43):
+    activ=args.activation
     n.pool1 = maxpool("pool1", conv1(n, "conv1", n.data, 100, kernel_size = 7, pad = 0, activ=activ))
     n.pool2 = maxpool("pool2", conv1(n, "conv2", n.pool1, 150, kernel_size = 4, pad = 0, activ=activ))
     n.pool3 = maxpool("pool3", conv1(n, "conv3", n.pool2, 250, kernel_size = 4, pad = 0, activ=activ))
@@ -246,8 +247,7 @@ def launch():
                                             mean_path=mean_path
                                             ),
                                         args=args,
-                                        num_of_classes=num_of_classes,
-                                        activ=args.activation
+                                        num_of_classes=num_of_classes
                     )))
 
                 print("")
