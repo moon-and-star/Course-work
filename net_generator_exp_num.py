@@ -151,13 +151,15 @@ def initWithData(lmdb, phase, batch_size, mean_path):
 
 
 
-def make_net(n, num_of_classes = 43, activ="relu"):
+def make_net(n, args, num_of_classes = 43, activ="relu"):
     n.pool1 = maxpool("pool1", conv1(n, "conv1", n.data, 100, kernel_size = 7, pad = 0, activ=activ))
     n.pool2 = maxpool("pool2", conv1(n, "conv2", n.pool1, 150, kernel_size = 4, pad = 0, activ=activ))
     n.pool3 = maxpool("pool3", conv1(n, "conv3", n.pool2, 250, kernel_size = 4, pad = 0, activ=activ))
 
     n.fc4_300, n.relu4 = fc("fc4", n.pool3, num_output = 300, activ=activ)
-    n.drop4 = dropout("drop4", n.relu4, dropout_ratio = 0.4)
+    if args.dropout == True:
+        n.drop4 = dropout("drop4", n.relu4, dropout_ratio = args.drop_ratio)
+
     n.fc5_classes, n.softmax = fc("fc5", n.relu4, num_output = num_of_classes, activ="softmax")
 
 
@@ -184,6 +186,7 @@ def launch():
     data_prefix = "../local_data"
 
     modes = ["orig", "histeq", "AHE", "imajust", "CoNorm" ]
+    # modes=["orig"]
     for dataset in ["rtsd-r1","rtsd-r3"]:
         if dataset == "rtsd-r1":
             num_of_classes = 67
@@ -208,6 +211,7 @@ def launch():
                                             phase=phase,
                                             mean_path=mean_path
                                             ),
+                                        args=args,
                                         num_of_classes=num_of_classes,
                                         activ=args.activation
                     )))
