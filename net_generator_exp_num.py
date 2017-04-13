@@ -118,7 +118,7 @@ def accuracy(name, bottom, labels, top_k):
         bottom,
         labels,
         accuracy_param = dict(top_k = top_k),
-        #include = dict(phase = caffe_pb2.Phase.Value("TEST")),
+        # include = dict(phase = caffe_pb2.Phase.Value("TEST")),
         name = name
     )
 
@@ -151,6 +151,38 @@ def initWithData(lmdb, phase, batch_size, mean_path):
 
 
 
+def Data(n, lmdb, phase, batch_size, mean_path):
+    mean = load_image_mean(mean_path)
+    if mean is not None:
+        transform_param = dict(mirror=False, crop_size = 48, mean_value = map(int, mean))
+    else:
+        transform_param = dict(mirror=False, crop_size = 48)
+
+
+    if phase == "train":
+        PHASE = "TRAIN"
+    elif phase == "test":
+        PHASE = "TEST"
+
+    d_name = "data_{}".format(net_num)
+    l_name = "label_{}".format(net_num)
+    n[d_name], n[l_name] = L.Data(
+        batch_size = batch_size,
+        backend = P.Data.LMDB,
+        source = lmdb,
+        transform_param=transform_param,
+        ntop = 2,
+        include = dict(phase = caffe_pb2.Phase.Value(PHASE)),
+        name = d_name)
+
+    global silence
+    if net_num > 0:
+        silence += [n[l_name]]
+        # n["silence"+ str(net_num%5)] = L.Silence(n[l_name])
+
+ 
+
+
 def make_net(n, args, num_of_classes = 43, activ="relu"):
     n.pool1 = maxpool("pool1", conv1(n, "conv1", n.data, 100, kernel_size = 7, pad = 0, activ=activ))
     n.pool2 = maxpool("pool2", conv1(n, "conv2", n.pool1, 150, kernel_size = 4, pad = 0, activ=activ))
@@ -167,6 +199,8 @@ def make_net(n, args, num_of_classes = 43, activ="relu"):
     n.loss = L.MultinomialLogisticLoss(n.softmax, n.label)
     n.accuracy_1 = accuracy("accuracy_1", n.fc5_classes, n.label, 1)
     n.accuracy_5 = accuracy("accuracy_5", n.fc5_classes, n.label, 5)
+
+
 
     return n.to_proto()
 
