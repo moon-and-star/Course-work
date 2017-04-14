@@ -12,16 +12,16 @@ echo " tools = ${TOOLS}"
 
 
 
-EXPERIMENT_NUM=11    
-GPU_NUM=4   
-BATCH_SZ=512    
+EXPERIMENT_NUM=10    
+GPU_NUM=2   
+BATCH_SZ=1024    
 EPOCH=100     
 TEST_FR=1     
 SNAP_FR=10     
 STEP_FR=20     
 GAMMA=0.5     
 LR=1e-3   
-activation=scaled_tanh
+activation=relu
 drop=false
 drop_ratio=0.5
 CONV_GROUP=1
