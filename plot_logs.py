@@ -39,6 +39,6 @@ def launch():
 
 
 
-matplotlib.use('Agg')
+# matplotlib.use('Agg')
 launch()
 
