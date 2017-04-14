@@ -20,9 +20,12 @@ def test():
 
 	sum = 0
 	for i in range (size):
+		if i % 100 == 0:
+			print("image in proccess: {}".format(i))
 		out = net.forward()
 		acc =net.blobs["accuracy_1"].data
-		print(acc)
+		# print(acc)
+		sum += acc
 
 	print("average = {}".format(sum / size))
 	                 
