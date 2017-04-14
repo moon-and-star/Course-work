@@ -9,8 +9,8 @@ sys.path.append('/opt/caffe/python/')
 import caffe
 
 
-net = caffe.Net('./Prototxt/experiment_9/rtsd-r1/orig/trial_1/test.prototxt',
-                './snapshots/experiment_9/rtsd-r1/orig/trial_1/snap_iter_2500.caffemodel', caffe.TEST)
+net = caffe.Net('./Prototxt/experiment_10/rtsd-r1/orig/trial_1/test.prototxt',
+                './snapshots/experiment_10/rtsd-r1/orig/trial_1/snap_iter_2500.caffemodel', caffe.TEST)
 out = net.forward()
 print (net.blobs)
 #print(net.blobs["softmax"].data)
