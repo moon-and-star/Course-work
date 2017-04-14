@@ -13,7 +13,7 @@ echo " tools = ${TOOLS}"
 
 
 EXPERIMENT_NUM=11    
-GPU_NUM=3   
+GPU_NUM=4   
 BATCH_SZ=512    
 EPOCH=100     
 TEST_FR=1     
