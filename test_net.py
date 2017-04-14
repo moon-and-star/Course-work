@@ -13,8 +13,8 @@ import caffe
 
 def test():
 	size = get_dataset_size(dataset="rtsd-r1", phase="test", mode="orig")
-	net = caffe.Net('./Prototxt/experiment_10/rtsd-r1/AHE/trial_1/test.prototxt',1,
-	                weights='./snapshots/experiment_10/rtsd-r1/AHE/trial_1/snap_iter_2500.caffemodel')
+	net = caffe.Net('./Prototxt/experiment_10/rtsd-r1/orig/trial_1/test.prototxt',1,
+	                weights='./snapshots/experiment_10/rtsd-r1/orig/trial_1/snap_iter_2500.caffemodel')
 	#net = caffe.Net('./Prototxt/experiment_10/rtsd-r1/AHE/trial_1/test.prototxt',
 	 #               './snapshots/experiment_10/rtsd-r1/AHE/trial_1/snap_iter_2500.caffemodel', caffe.TEST)
 
@@ -26,3 +26,4 @@ def test():
 
 	print("average = {}".format(sum / size))
 	                 
+test()
