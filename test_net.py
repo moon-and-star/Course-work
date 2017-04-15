@@ -55,20 +55,24 @@ def test():
 	mode = "orig"
 	trial = 1
 	size = get_dataset_size(dataset=dataset, phase=phase, mode=mode)
+
 	d = load_net(exp_num, dataset, mode, trial, phase)
 	net = d["net"]
-
+	batch_size = d["batch_size"]
 
 	sum = 0
-	n = math.ceil(size*1.0 / d["batch_size"])
+	n = math.ceil(size*1.0 / batch_size)
 	for i in range (int(n)):
 		print("batch in proccess: {}".format(i))
 		out = net.forward()
 		acc =net.blobs["accuracy_1"].data
 		print(acc)
-		sum += acc
+		if i < n-1:
+			sum += acc * batch_size
+		else:
+			sum += acc * (size - batch_size * (n-1))
 
-	print("average = {}".format(sum / n))
+	print("average = {}".format(sum / size))
 
 
 	                 
