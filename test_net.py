@@ -39,7 +39,7 @@ def set_batch_size(n, model):
     for line in file:
         if "batch_size" in line:
             s = line.split(":")
-            print(line.replace("batch_size : {}".format(s[1]), "batch_size : {}".format(n), end=''))
+            print(line.replace("batch_size : {}".format(s[1]), "batch_size : {}".format(n)))
         else:
             print(line)
     file.close()
