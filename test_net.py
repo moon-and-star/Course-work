@@ -4,6 +4,7 @@
 
 from gen_solver import get_dataset_size
 import math
+import fileinput
 import sys
 sys.path.append('/opt/caffe/python/')
 
@@ -32,21 +33,36 @@ caffe.set_device(3)
 # 	print("average = {}".format(sum / size))
 
 
-def load_net(exp_num, dataset, mode, trial, phase):
+
+def set_batch_size(n, file):
+	with fileinput.FileInput(file, inplace=True, backup='.bak') as file:
+	    for line in file:
+	    	if "batch_size" in line:
+	    		s = line.split(":")
+	        	print(line.replace("batch_size : {}".format(s[1]), "batch_size : {}".format(n)), end='')
+	        else:
+	         	print(line)
+
+
+def load_net(exp_num, dataset, mode, trial, phase, batch_size=1):
 	d = {}
 	model = './Prototxt/experiment_{}/{}/{}/trial_{}/{}.prototxt'.format(exp_num, dataset, mode, trial, phase)
+	set_batch_size(batch_size, model)
+
 	weights = './snapshots/experiment_{}/{}/{}/trial_{}/snap_iter_2500.caffemodel'.format(exp_num, dataset, mode, trial)
 	d["net"] = caffe.Net(model,1, weights=weights)
 
 	with open(model) as f:
 		for line in f:
-			print(line)
 			if "batch_size" in line:
 				s = line.split(":")
 				print int(s[1])
 				d["batch_size"] = int(s[1])
 				break
 	return d
+
+
+
 
 
 def test():
