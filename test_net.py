@@ -61,27 +61,27 @@ def test():
 	net = d["net"]
 	batch_size = d["batch_size"]
 
-	# sum = 0
-	# n = math.ceil(size*1.0 / batch_size)
-	# for i in range (int(n)):
-	# 	print("batch in proccess: {}".format(i))
-	# 	out = net.forward()
-	# 	acc =net.blobs["accuracy_1"].data
-	# 	print(acc)
-	# 	if i < n-1:
-	# 		sum += acc * batch_size
-	# 	else:
-	# 		sum += acc * (size - batch_size * (n-1))
-
 	sum = 0
-	for i in range (size):
-		if i % 100 == 0:
-			print("image in proccess: {}".format(i))
+	n = math.ceil(size*1.0 / batch_size)
+	for i in range (int(n)):
+		print("batch in proccess: {}".format(i))
 		out = net.forward()
 		acc =net.blobs["accuracy_1"].data
-		# print(acc)
-		sum += acc
-	print("average = {}".format(sum / size))
+		print(acc)
+		if i < n-1:
+			sum += acc * batch_size
+		else:
+			sum += acc * (size - batch_size * (n-1))
+
+	# sum = 0
+	# for i in range (size):
+	# 	if i % 100 == 0:
+	# 		print("image in proccess: {}".format(i))
+	# 	out = net.forward()
+	# 	acc =net.blobs["accuracy_1"].data
+	# 	# print(acc)
+	# 	sum += acc
+	# print("average = {}".format(sum / size))
 
 
 	                 
