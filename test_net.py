@@ -61,7 +61,7 @@ def test():
 
 	sum = 0
 	n = math.ceil(size*1.0 / d["batch_size"])
-	for i in range (n):
+	for i in range (int(n)):
 		print("batch in proccess: {}".format(i))
 		out = net.forward()
 		acc =net.blobs["accuracy_1"].data
