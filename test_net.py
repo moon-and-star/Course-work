@@ -35,7 +35,7 @@ def load_net(exp_num, dataset, mode, trial, phase):
 	d = {}
 	model = './Prototxt/experiment_{}/{}/{}/trial_{}/{}.prototxt'.format(exp_num, dataset, mode, trial, phase)
 	weights = './snapshots/experiment_{}/{}/{}/trial_{}/snap_iter_2500.caffemodel'.format(exp_num, dataset, mode, trial)
-	d.net = caffe.Net(model,1, weights=weights)
+	d["net"] = caffe.Net(model,1, weights=weights)
 
 	with open(model) as f:
 		for line in f:
@@ -43,7 +43,7 @@ def load_net(exp_num, dataset, mode, trial, phase):
 			if "batch_size" in line:
 				s = line.split(":")
 				print int(s[1])
-				d.batch_size = int(s[1])
+				d["batch_size"] = int(s[1])
 				break
 	return d
 
@@ -56,11 +56,11 @@ def test():
 	trial = 1
 	size = get_dataset_size(dataset=dataset, phase=phase, mode=mode)
 	d = load_net(exp_num, dataset, mode, trial, phase)
-	net = d.net
+	net = d["net"]
 
 
 	sum = 0
-	n = math.ceil(size*1.0 / d.batch_size)
+	n = math.ceil(size*1.0 / d["batch_size"])
 	for i in range (n):
 		print("batch in proccess: {}".format(i))
 		out = net.forward()
