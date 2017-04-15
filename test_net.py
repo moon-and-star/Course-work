@@ -51,7 +51,7 @@ def test():
 	phase = "test"
 	mode = "orig"
 	trial = 1
-	size = get_dataset_size(dataset, phase, mode)
+	size = get_dataset_size(dataset=dataset, phase=phase, mode=mode)
 	net = load_net(exp_num, dataset, mode, trial, phase)
 
 
