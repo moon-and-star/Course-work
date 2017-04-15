@@ -35,13 +35,14 @@ caffe.set_device(3)
 
 
 def set_batch_size(n, model):
-	with fileinput.FileInput(model, inplace=True, backup='.bak') as file:
-	    for line in file:
-	    	if "batch_size" in line:
-	    		s = line.split(":")
-	        	print(line.replace("batch_size : {}".format(s[1]), "batch_size : {}".format(n), end=''))
-	        else:
-	         	print(line)
+	file = fileinput.FileInput(model, inplace=True, backup='.bak')
+    for line in file:
+    	if "batch_size" in line:
+    		s = line.split(":")
+        	print(line.replace("batch_size : {}".format(s[1]), "batch_size : {}".format(n), end=''))
+        else:
+         	print(line)
+    file.close()
 
 
 def load_net(exp_num, dataset, mode, trial, phase, batch_size=1):
