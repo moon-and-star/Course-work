@@ -34,8 +34,8 @@ caffe.set_device(3)
 
 
 
-def set_batch_size(n, file):
-	with fileinput.FileInput(file, inplace=True, backup='.bak') as file:
+def set_batch_size(n, model):
+	with fileinput.FileInput(model, inplace=True, backup='.bak') as file:
 	    for line in file:
 	    	if "batch_size" in line:
 	    		s = line.split(":")
