@@ -9,6 +9,7 @@ sys.path.append('/opt/caffe/python/')
 
 
 import caffe
+import math
 
 
 # def test():
@@ -31,9 +32,10 @@ import caffe
 
 
 def load_net(exp_num, dataset, mode, trial, phase):
+	d = {}
 	model = './Prototxt/experiment_{}/{}/{}/trial_{}/{}.prototxt'.format(exp_num, dataset, mode, trial, phase)
 	weights = './snapshots/experiment_{}/{}/{}/trial_{}/snap_iter_2500.caffemodel'.format(exp_num, dataset, mode, trial)
-	net = caffe.Net(model,1, weights=weights)
+	d.net = caffe.Net(model,1, weights=weights)
 
 	with open(model) as f:
 		for line in f:
@@ -41,8 +43,9 @@ def load_net(exp_num, dataset, mode, trial, phase):
 			if "batch_size" in line:
 				s = line.split(":")
 				print int(s[1])
+				d.batch_size = int(s[1])
 				break
-	return net
+	return d
 
 
 def test():
@@ -52,20 +55,20 @@ def test():
 	mode = "orig"
 	trial = 1
 	size = get_dataset_size(dataset=dataset, phase=phase, mode=mode)
-	net = load_net(exp_num, dataset, mode, trial, phase)
+	d = load_net(exp_num, dataset, mode, trial, phase)
+	net = d.net
 
 
-	pass
 	sum = 0
-	for i in range (size):
-		if i % 100 == 0:
-			print("image in proccess: {}".format(i))
+	n = math.ceil(size*1.0 / d.batch_size)
+	for i in range (n):
+		print("batch in proccess: {}".format(i))
 		out = net.forward()
 		acc =net.blobs["accuracy_1"].data
-		# print(acc)
+		print(acc)
 		sum += acc
 
-	print("average = {}".format(sum / size))
+	print("average = {}".format(sum / n))
 
 
 	                 
