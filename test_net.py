@@ -106,9 +106,10 @@ def CreateNoLMDB(exp_num, dataset, mode, phase):
 
 
 
-def prepare(n, rootpath, phase, image_name):
-    mean_path = '{}/{}/mean.txt'.format(rootpath, phase)
+def prepare(net, rootpath, phase, image_name):
     transformer = caffe.io.Transformer({'data': net.blobs['data'].data.shape})
+    
+    mean_path = '{}/{}/mean.txt'.format(rootpath, phase)
     mean = load_image_mean(mean_path)
     mean_value = np.array(map(int, mean))
     transformer.set_mean('data', mean_value)
@@ -119,7 +120,7 @@ def prepare(n, rootpath, phase, image_name):
 
     img_path = "{}/{}/{}".format(rootpath, phase, image_name)
     img = caffe.io.load_image(img_path)[3:-3, 3:-3, :]
-    n.blobs['data'].data[...] = transformer.preprocess('data', img)
+    net.blobs['data'].data[...] = transformer.preprocess('data', img)
 
     
 
