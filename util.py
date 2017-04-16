@@ -32,9 +32,7 @@ def ParseParams(param_path):
                     args[s[0]] = s[1]
                 else:
                     args[s[0]] = int(s[1])
-
-    for i in args:
-        print(i, args[i])
+                    
     return args
 
 
