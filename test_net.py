@@ -109,9 +109,13 @@ def TestCommitee(exp_num, dataset):
     size = get_dataset_size(dataset=dataset, phase=phase, mode=mode)
     net = LoadWithoutLMDB(exp_num, dataset, mode, trial, phase)
 
+    rootpath = "../local_data/rtsd-r1/orig"
+    with open('{}/gt_{}.txt'.format(rootpath, phase), 'r') as f:
+        for image_name,clid in [x.replace('\r\n', '').split(' ') for x in f:
+            print(image_name)
+
     
-    #markup = open('{}/gt_{}.csv'.format(rootpath, phase), 'r').readlines()
- 
+
 
     # sum = 0
     # for i in range (size):
@@ -124,8 +128,3 @@ def TestCommitee(exp_num, dataset):
 
   
 TestCommitee(10, "rtsd-r1")                   
-# test()
-path = './Prototxt/experiment_///trial_/.prototxt'
-print(path)
-out = path.replace(".prototxt", "_no-LMDB.prototxt")
-print (out)
