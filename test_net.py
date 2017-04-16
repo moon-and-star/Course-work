@@ -164,10 +164,12 @@ def TestCommitee(exp_num, dataset):
     rootpath = "../local_data/{}/{}".format(dataset, mode)
     src = "{}/test.txt".format(rootpath)
 
-    softmax = np.zeros(5, size, classes)
+    softmax = np.zeros((5, size, classes))
     for trial in range(5):
         net = LoadWithoutLMDB(exp_num, dataset, mode, trial + 1, phase)
         for i in range(size):
+            if i % 100 == 0:
+                print(i)
             out = net.forward()
             softmax[trial, i] = net.blobs["softmax"].data
                 
