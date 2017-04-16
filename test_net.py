@@ -149,7 +149,7 @@ def TestCommitee(exp_num, dataset):
             net.blobs['data'].data[...] = transformer.preprocess('data', img)
             # net.blobs['data'].data[...] = img
             out = net.forward()
-            print(net.blobs["softmax"])
+            print(net.blobs["softmax"].data)
             
             exit()
 
