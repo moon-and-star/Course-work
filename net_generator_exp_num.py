@@ -167,13 +167,22 @@ def DataOnly(n, phase, mean_path, batch_size=1):
     elif phase == "test":
         PHASE = "TEST"
 
-    n.data = L.Data(
-        batch_size = batch_size,
+    n.data = L.Input(
         transform_param=transform_param,
-        ntop = 1,
-        include = dict(phase = caffe_pb2.Phase.Value(PHASE)),
-        name = "data"
-    )
+        shape= dict( dim=[1, 3,195, 185] )
+
+        )
+
+    # n.data, n.label = L.ImageData(
+    #     image_data_param=dict(
+    #         batch_size = batch_size,
+    #         new_height=56,
+    #         new_width=56),
+    #     transform_param=transform_param,
+    #     include = dict(phase = caffe_pb2.Phase.Value(PHASE)),
+    #     name = "data",
+    #     ntop=2
+    # )
 
 
 
