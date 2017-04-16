@@ -108,9 +108,14 @@ def prepare(img_path, mean_path):
     im = imread(img_path).astype(np.float64)
     mean = load_image_mean(mean_path)
     mean_value = map(int, mean)
-    im -= mean_value
+    # print(im[:,:,1])
+    # print(mean_value)
+    for i in range(3):
+        im[:,:,i] -= mean_value[i]
+    # print(im[:,:,1])
     im /= 255
-    return im[np.newaxis,:, 3:-3, 3:-3]
+
+    return im[np.newaxis,3:-3, 3:-3, :]
 
 
 
@@ -119,7 +124,7 @@ def TestCommitee(exp_num, dataset):
     mode = "orig"
     trial = 1
     size = get_dataset_size(dataset=dataset, phase=phase, mode=mode)
-    net = LoadWithoutLMDB(exp_num, dataset, mode, trial, phase)
+    # net = LoadWithoutLMDB(exp_num, dataset, mode, trial, phase)
 
     
     rootpath = "../local_data/{}/{}".format(dataset, mode)
@@ -128,8 +133,21 @@ def TestCommitee(exp_num, dataset):
     with open('{}/gt_{}.txt'.format(rootpath, phase), 'r') as f:
         for image_name,clid in [x.replace('\r\n', '').split(' ') for x in f]:
             img_path = "{}/{}/{}".format(rootpath, phase, image_name)
-            img = prepare(img_path, mean_path)
+            img = imread(img_path).astype(np.float64)
 
+            # imsave("./1/" + image_name, img)
+
+
+            transformer = caffe.io.Transformer({'data': net.blobs['data'].data.shape})
+            mean = load_image_mean(mean_path)
+            mean_value = map(int, mean)
+            transformer.set_mean('data', mean_value)
+            transformer.set_transpose('data', (2,0,1))
+            # transformer.set_channel_swap('data', (2,1,0))
+            transformer.set_raw_scale('data', 255.0)
+
+            im = caffe.io.load_image('examples/images/cat.jpg')
+            net.blobs['data'].data[...] = transformer.preprocess('data', img)
             net.blobs['data'].data[...] = img
             out = net.forward()
             print(net.blobs["softmax"])
