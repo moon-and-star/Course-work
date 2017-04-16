@@ -16,8 +16,8 @@ from skimage.io import imread, imsave
 
 import caffe
 
-# caffe.set_mode_gpu()
-# caffe.set_device(3)
+caffe.set_mode_gpu()
+caffe.set_device(3)
 
 # def test():
 #   size = get_dataset_size(dataset="rtsd-r1", phase="test", mode="orig")
@@ -151,7 +151,7 @@ def TestCommitee(exp_num, dataset):
             out = net.forward()
             print(net.blobs["softmax"].data)
             
-            exit()
+            # exit()
 
     
 
