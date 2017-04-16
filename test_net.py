@@ -108,7 +108,7 @@ def CreateNoLMDB(exp_num, dataset, mode, phase):
 
 def prepare(net, rootpath, phase, image_name):
     transformer = caffe.io.Transformer({'data': net.blobs['data'].data.shape})
-    
+
     mean_path = '{}/{}/mean.txt'.format(rootpath, phase)
     mean = load_image_mean(mean_path)
     mean_value = np.array(map(int, mean))
@@ -140,7 +140,7 @@ def TestCommitee(exp_num, dataset):
             prepare(net, rootpath, phase, image_name)
             out = net.forward()
             # print(net.blobs["softmax"].data)
-            print(np.argmax(net.blobs["softmax"]) == clid)
+            print(np.argmax(net.blobs["softmax"]), "   " , clid)
             
             # exit()
 
