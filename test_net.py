@@ -121,7 +121,7 @@ def prepare(net, rootpath, phase, image_name):
 
     transformer.set_transpose('data', (2,0,1))
     transformer.set_channel_swap('data', (2,1,0))
-    transformer.set_raw_scale('data', 255.0)
+    transformer.set_raw_scale('data', 1/255.0)
 
     img_path = "{}/{}/{}".format(rootpath, phase, image_name)
     img = caffe.io.load_image(img_path)[3:-3, 3:-3, :]
