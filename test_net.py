@@ -111,7 +111,12 @@ def prepare(net, rootpath, phase, image_name):
 
     mean_path = '{}/{}/mean.txt'.format(rootpath, phase)
     mean = load_image_mean(mean_path)
-    mean_value = np.array(map(int, mean))
+    b = map(int, mean)[0]
+    g = map(int, mean)[1]
+    r = map(int, mean)[2]
+    # mean_value = np.array(map(int, mean))
+    mean_value = np.array(  [r,g,b])
+
     transformer.set_mean('data', mean_value)
 
     transformer.set_transpose('data', (2,0,1))
