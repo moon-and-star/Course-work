@@ -3,6 +3,8 @@
 #!/usr/bin/env python
 
 from gen_solver import get_dataset_size
+from net_generator_exp_num import NoLMDB_Net
+from util import ParseParams
 import math
 import fileinput
 import sys
@@ -72,21 +74,10 @@ def test():
     print("average = {}".format(sum / size))
 
 
-def DelLMDB(path):
-    out = path.replace(".prototxt", "_no-LMDB.prototxt")
-    with  open(path, "r") as fin, open(out, "w") as fout:
-        for line in fin:
-            if "source:" in line or "backend:" in line:
-                pass
-            else:
-                fout.write(line)
-    return out
-
 
 
 def LoadWithoutLMDB(exp_num, dataset, mode, trial, phase, batch_size=1):
-    path = './Prototxt/experiment_{}/{}/{}/trial_{}/{}.prototxt'.format(exp_num, dataset, mode, trial, phase)
-    model = DelLMDB(path)
+    model = CreateNoLMDB(exp_num, dataset, mode, phase)
     set_batch_size(batch_size, model)
 
     weights = './snapshots/experiment_{}/{}/{}/trial_{}/snap_iter_2500.caffemodel'.format(exp_num, dataset, mode, trial)
@@ -94,16 +85,32 @@ def LoadWithoutLMDB(exp_num, dataset, mode, trial, phase, batch_size=1):
 
     return net
 
+
+
+
+def CreateNoLMDB(exp_num, dataset, mode, phase):
+    #reading experiment parameters
+    param_path = "./logs/experiment_{}/{}/{}/params.txt".format(exp_num, dataset, mode)
+    args = ParseParams(param_path)
+
+    #creating achitecture without specified data path and labels
+    content = str(NoLMDB_Net(args, dataset, mode, phase))
+    path = './Prototxt/experiment_{}/{}/{}/{}_no-lmdb.prototxt'.format(exp_num, dataset, mode, phase)
+    with open(path, "w") as out:
+        out.write(content)
+
+    return path
+
+
 def TestCommitee(exp_num, dataset):
     phase = "test"
     mode = "orig"
     trial = 1
     size = get_dataset_size(dataset=dataset, phase=phase, mode=mode)
-
     net = LoadWithoutLMDB(exp_num, dataset, mode, trial, phase)
 
-    exit()
-    markup = open('{}/gt_{}.csv'.format(rootpath, phase), 'r').readlines()
+    
+    #markup = open('{}/gt_{}.csv'.format(rootpath, phase), 'r').readlines()
  
 
     sum = 0
