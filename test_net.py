@@ -147,7 +147,7 @@ def TestCommitee(exp_num, dataset):
             transformer.set_raw_scale('data', 255.0)
 
             net.blobs['data'].data[...] = transformer.preprocess('data', img)
-            net.blobs['data'].data[...] = img
+            # net.blobs['data'].data[...] = img
             out = net.forward()
             print(net.blobs["softmax"])
             
