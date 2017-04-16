@@ -110,7 +110,7 @@ def prepare(img_path, mean_path):
     mean_value = map(int, mean)
     im -= mean_value
     im /= 255
-    return im[np.newaxis,:, :, :]
+    return im[np.newaxis,:, 3:-3, 3:-3]
 
 
 
