@@ -188,7 +188,7 @@ def TestCommitee(exp_num, dataset):
         label = int(lines[i].replace("\n", "").split(" ")[1])
         prediction = np.argmax(softmax[i])
         if label == prediction:
-            print("correct")
+            # print("correct")
             sum += 1.0
         else:
             print(lines[i], prediction)
