@@ -143,6 +143,7 @@ def TestCommitee(exp_num, dataset):
             prepare(net, rootpath, phase, image_name)
             out = net.forward()
             # print(net.blobs["softmax"].data)
+            print(np.argmax(net.blobs["softmax"].data), "   ", clid)
             if np.argmax(net.blobs["softmax"].data) == clid:
                 correct +=1
             else:
