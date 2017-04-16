@@ -175,8 +175,9 @@ def test2(exp_num, dataset):
         if i % 100 == 0:
             print("image in proccess: {}".format(i))
         out = net.forward()
-        acc =net.blobs["accuracy_1"].data
-        sum += acc
+        
+        if np.argmax(net.blobs["softmax"].data) == net.blobs["label"].data:
+            sum += 1
     print("average = {}".format(sum / size))
 
 
