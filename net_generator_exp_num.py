@@ -172,7 +172,7 @@ def DataOnly(n, phase, mean_path, batch_size=1):
     with open(src) as f, open(out, "w") as fout:
         for line in f:
             s = line.split(" ")
-            line = line.replase(s[0], "../local_data/rtsd-r1/orig/test/" + s[0])
+            line = line.replace(s[0], "../local_data/rtsd-r1/orig/test/" + s[0])
             fout.write(line)
 
 
