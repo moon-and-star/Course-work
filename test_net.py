@@ -170,7 +170,16 @@ def test2(exp_num, dataset):
     size = get_dataset_size(dataset=dataset, phase=phase, mode=mode)
     net = LoadWithoutLMDB(exp_num, dataset, mode, trial, phase)
 
-    
+    sum = 0
+    for i in range (size):
+        if i % 100 == 0:
+            print("image in proccess: {}".format(i))
+        out = net.forward()
+        acc =net.blobs["accuracy_1"].data
+        sum += acc
+    print("average = {}".format(sum / size))
+
+
 
 test2(10, "rtsd-r1")
     # sum = 0
