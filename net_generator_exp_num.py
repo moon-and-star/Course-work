@@ -153,13 +153,38 @@ def Data(n, lmdb, phase, batch_size, mean_path):
  
 
 
-def DataOnly(n, phase, mean_path, batch_size=1):
-    mean = load_image_mean(mean_path)
+# def DataOnly(n, phase, mean_path, batch_size=1):
+#     mean = load_image_mean(mean_path)
 
-    if mean is not None:
-        transform_param = dict(mirror=False, crop_size = 48, mean_value = map(int, mean), scale=1.0/255)
-    else:
-        transform_param = dict(mirror=False, crop_size = 48, scale=1.0/255)
+#     if mean is not None:
+#         transform_param = dict(mirror=False, crop_size = 48, mean_value = map(int, mean), scale=1.0/255)
+#     else:
+#         transform_param = dict(mirror=False, crop_size = 48, scale=1.0/255)
+
+
+#     if phase == "train":
+#         PHASE = "TRAIN"
+#     elif phase == "test":
+#         PHASE = "TEST"
+
+#     n.data = L.Input(
+#         shape= dict( dim=[1, 3, 48, 48] )
+
+#         )
+
+#     # n.data, n.label = L.ImageData(
+#     #     image_data_param=dict(
+#     #         batch_size = batch_size,
+#     #         new_height=56,
+#     #         new_width=56),
+#     #     transform_param=transform_param,
+#     #     include = dict(phase = caffe_pb2.Phase.Value(PHASE)),
+#     #     name = "data",
+#     #     ntop=2
+#     # )
+
+
+def DataOnly(n):
 
 
     if phase == "train":
@@ -169,20 +194,7 @@ def DataOnly(n, phase, mean_path, batch_size=1):
 
     n.data = L.Input(
         shape= dict( dim=[1, 3, 48, 48] )
-
-        )
-
-    # n.data, n.label = L.ImageData(
-    #     image_data_param=dict(
-    #         batch_size = batch_size,
-    #         new_height=56,
-    #         new_width=56),
-    #     transform_param=transform_param,
-    #     include = dict(phase = caffe_pb2.Phase.Value(PHASE)),
-    #     name = "data",
-    #     ntop=2
-    # )
-
+    )
 
 
 def NumOfClasses(dataset):
@@ -211,10 +223,10 @@ def FcDropAct(n, args, dataset):
 
 def NoLMDB_Net(args, dataset, mode, phase):
     data_prefix = "../local_data"
-    mean_path = '{}/lmdb/{}/{}/{}/mean.txt'.format(data_prefix,dataset, mode, phase) 
+    # mean_path = '{}/lmdb/{}/{}/{}/mean.txt'.format(data_prefix,dataset, mode, phase) 
 
     n = caffe.NetSpec()
-    DataOnly(n, phase, mean_path, args.batch_size)
+    DataOnly(n)
     ConvPoolAct(n, args)
     FcDropAct(n, args, dataset)
     
