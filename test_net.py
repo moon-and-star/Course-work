@@ -178,14 +178,14 @@ def TestCommitee(exp_num, dataset):
     print(softmax.shape)
     
 
-    
+
     names = None
     with open(src) as f:
         lines = f.readlines()
 
     sum = 0.0
     for i in range(size):
-        label = lines[i].split(" ")[1]
+        label = int(lines[i].replace("\n").split(" ")[1])
         prediction = np.argmax(softmax[i])
         if label == prediction:
             print("correct")
