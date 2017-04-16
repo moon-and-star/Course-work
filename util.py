@@ -18,6 +18,27 @@ def safe_mkdir(directory_name):
 
 
 
+
+def ParseParams(param_path):
+    args = {}
+    with open(param_path) as f:
+        for line in f:
+            if line != "\n":
+                line = line.strip()
+                s = line.split("=")
+                if s[0] in ['GAMMA','LR', 'drop_ratio'] :
+                    args[s[0]] = float(s[1])
+                elif s[0] in ['activation', 'drop']:
+                    args[s[0]] = s[1]
+                else:
+                    args[s[0]] = int(s[1])
+
+    for i in args:
+        print(i, args[i])
+    return args
+
+
+
 def gen_parser():
     description = """
     DESCRIPTION:
