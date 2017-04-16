@@ -182,7 +182,7 @@ def TestCommitee(exp_num, dataset):
         lines = f.readlines()
 
     for i in range(size):
-        label = lines[i].split("")[1]
+        label = lines[i].split(" ")[1]
         prediction = np.argmax(softmax[i])
         if label == prediction:
             print("correct")
