@@ -81,7 +81,7 @@ def test():
 
 def LoadWithoutLMDB(exp_num, dataset, mode, trial, phase, batch_size=1):
     model = CreateNoLMDB(exp_num, dataset, mode, phase)
-    set_batch_size(batch_size, model)
+    # set_batch_size(batch_size, model)
 
     weights = './snapshots/experiment_{}/{}/{}/trial_{}/snap_iter_2500.caffemodel'.format(exp_num, dataset, mode, trial)
     net = caffe.Net(model,1, weights=weights)
@@ -104,18 +104,24 @@ def CreateNoLMDB(exp_num, dataset, mode, phase):
 
     return path
 
-def prepare(img_path, mean_path):
-    im = imread(img_path).astype(np.float64)
-    mean = load_image_mean(mean_path)
-    mean_value = map(int, mean)
-    # print(im[:,:,1])
-    # print(mean_value)
-    for i in range(3):
-        im[:,:,i] -= mean_value[i]
-    # print(im[:,:,1])
-    im /= 255
 
-    return im[np.newaxis,3:-3, 3:-3, :]
+
+def prepare(n, rootpath, phase, image_name):
+    mean_path = '{}/{}/mean.txt'.format(rootpath, phase)
+    transformer = caffe.io.Transformer({'data': net.blobs['data'].data.shape})
+    mean = load_image_mean(mean_path)
+    mean_value = np.array(map(int, mean))
+    transformer.set_mean('data', mean_value)
+
+    transformer.set_transpose('data', (2,0,1))
+    # transformer.set_channel_swap('data', (2,1,0))
+    transformer.set_raw_scale('data', 255.0)
+
+    img_path = "{}/{}/{}".format(rootpath, phase, image_name)
+    img = caffe.io.load_image(img_path)[3:-3, 3:-3, :]
+    n.blobs['data'].data[...] = transformer.preprocess('data', img)
+
+    
 
 
 
@@ -128,28 +134,12 @@ def TestCommitee(exp_num, dataset):
 
     
     rootpath = "../local_data/{}/{}".format(dataset, mode)
-    mean_path = '{}/{}/mean.txt'.format(rootpath, phase)
-    count = 0
     with open('{}/gt_{}.txt'.format(rootpath, phase), 'r') as f:
         for image_name,clid in [x.replace('\r\n', '').split(' ') for x in f]:
-            img_path = "{}/{}/{}".format(rootpath, phase, image_name)
-            img = caffe.io.load_image(img_path)[3:-3, 3:-3, :]
-
-            # imsave("./1/" + image_name, img)
-
-
-            transformer = caffe.io.Transformer({'data': net.blobs['data'].data.shape})
-            mean = load_image_mean(mean_path)
-            mean_value = np.array(map(int, mean))
-            transformer.set_mean('data', mean_value)
-            transformer.set_transpose('data', (2,0,1))
-            # transformer.set_channel_swap('data', (2,1,0))
-            transformer.set_raw_scale('data', 255.0)
-
-            net.blobs['data'].data[...] = transformer.preprocess('data', img)
-            # net.blobs['data'].data[...] = img
+            prepare(net, rootpath, phase, image_name)
             out = net.forward()
-            print(net.blobs["softmax"].data)
+            # print(net.blobs["softmax"].data)
+            print(np.argmax(net.blobs["softmax"]) == clid)
             
             # exit()
 
