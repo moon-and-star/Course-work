@@ -153,7 +153,7 @@ def Data(n, lmdb, phase, batch_size, mean_path):
  
 
 
-def DataOnly(n, phase, mean_path, batch_size=1):
+def DataOnly(n, phase, src, mean_path, batch_size=1):
     mean = load_image_mean(mean_path)
 
     if mean is not None:
@@ -167,16 +167,8 @@ def DataOnly(n, phase, mean_path, batch_size=1):
     elif phase == "test":
         PHASE = "TEST"
 
-    src = "../local_data/rtsd-r1/orig/gt_test.txt"
-    out = "../local_data/rtsd-r1/orig/test.txt"
-    with open(src) as f, open(out, "w") as fout:
-        for line in f:
-            s = line.split(" ")
-            line = line.replace(s[0], "../local_data/rtsd-r1/orig/test/" + s[0])
-            fout.write(line)
-
-
-    src =  out           
+    
+          
     n.data, n.label = L.ImageData(
         image_data_param=dict(
             batch_size = batch_size,
@@ -220,13 +212,29 @@ def FcDropAct(n, args, dataset):
     n.fc5_classes, n.softmax = fc("fc5", n.relu4, num_output = num_of_classes, activ="softmax")
 
 
+
+def PrepareSrcFromGT(data_prefix, dataset, mode, phase):
+    root = "{}/{}/{}".format(data_prefix, dataset, mode)
+    src = "{}/gt_{}.txt".format(root, phase)
+    out = "{}/{}.txt".format(root, phase)
+    with open(src) as f, open(out, "w") as fout:
+        for line in f:
+            s = line.split(" ")
+            line = line.replace(s[0], "{}/{}/".format(root, phase) + s[0])
+            fout.write(line)
+
+    return out
+
+
+
 def NoLMDB_Net(args, dataset, mode, phase):
     data_prefix = "../local_data"
-    mean_path = '{}/lmdb/{}/{}/{}/mean.txt'.format(data_prefix,dataset, mode, phase) 
+    mean_path = '{}/lmdb/{}/{}/{}/mean.txt'.format(data_prefix,dataset, mode, phase)
+    src_path = PrepareSrcFromGT(data_prefix, dataset, mode, phase) 
 
     n = caffe.NetSpec()
     # DataOnly(n)
-    DataOnly(n, phase, mean_path)
+    DataOnly(n, phase, src_path, mean_path)
     ConvPoolAct(n, args)
     FcDropAct(n, args, dataset)
     
