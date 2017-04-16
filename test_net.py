@@ -139,6 +139,7 @@ def TestCommitee(exp_num, dataset):
     correct = 0
     with open('{}/gt_{}.txt'.format(rootpath, phase), 'r') as f:
         for image_name,clid in [x.replace('\n', '').split(' ') for x in f]:
+            clid = int(clid)
             total +=1
             prepare(net, rootpath, phase, image_name)
             out = net.forward()
