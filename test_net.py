@@ -163,7 +163,14 @@ def TestCommitee(exp_num, dataset):
 
     
 
+def test2(exp_num, dataset):
+    phase = "test"
+    mode = "orig"
+    trial = 1
+    size = get_dataset_size(dataset=dataset, phase=phase, mode=mode)
+    net = LoadWithoutLMDB(exp_num, dataset, mode, trial, phase)
 
+test2(10, "rtsd-r1")
     # sum = 0
     # for i in range (size):
     #     if i % 100 == 0:
@@ -174,4 +181,4 @@ def TestCommitee(exp_num, dataset):
     # print("average = {}".format(sum / size))
 
   
-TestCommitee(10, "rtsd-r1")                   
+# TestCommitee(10, "rtsd-r1")                   
