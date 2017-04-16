@@ -17,22 +17,48 @@ def safe_mkdir(directory_name):
         makedirs(directory_name)
 
 
+def to_arg_name(s):
+    if s == "BATCH_SZ":
+        return "batch_size"
+    elif s == "drop":
+        return "dropout"
+    else: 
+        return s
+
+
+
+class Params:
+    def __setattr__(self, name, value):
+        self.__dict__[name] = value
+
+    def __getattr__(self, name):
+        return self.__dict__[name]
+
+    def __setitem__(self, key, value):
+        self.__setattr__(key, value)
+
+    def __getitem__(self, item):
+        return self.__getattr__(item)
 
 
 def ParseParams(param_path):
-    args = {}
+    args = Params()
     with open(param_path) as f:
         for line in f:
             if line != "\n":
                 line = line.strip()
                 s = line.split("=")
+                s[0] = to_arg_name(s[0])
+
                 if s[0] in ['GAMMA','LR', 'drop_ratio'] :
                     args[s[0]] = float(s[1])
-                elif s[0] in ['activation', 'drop']:
+                elif s[0] in ['activation', 'dropout']:
                     args[s[0]] = s[1]
                 else:
                     args[s[0]] = int(s[1])
-                    
+
+    for i in args.__dict__:
+        print(i, args[i])
     return args
 
 
