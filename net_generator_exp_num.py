@@ -168,8 +168,7 @@ def DataOnly(n, phase, mean_path, batch_size=1):
         PHASE = "TEST"
 
     n.data = L.Input(
-        transform_param=transform_param,
-        shape= dict( dim=[1, 3, 56, 56] )
+        shape= dict( dim=[1, 3, 48, 48] )
 
         )
 
