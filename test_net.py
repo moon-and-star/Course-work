@@ -178,7 +178,7 @@ def test2(exp_num, dataset):
     with open(src) as f:
     # for i in range (size):
         for line in f:
-            
+            total +=1
             # if i % 100 == 0:
                 # print("image in proccess: {}".format(i))
             out = net.forward()
