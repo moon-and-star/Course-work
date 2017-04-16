@@ -140,7 +140,7 @@ def TestCommitee(exp_num, dataset):
 
             transformer = caffe.io.Transformer({'data': net.blobs['data'].data.shape})
             mean = load_image_mean(mean_path)
-            mean_value = map(int, mean)
+            mean_value = np.array(map(int, mean))
             transformer.set_mean('data', mean_value)
             transformer.set_transpose('data', (2,0,1))
             # transformer.set_channel_swap('data', (2,1,0))
