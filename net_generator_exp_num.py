@@ -263,8 +263,8 @@ def launch():
 
 
 
-
-launch()
+if __name__ == "__main__":
+    launch()
 
 # with open('Prototxt/{}/{}/test.prototxt'.format(dataset,mode), 'w') as f:
                 #     f.write(str(make_net(initWithData('{}/lmdb/{}/{}/test_lmdb'.format(data_prefix,dataset, mode), 128))))
