@@ -123,31 +123,31 @@ def accuracy(name, bottom, labels, top_k):
     )
 
 
-def initWithData(lmdb, phase, batch_size, mean_path):
-    n = caffe.NetSpec()
-    mean = load_image_mean(mean_path)
+# def initWithData(lmdb, phase, batch_size, mean_path):
+#     n = caffe.NetSpec()
+#     mean = load_image_mean(mean_path)
 
-    if mean is not None:
-        transform_param = dict(mirror=False, crop_size = 48, mean_value = map(int, mean), scale=1.0/255)
-    else:
-        transform_param = dict(mirror=False, crop_size = 48, scale=1.0/255)
+#     if mean is not None:
+#         transform_param = dict(mirror=False, crop_size = 48, mean_value = map(int, mean), scale=1.0/255)
+#     else:
+#         transform_param = dict(mirror=False, crop_size = 48, scale=1.0/255)
 
-    if phase == "train":
-        PHASE = "TRAIN"
-    elif phase == "test":
-        PHASE = "TEST"
+#     if phase == "train":
+#         PHASE = "TRAIN"
+#     elif phase == "test":
+#         PHASE = "TEST"
 
-    n.data, n.label = L.Data(
-        batch_size = batch_size,
-        backend = P.Data.LMDB,
-        source = lmdb,
-        transform_param=transform_param,
-        ntop = 2,
-        include = dict(phase = caffe_pb2.Phase.Value(PHASE)),
-        name = "data"
-    )
+#     n.data, n.label = L.Data(
+#         batch_size = batch_size,
+#         backend = P.Data.LMDB,
+#         source = lmdb,
+#         transform_param=transform_param,
+#         ntop = 2,
+#         include = dict(phase = caffe_pb2.Phase.Value(PHASE)),
+#         name = "data"
+#     )
 
-    return n
+#     return n
 
 
 
@@ -176,6 +176,31 @@ def Data(n, lmdb, phase, batch_size, mean_path):
     )
  
 
+
+def DataOnly(n, phase, mean_path, batch_size=1):
+    mean = load_image_mean(mean_path)
+
+    if mean is not None:
+        transform_param = dict(mirror=False, crop_size = 48, mean_value = map(int, mean), scale=1.0/255)
+    else:
+        transform_param = dict(mirror=False, crop_size = 48, scale=1.0/255)
+
+
+    if phase == "train":
+        PHASE = "TRAIN"
+    elif phase == "test":
+        PHASE = "TEST"
+
+    n.data = L.Data(
+        batch_size = batch_size,
+        transform_param=transform_param,
+        ntop = 1,
+        include = dict(phase = caffe_pb2.Phase.Value(PHASE)),
+        name = "data"
+    )
+
+
+
 def NumOfClasses(dataset):
     if dataset == "rtsd-r1":
         return 67
@@ -200,6 +225,16 @@ def FcDropAct(n, args, dataset):
     n.fc5_classes, n.softmax = fc("fc5", n.relu4, num_output = num_of_classes, activ="softmax")
 
 
+def NoLMDB_Net(args, dataset, mode, phase):
+    data_prefix = "../local_data"
+    mean_path = '{}/lmdb/{}/{}/{}/mean.txt'.format(data_prefix,dataset, mode, phase) 
+
+    n = caffe.NetSpec()
+    DataOnly(n, phase, mean_path, args.batch_size)
+    ConvPoolAct(n, args)
+    FcDropAct(n, args, dataset)
+    
+    return n.to_proto()
 
 def make_net(args, dataset, mode, phase):
     data_prefix = "../local_data"
