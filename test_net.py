@@ -111,10 +111,6 @@ def prepare(net, rootpath, phase, image_name):
 
     mean_path = '{}/{}/mean.txt'.format(rootpath, phase)
     mean = load_image_mean(mean_path)
-    # b = map(int, mean)[0]
-    # g = map(int, mean)[1]
-    # r = map(int, mean)[2]
-    # mean_value = np.array(  [r,g,b])
     mean_value = np.array(map(int, mean))
 
     transformer.set_mean('data', mean_value)
@@ -132,38 +128,6 @@ def prepare(net, rootpath, phase, image_name):
 
 
 def TestCommitee(exp_num, dataset):
-    phase = "test"
-    mode = "orig"
-    trial = 1
-    size = get_dataset_size(dataset=dataset, phase=phase, mode=mode)
-    net = LoadWithoutLMDB(exp_num, dataset, mode, trial, phase)
-
-    
-    rootpath = "../local_data/{}/{}".format(dataset, mode)
-    total = 0
-    correct = 0
-    with open('{}/gt_{}.txt'.format(rootpath, phase), 'r') as f:
-        for image_name,clid in [x.replace('\n', '').split(' ') for x in f]:
-            clid = int(clid)
-            total +=1
-            prepare(net, rootpath, phase, image_name)
-            out = net.forward()
-            # print(net.blobs["softmax"].data)
-            prediction = np.argmax(net.blobs["softmax"].data)
-            print(prediction, "   ", clid)
-            if prediction == clid:
-                print("correct")
-                correct +=1
-            else:
-                print(image_name)
-
-        print("Accuracy:  ", float(correct)/total)
-            
-            # exit()
-
-    
-
-def test2(exp_num, dataset):
     phase = "test"
     mode = "orig"
     trial = 1
@@ -193,13 +157,12 @@ def test2(exp_num, dataset):
             else:
                 print line
 
-
-        print("Accuracy:  ", float(correct)/total)
     print("average = {}".format(sum / size))
 
 
+ 
 
-test2(10, "rtsd-r1")
+
     # sum = 0
     # for i in range (size):
     #     if i % 100 == 0:
@@ -210,4 +173,4 @@ test2(10, "rtsd-r1")
     # print("average = {}".format(sum / size))
 
   
-# TestCommitee(10, "rtsd-r1")                   
+TestCommitee(10, "rtsd-r1")                   
