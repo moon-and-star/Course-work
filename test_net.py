@@ -127,7 +127,7 @@ def prepare(net, rootpath, phase, image_name):
 
 
 
-def TestCommitee(exp_num, dataset):
+def Test2(exp_num, dataset):
     phase = "test"
     mode = "orig"
     trial = 1
@@ -136,6 +136,60 @@ def TestCommitee(exp_num, dataset):
 
     rootpath = "../local_data/{}/{}".format(dataset, mode)
     src = "{}/test.txt".format(rootpath)
+
+    sum = 0.0
+    with open(src) as f:
+        for line in f:
+            out = net.forward()
+            
+            prediction = np.argmax(net.blobs["softmax"].data)
+            label = int(net.blobs["label"].data[0])
+            # print(prediction, "  ", label)
+            if prediction == label:
+                sum += 1.0
+            else:
+                print("{}   prediction = {}". format(line, prediction))
+
+    print("average = {}".format(sum / size))
+
+
+
+
+def TestCommitee(exp_num, dataset):
+    size = get_dataset_size(dataset=dataset, phase=phase, mode=mode)
+    phase = "test"
+    mode = "orig"
+    rootpath = "../local_data/{}/{}".format(dataset, mode)
+    src = "{}/test.txt".format(rootpath)
+
+    sum = 0.0
+    with open(src) as f:
+        for line in f: # for every image
+            soft = None
+            label = None
+            for trial in range(5):
+                trial += 1
+                net = LoadWithoutLMDB(exp_num, dataset, mode, trial, phase)
+                label = int(net.blobs["label"].data[0])
+                if soft == None:
+                    soft = net.blobs["softmax"].data
+                else:
+                    soft += net.blobs["softmax"].data
+
+            soft /=5.0
+            prediction = np.argmax(soft)
+            if prediction == label:
+                sum += 1.0
+            else:
+                print("{}   prediction = {}". format(line, prediction))
+
+    print("accuracy = {}".format(sum / size))
+
+
+
+
+
+
 
     sum = 0.0
     with open(src) as f:
