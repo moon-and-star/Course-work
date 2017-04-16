@@ -170,6 +170,8 @@ def test2(exp_num, dataset):
     size = get_dataset_size(dataset=dataset, phase=phase, mode=mode)
     net = LoadWithoutLMDB(exp_num, dataset, mode, trial, phase)
 
+    
+
 test2(10, "rtsd-r1")
     # sum = 0
     # for i in range (size):

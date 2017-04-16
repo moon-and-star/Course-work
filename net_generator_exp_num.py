@@ -168,6 +168,15 @@ def DataOnly(n, phase, mean_path, batch_size=1):
         PHASE = "TEST"
 
     src = "../local_data/rtsd-r1/orig/gt_test.txt"
+    out = "../local_data/rtsd-r1/orig/test.txt"
+    with open(src) as f, open(out, "w") as fout:
+        for line in f:
+            s = line.split(" ")
+            line = line.replase(s[0], "../local_data/rtsd-r1/orig/test/" + s[0])
+            fout.write(line)
+
+
+    src =  out           
     n.data, n.label = L.ImageData(
         image_data_param=dict(
             batch_size = batch_size,
