@@ -111,7 +111,7 @@ def TestCommitee(exp_num, dataset):
 
     rootpath = "../local_data/rtsd-r1/orig"
     with open('{}/gt_{}.txt'.format(rootpath, phase), 'r') as f:
-        for image_name,clid in [x.replace('\r\n', '').split(' ') for x in f:
+        for image_name,clid in [x.replace('\r\n', '').split(' ') for x in f]:
             print(image_name)
 
     
