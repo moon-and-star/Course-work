@@ -2,14 +2,17 @@
 
 #!/usr/bin/env python
 
+import numpy as np
 from gen_solver import get_dataset_size
 from net_generator_exp_num import NoLMDB_Net
-from util import ParseParams
+from util import ParseParams,  load_image_mean, safe_mkdir
 import math
 import fileinput
 import sys
 sys.path.append('/opt/caffe/python/')
 
+
+from skimage.io import imread, imsave
 
 import caffe
 
@@ -101,6 +104,15 @@ def CreateNoLMDB(exp_num, dataset, mode, phase):
 
     return path
 
+def prepare(img_path, mean_path):
+    im = imread(img_path).astype(np.float64)
+    mean = load_image_mean(mean_path)
+    mean_value = map(int, mean)
+    im -= mean_value
+    im /= 255
+    return im[np.newaxis,:, :, :]
+
+
 
 def TestCommitee(exp_num, dataset):
     phase = "test"
@@ -109,10 +121,20 @@ def TestCommitee(exp_num, dataset):
     size = get_dataset_size(dataset=dataset, phase=phase, mode=mode)
     net = LoadWithoutLMDB(exp_num, dataset, mode, trial, phase)
 
-    rootpath = "../local_data/rtsd-r1/orig"
+    
+    rootpath = "../local_data/{}/{}".format(dataset, mode)
+    mean_path = '{}/{}/mean.txt'.format(rootpath, phase)
+    count = 0
     with open('{}/gt_{}.txt'.format(rootpath, phase), 'r') as f:
         for image_name,clid in [x.replace('\r\n', '').split(' ') for x in f]:
-            print(image_name)
+            img_path = "{}/{}/{}".format(rootpath, phase, image_name)
+            img = prepare(img_path, mean_path)
+
+            net.blobs['data'].data[...] = img
+            out = net.forward()
+            print(net.blobs["softmax"])
+            
+            exit()
 
     
 
