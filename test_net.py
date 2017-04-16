@@ -170,14 +170,18 @@ def test2(exp_num, dataset):
     size = get_dataset_size(dataset=dataset, phase=phase, mode=mode)
     net = LoadWithoutLMDB(exp_num, dataset, mode, trial, phase)
 
-    sum = 0
+    sum = 0.0
     for i in range (size):
         if i % 100 == 0:
             print("image in proccess: {}".format(i))
         out = net.forward()
         
-        if np.argmax(net.blobs["softmax"].data) == net.blobs["label"].data:
-            sum += 1
+        prediction = np.argmax(net.blobs["softmax"].data)
+        label = net.blobs["label"].data
+        print(prediction, "  ", label)
+        if prediction == label:
+            sum += 1.0
+
     print("average = {}".format(sum / size))
 
 
