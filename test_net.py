@@ -177,7 +177,7 @@ def test2(exp_num, dataset):
         out = net.forward()
         
         prediction = np.argmax(net.blobs["softmax"].data)
-        label = net.blobs["label"].data
+        label = int(net.blobs["label"].data[0])
         print(prediction, "  ", label)
         if prediction == label:
             sum += 1.0
