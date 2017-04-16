@@ -148,7 +148,7 @@ def TestCommitee(exp_num, dataset):
             if prediction == label:
                 sum += 1.0
             else:
-                print line
+                print("{}   prediction = {}". format(line, prediction))
 
     print("average = {}".format(sum / size))
 
