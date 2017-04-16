@@ -124,7 +124,7 @@ def TestCommitee(exp_num, dataset):
     mode = "orig"
     trial = 1
     size = get_dataset_size(dataset=dataset, phase=phase, mode=mode)
-    # net = LoadWithoutLMDB(exp_num, dataset, mode, trial, phase)
+    net = LoadWithoutLMDB(exp_num, dataset, mode, trial, phase)
 
     
     rootpath = "../local_data/{}/{}".format(dataset, mode)
@@ -133,7 +133,7 @@ def TestCommitee(exp_num, dataset):
     with open('{}/gt_{}.txt'.format(rootpath, phase), 'r') as f:
         for image_name,clid in [x.replace('\r\n', '').split(' ') for x in f]:
             img_path = "{}/{}/{}".format(rootpath, phase, image_name)
-            img = imread(img_path).astype(np.float64)
+            img = caffe.io.load_image(img_path)[3:-3, 3:-3, :]
 
             # imsave("./1/" + image_name, img)
 
@@ -146,7 +146,6 @@ def TestCommitee(exp_num, dataset):
             # transformer.set_channel_swap('data', (2,1,0))
             transformer.set_raw_scale('data', 255.0)
 
-            im = caffe.io.load_image('examples/images/cat.jpg')
             net.blobs['data'].data[...] = transformer.preprocess('data', img)
             net.blobs['data'].data[...] = img
             out = net.forward()
