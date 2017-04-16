@@ -135,16 +135,11 @@ def TestCommitee(exp_num, dataset):
     net = LoadWithoutLMDB(exp_num, dataset, mode, trial, phase)
 
     rootpath = "../local_data/{}/{}".format(dataset, mode)
+    src = "{}/test.txt".format(rootpath)
+
     sum = 0.0
-    total = 0
-    correct = 0
-    src = "../local_data/rtsd-r1/orig/test.txt"
     with open(src) as f:
-    # for i in range (size):
         for line in f:
-            total +=1
-            # if i % 100 == 0:
-                # print("image in proccess: {}".format(i))
             out = net.forward()
             
             prediction = np.argmax(net.blobs["softmax"].data)
@@ -152,25 +147,12 @@ def TestCommitee(exp_num, dataset):
             # print(prediction, "  ", label)
             if prediction == label:
                 sum += 1.0
-                print("correct")
-                correct +=1
             else:
                 print line
 
     print("average = {}".format(sum / size))
 
 
- 
-
-
-    # sum = 0
-    # for i in range (size):
-    #     if i % 100 == 0:
-    #         print("image in proccess: {}".format(i))
-    #     out = net.forward()
-    #     acc =net.blobs["accuracy_1"].data
-    #     sum += acc
-    # print("average = {}".format(sum / size))
 
   
 TestCommitee(10, "rtsd-r1")                   
