@@ -62,18 +62,6 @@ def test():
     net = load_net(exp_num, dataset, mode, trial, phase)
  
 
-    # sum = 0
-    # n = math.ceil(size*1.0 / batch_size)
-    # for i in range (int(n)):
-    #     print("batch in proccess: {}".format(i))
-    #     out = net.forward()
-    #     acc =net.blobs["accuracy_1"].data
-    #     print(acc)
-    #     if i < n-1:
-    #         sum += acc * batch_size
-    #     else:
-    #         sum += acc * (size - batch_size * (n-1))
-
     sum = 0
     for i in range (size):
         if i % 100 == 0:
@@ -84,5 +72,53 @@ def test():
     print("average = {}".format(sum / size))
 
 
-                     
-test()
+def DelLMDB(path):
+    out = path.replace(".prototxt", "_no-LMDB.prototxt")
+    with  open(path, "r") as fin, open(out, "w") as fout:
+        for line in fin:
+            if "source:" in line or "backend:" in line:
+                pass
+            else:
+                fout.write(line)
+    return out
+
+
+
+def LoadWithoutLMDB(exp_num, dataset, mode, trial, phase, batch_size=1):
+    path = './Prototxt/experiment_{}/{}/{}/trial_{}/{}.prototxt'.format(exp_num, dataset, mode, trial, phase)
+    model = DelLMDB(path)
+    set_batch_size(batch_size, model)
+
+    weights = './snapshots/experiment_{}/{}/{}/trial_{}/snap_iter_2500.caffemodel'.format(exp_num, dataset, mode, trial)
+    net = caffe.Net(model,1, weights=weights)
+
+    return net
+
+def TestCommitee(exp_num, dataset):
+    phase = "test"
+    mode = "orig"
+    trial = 1
+    size = get_dataset_size(dataset=dataset, phase=phase, mode=mode)
+
+    net = LoadWithoutLMDB(exp_num, dataset, mode, trial, phase)
+
+    exit()
+    markup = open('{}/gt_{}.csv'.format(rootpath, phase), 'r').readlines()
+ 
+
+    sum = 0
+    for i in range (size):
+        if i % 100 == 0:
+            print("image in proccess: {}".format(i))
+        out = net.forward()
+        acc =net.blobs["accuracy_1"].data
+        sum += acc
+    print("average = {}".format(sum / size))
+
+  
+TestCommitee(10, "rtsd-r1")                   
+# test()
+path = './Prototxt/experiment_///trial_/.prototxt'
+print(path)
+out = path.replace(".prototxt", "_no-LMDB.prototxt")
+print (out)
