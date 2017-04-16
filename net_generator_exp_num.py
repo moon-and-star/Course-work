@@ -185,13 +185,6 @@ def Data(n, lmdb, phase, batch_size, mean_path):
 
 
 def DataOnly(n):
-
-
-    if phase == "train":
-        PHASE = "TRAIN"
-    elif phase == "test":
-        PHASE = "TEST"
-
     n.data = L.Input(
         shape= dict( dim=[1, 3, 48, 48] )
     )
