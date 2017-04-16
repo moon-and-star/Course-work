@@ -156,9 +156,10 @@ def Test2(exp_num, dataset):
 
 
 def TestCommitee(exp_num, dataset):
-    size = get_dataset_size(dataset=dataset, phase=phase, mode=mode)
     phase = "test"
     mode = "orig"
+    size = get_dataset_size(dataset=dataset, phase=phase, mode=mode)
+    
     rootpath = "../local_data/{}/{}".format(dataset, mode)
     src = "{}/test.txt".format(rootpath)
 
