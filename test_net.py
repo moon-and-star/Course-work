@@ -135,12 +135,20 @@ def TestCommitee(exp_num, dataset):
 
     
     rootpath = "../local_data/{}/{}".format(dataset, mode)
+    total = 0
+    correct = 0
     with open('{}/gt_{}.txt'.format(rootpath, phase), 'r') as f:
         for image_name,clid in [x.replace('\r\n', '').split(' ') for x in f]:
+            total +=1
             prepare(net, rootpath, phase, image_name)
             out = net.forward()
             # print(net.blobs["softmax"].data)
-            print(np.argmax(net.blobs["softmax"].data), "   " , clid)
+            if np.argmax(net.blobs["softmax"].data) == clid:
+                correct +=1
+            else:
+                print(image_name)
+
+        print("Accuracy:  ", float(correct)/total)
             
             # exit()
 
