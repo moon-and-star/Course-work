@@ -174,70 +174,27 @@ def TestCommitee(exp_num, dataset):
             softmax[trial, i] = net.blobs["softmax"].data
                 
 
-    softmax = softmax.sum(axis=0)
+    softmax = softmax.sum(axis=0) / 5.0
     print(softmax.shape)
+    
+
     
     names = None
     with open(src) as f:
         lines = f.readlines()
 
+    sum = 0.0
     for i in range(size):
         label = lines[i].split(" ")[1]
         prediction = np.argmax(softmax[i])
         if label == prediction:
             print("correct")
+            sum += 1.0
         else:
             print(lines[i], prediction)
-    
 
+    print("Accuracy: ", sum / size)
 
-
-    # sum = 0.0
-
-
-
-    # with open(src) as f:
-    #     for line in f: # for every image
-    #         soft = None
-    #         label = None
-    #         for trial in range(5):
-    #             trial += 1
-    #             net = LoadWithoutLMDB(exp_num, dataset, mode, trial, phase)
-    #             label = int(net.blobs["label"].data[0])
-    #             if soft == None:
-    #                 soft = net.blobs["softmax"].data
-    #             else:
-    #                 soft += net.blobs["softmax"].data
-
-    #         soft /=5.0
-    #         prediction = np.argmax(soft)
-    #         if prediction == label:
-    #             sum += 1.0
-    #         else:
-    #             print("{}   prediction = {}". format(line, prediction))
-
-    # print("accuracy = {}".format(sum / size))
-
-
-
-
-
-
-
-    sum = 0.0
-    with open(src) as f:
-        for line in f:
-            out = net.forward()
-            
-            prediction = np.argmax(net.blobs["softmax"].data)
-            label = int(net.blobs["label"].data[0])
-            # print(prediction, "  ", label)
-            if prediction == label:
-                sum += 1.0
-            else:
-                print("{}   prediction = {}". format(line, prediction))
-
-    print("average = {}".format(sum / size))
 
 
 
