@@ -171,16 +171,25 @@ def test2(exp_num, dataset):
     net = LoadWithoutLMDB(exp_num, dataset, mode, trial, phase)
 
     sum = 0.0
-    for i in range (size):
-        if i % 100 == 0:
-            print("image in proccess: {}".format(i))
-        out = net.forward()
-        
-        prediction = np.argmax(net.blobs["softmax"].data)
-        label = int(net.blobs["label"].data[0])
-        print(prediction, "  ", label)
-        if prediction == label:
-            sum += 1.0
+    i = 0
+    src = "../local_data/rtsd-r1/orig/test.txt"
+    with open(src) as f:
+    # for i in range (size):
+        for line in f:
+            
+            # if i % 100 == 0:
+                # print("image in proccess: {}".format(i))
+            out = net.forward()
+            
+            prediction = np.argmax(net.blobs["softmax"].data)
+            label = int(net.blobs["label"].data[0])
+            print(prediction, "  ", label)
+            if prediction == label:
+                sum += 1.0
+            else:
+                print line
+
+
 
     print("average = {}".format(sum / size))
 
