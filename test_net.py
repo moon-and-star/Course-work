@@ -4,7 +4,7 @@
 
 import numpy as np
 from gen_solver import get_dataset_size
-from net_generator_exp_num import NoLMDB_Net
+from net_generator_exp_num import NoLMDB_Net, NumOfClasses
 from util import ParseParams,  load_image_mean, safe_mkdir
 import math
 import fileinput
@@ -159,32 +159,62 @@ def TestCommitee(exp_num, dataset):
     phase = "test"
     mode = "orig"
     size = get_dataset_size(dataset=dataset, phase=phase, mode=mode)
-    
+    classes = NumOfClasses(dataset)
+
     rootpath = "../local_data/{}/{}".format(dataset, mode)
     src = "{}/test.txt".format(rootpath)
 
-    sum = 0.0
+    softmax = np.zeros(5, size, classes)
+    for trial in range(5):
+        net = LoadWithoutLMDB(exp_num, dataset, mode, trial + 1, phase)
+        for i in range(size):
+            out = net.forward()
+            softmax[trial, i] = net.blobs["softmax"].data
+                
+
+    softmax = softmax.sum(axis=0)
+    print(softmax.shape)
+    
+    names = None
     with open(src) as f:
-        for line in f: # for every image
-            soft = None
-            label = None
-            for trial in range(5):
-                trial += 1
-                net = LoadWithoutLMDB(exp_num, dataset, mode, trial, phase)
-                label = int(net.blobs["label"].data[0])
-                if soft == None:
-                    soft = net.blobs["softmax"].data
-                else:
-                    soft += net.blobs["softmax"].data
+        lines = f.readlines()
 
-            soft /=5.0
-            prediction = np.argmax(soft)
-            if prediction == label:
-                sum += 1.0
-            else:
-                print("{}   prediction = {}". format(line, prediction))
+    for i in range(size):
+        label = lines[i].split("")[1]
+        prediction = np.argmax(softmax[i])
+        if label == prediction:
+            print("correct")
+        else:
+            print(lines[i], prediction)
+    
 
-    print("accuracy = {}".format(sum / size))
+
+
+    # sum = 0.0
+
+
+
+    # with open(src) as f:
+    #     for line in f: # for every image
+    #         soft = None
+    #         label = None
+    #         for trial in range(5):
+    #             trial += 1
+    #             net = LoadWithoutLMDB(exp_num, dataset, mode, trial, phase)
+    #             label = int(net.blobs["label"].data[0])
+    #             if soft == None:
+    #                 soft = net.blobs["softmax"].data
+    #             else:
+    #                 soft += net.blobs["softmax"].data
+
+    #         soft /=5.0
+    #         prediction = np.argmax(soft)
+    #         if prediction == label:
+    #             sum += 1.0
+    #         else:
+    #             print("{}   prediction = {}". format(line, prediction))
+
+    # print("accuracy = {}".format(sum / size))
 
 
 
