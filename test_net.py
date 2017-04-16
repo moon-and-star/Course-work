@@ -192,7 +192,7 @@ def TestCommitee(exp_num, dataset):
             sum += 1.0
         else:
             line = lines[i].replace("\n", "").split("/")
-            print("name = {}\nLabal = {}   prediction = {}".format(line[:-1], line[-1], prediction)
+            print("name = {}\nLabal = {}   prediction = {}".format(line[:-1], line[-1], prediction))
 
     print("Accuracy: ", sum / size)
 
