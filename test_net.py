@@ -170,8 +170,10 @@ def test2(exp_num, dataset):
     size = get_dataset_size(dataset=dataset, phase=phase, mode=mode)
     net = LoadWithoutLMDB(exp_num, dataset, mode, trial, phase)
 
+    rootpath = "../local_data/{}/{}".format(dataset, mode)
     sum = 0.0
-    i = 0
+    total = 0
+    correct = 0
     src = "../local_data/rtsd-r1/orig/test.txt"
     with open(src) as f:
     # for i in range (size):
@@ -183,14 +185,16 @@ def test2(exp_num, dataset):
             
             prediction = np.argmax(net.blobs["softmax"].data)
             label = int(net.blobs["label"].data[0])
-            print(prediction, "  ", label)
+            # print(prediction, "  ", label)
             if prediction == label:
                 sum += 1.0
+                print("correct")
+                correct +=1
             else:
                 print line
 
 
-
+        print("Accuracy:  ", float(correct)/total)
     print("average = {}".format(sum / size))
 
 
