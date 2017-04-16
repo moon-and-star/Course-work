@@ -13,8 +13,8 @@ sys.path.append('/opt/caffe/python/')
 
 import caffe
 
-caffe.set_mode_gpu()
-caffe.set_device(3)
+# caffe.set_mode_gpu()
+# caffe.set_device(3)
 
 # def test():
 #   size = get_dataset_size(dataset="rtsd-r1", phase="test", mode="orig")
@@ -113,14 +113,14 @@ def TestCommitee(exp_num, dataset):
     #markup = open('{}/gt_{}.csv'.format(rootpath, phase), 'r').readlines()
  
 
-    sum = 0
-    for i in range (size):
-        if i % 100 == 0:
-            print("image in proccess: {}".format(i))
-        out = net.forward()
-        acc =net.blobs["accuracy_1"].data
-        sum += acc
-    print("average = {}".format(sum / size))
+    # sum = 0
+    # for i in range (size):
+    #     if i % 100 == 0:
+    #         print("image in proccess: {}".format(i))
+    #     out = net.forward()
+    #     acc =net.blobs["accuracy_1"].data
+    #     sum += acc
+    # print("average = {}".format(sum / size))
 
   
 TestCommitee(10, "rtsd-r1")                   
