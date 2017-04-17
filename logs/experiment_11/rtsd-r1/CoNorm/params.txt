@@ -5,7 +5,7 @@
 	EPOCH=60     
 	TEST_FR=1     
 	SNAP_FR=10     
-	STEP_FR=40     
+	STEP_FR=15     
 	GAMMA=0.5     
 	LR=1e-4   
 	activation=scaled_tanh  
