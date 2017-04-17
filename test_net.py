@@ -80,10 +80,12 @@ def test():
 
 
 def LoadWithoutLMDB(exp_num, dataset, mode, trial, phase, batch_size=1):
-    model = CreateNoLMDB(exp_num, dataset, mode, phase)
-    # set_batch_size(batch_size, model)
+    model, args = CreateNoLMDB(exp_num, dataset, mode, phase)
+    size = get_dataset_size(dataset=dataset, phase="train", mode=mode)
+    iter_num = int(args.epoch * math.ceil( float(size) / args.batch_size))
 
-    weights = './snapshots/experiment_{}/{}/{}/trial_{}/snap_iter_2500.caffemodel'.format(exp_num, dataset, mode, trial)
+
+    weights = './snapshots/experiment_{}/{}/{}/trial_{}/snap_iter_{}.caffemodel'.format(exp_num, dataset, mode, trial, iter_num)
     net = caffe.Net(model,1, weights=weights)
 
     return net
@@ -102,7 +104,7 @@ def CreateNoLMDB(exp_num, dataset, mode, phase):
     with open(path, "w") as out:
         out.write(content)
 
-    return path
+    return path, args
 
 
 
