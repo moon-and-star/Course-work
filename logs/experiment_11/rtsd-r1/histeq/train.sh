@@ -12,16 +12,17 @@ echo " tools = ${TOOLS}"
 
 
 
-EXPERIMENT_NUM=10    
-GPU_NUM=2   
+
+EXPERIMENT_NUM=11    
+GPU_NUM=1   
 BATCH_SZ=1024    
-EPOCH=100     
+EPOCH=60     
 TEST_FR=1     
 SNAP_FR=10     
-STEP_FR=20     
+STEP_FR=15     
 GAMMA=0.5     
-LR=1e-3   
-activation=relu
+LR=1e-4   
+activation=scaled_tanh
 drop=false
 drop_ratio=0.5
 CONV_GROUP=1
@@ -54,7 +55,7 @@ datasets=("rtsd-r1")
 # modes=("histeq" "imajust")
 
 
-datasets=("rtsd-r1" "rtsd-r3")
+# datasets=("rtsd-r1" "rtsd-r3")
 modes=("CoNorm" "orig" "AHE" "histeq" "imajust")
 
 
