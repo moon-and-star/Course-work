@@ -22,6 +22,8 @@ def to_arg_name(s):
         return "batch_size"
     elif s == "drop":
         return "dropout"
+    elif s == "EPOCH":
+        return "epoch"
     else: 
         return s
 
