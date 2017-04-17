@@ -200,4 +200,4 @@ def TestCommitee(exp_num, dataset):
 
 
   
-TestCommitee(10, "rtsd-r1")                   
+TestCommitee(11, "rtsd-r1")                   
