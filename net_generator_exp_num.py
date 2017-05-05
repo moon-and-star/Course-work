@@ -188,11 +188,16 @@ def DataOnly(n, phase, src, mean_path, batch_size=1):
 #     )
 
 
+
 def NumOfClasses(dataset):
-    if dataset == "rtsd-r1":
-        return 67
-    elif dataset == "rtsd-r3":
-        return 106
+    # if dataset == "rtsd-r1":
+    #     return 67
+    # elif dataset == "rtsd-r3":
+    #     return 106
+    # elif dataset == "RTSD":
+    #     return 116
+
+    return set_size[dataset]
 
 
 def ConvPoolAct(n, args):
@@ -230,6 +235,7 @@ def PrepareSrcFromGT(data_prefix, dataset, mode, phase):
 def NoLMDB_Net(args, dataset, mode, phase):
     data_prefix = "../local_data"
     mean_path = '{}/lmdb/{}/{}/{}/mean.txt'.format(data_prefix,dataset, mode, phase)
+    # mean_path = '{}/{}/{}/{}/mean.txt'.format(data_prefix,dataset, mode, phase)
     src_path = PrepareSrcFromGT(data_prefix, dataset, mode, phase) 
 
     n = caffe.NetSpec()
@@ -245,6 +251,7 @@ def NoLMDB_Net(args, dataset, mode, phase):
 def make_net(args, dataset, mode, phase):
     data_prefix = "../local_data"
     mean_path = '{}/lmdb/{}/{}/{}/mean.txt'.format(data_prefix,dataset, mode, phase)
+    mean_path = '{}/{}/{}/{}/mean.txt'.format(data_prefix,dataset, mode, phase)
     lmdb = '{}/lmdb/{}/{}/{}/lmdb'.format(data_prefix, dataset, mode, phase)  
 
     n = caffe.NetSpec()
@@ -269,7 +276,8 @@ def launch():
     args = parser.parse_args()
 
     modes = ["orig", "histeq", "AHE", "imajust", "CoNorm" ]
-    for dataset in ["rtsd-r1","rtsd-r3"]:
+    # for dataset in ["rtsd-r1","rtsd-r3"]:
+    for dataset in ['RTSD']:
         for mode in modes:
             for phase in ['train', 'test']:
                 print("Generating architectures")
@@ -292,6 +300,7 @@ def launch():
 
 
 if __name__ == "__main__":
+    set_size = {"rtsd-r1": 67, "rtsd-r3": 106, 'RTSD': 116}
     launch()
 
 # with open('Prototxt/{}/{}/test.prototxt'.format(dataset,mode), 'w') as f:

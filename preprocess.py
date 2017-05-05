@@ -173,7 +173,7 @@ rate = 100
 def process(rootpath, outpath, phase, mode, sample_factor=1, random=False):
     safe_mkdir(outpath) #create outpath
     labels = open("{}/gt_{}.txt".format(outpath, phase), 'w') #create file to write labels in
-    markup = open('{}/gt_{}.csv'.format(rootpath, phase), 'r').readlines() # open file to read labels (and, may be coords)
+    markup = open('{}/gt_{}.txt'.format(rootpath, phase), 'r').readlines() # open file to read labels (and, may be coords)
 
     mean = np.zeros((3, 54, 54), dtype=np.float32)
     image_id = 0
@@ -244,16 +244,14 @@ def launch():
     samples = 1
     random = False
     modes = ["orig", "histeq", "AHE", "imajust", "CoNorm" ]
-    for dataset in ["rtsd-r1","rtsd-r3"]:
-        for phase in ["train", "test"]:
-            rootpath = "../global_data/Traffic_signs/RTSD/classification/" + dataset
+    for phase in ["train", "test"]:
+        rootpath = "../global_data/Traffic_signs/RTSD/classification/"
+        for mode in modes:
+            print("\nCurrent_path = {}\n".format(rootpath))
+            print("Mode = {}\n".format(mode))
 
-            for mode in modes:
-                print("\nCurrent_path = {}\n".format(rootpath))
-                print("Mode = {}\n".format(mode))
-
-                outpath = "../local_data/"+ dataset + "/" + mode
-                process(rootpath, outpath, phase, mode, sample_factor=samples, random=random)
+            outpath = "../local_data/RTSD/" + mode
+            process(rootpath, outpath, phase, mode, sample_factor=samples, random=random)
 
 
 

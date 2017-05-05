@@ -2,6 +2,7 @@ import sys
 import argparse
 import os.path as osp
 from os import makedirs
+import json
 
 
 def load_image_mean(mean_path):
@@ -15,6 +16,7 @@ def load_image_mean(mean_path):
 def safe_mkdir(directory_name):
     if not osp.exists(directory_name):
         makedirs(directory_name)
+
 
 
 def to_arg_name(s):
@@ -119,4 +121,33 @@ def gen_parser():
 
 
     return parser
+
+
+
+
+
+def load_marking(filename):
+    a = None
+    with open(filename) as f:
+        a = json.load(f)
+
+
+    b= {}
+    i = 0
+    k = 0
+    for key in sorted(a):
+        lst = []
+        for d in a[key]:
+            if d["ignore"] == False:
+                lst += [d]
+                k += 1
+        if lst != []:
+            i += 1
+            b[key] = lst
+
+
+    print("marking is loaded. Number of entries = ", i)
+    print("Number of signs = ", k)
+
+    return a
 

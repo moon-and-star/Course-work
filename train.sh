@@ -13,8 +13,8 @@ echo " tools = ${TOOLS}"
 
 
 
-EXPERIMENT_NUM=11    
-GPU_NUM=3   
+EXPERIMENT_NUM=13   
+GPU_NUM=0
 BATCH_SZ=1024    
 EPOCH=50     
 TEST_FR=1     
@@ -51,12 +51,12 @@ printf "$msg\n"
 
 
 
-datasets=("rtsd-r1")
+datasets=("RTSD")
 # modes=("histeq" "imajust")
 
 
 # datasets=("rtsd-r1" "rtsd-r3")
-modes=("CoNorm" "orig" "AHE" "histeq" "imajust")
+modes=( "orig" "CoNorm" "AHE" "histeq" "imajust")
 
 
 

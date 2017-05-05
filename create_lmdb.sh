@@ -3,9 +3,11 @@
 TOOLS=/opt/caffe/build/tools
 
 prefix="../local_data"
-datasets=("rtsd-r1" "rtsd-r3")
+# datasets=("rtsd-r1" "rtsd-r3")
+datasets=("RTSD")
 phases=("train" "test")
 modes=("CoNorm" "orig" "AHE" "histeq" "imajust")
+# modes=("imajust")
 
 
 
