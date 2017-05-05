@@ -1,19 +1,19 @@
-I0506 01:16:09.135443  1373 caffe.cpp:217] Using GPUs 0
-I0506 01:16:09.469292  1373 caffe.cpp:222] GPU 0: GeForce GTX 1070
-I0506 01:16:10.867750  1373 solver.cpp:60] Initializing solver from parameters: 
+I0506 01:16:34.134883  3876 caffe.cpp:217] Using GPUs 0
+I0506 01:16:34.404230  3876 caffe.cpp:222] GPU 0: GeForce GTX 1070
+I0506 01:16:35.696740  3876 solver.cpp:60] Initializing solver from parameters: 
 train_net: "./Prototxt/experiment_13/RTSD/orig/trial_1/train.prototxt"
 test_net: "./Prototxt/experiment_13/RTSD/orig/trial_1/test.prototxt"
-test_iter: 22
-test_interval: 108
+test_iter: 25
+test_interval: 124
 base_lr: 1e-05
 display: 1
-max_iter: 10800
+max_iter: 12400
 lr_policy: "step"
 gamma: 0.8
 momentum: 0.9
 weight_decay: 0.0005
-stepsize: 540
-snapshot: 1080
+stepsize: 620
+snapshot: 1240
 snapshot_prefix: "./snapshots/experiment_13/RTSD/orig/trial_1/snap"
 solver_mode: GPU
 device_id: 0
@@ -23,8 +23,8 @@ train_state {
 }
 iter_size: 1
 type: "Adam"
-I0506 01:16:10.867909  1373 solver.cpp:93] Creating training net from train_net file: ./Prototxt/experiment_13/RTSD/orig/trial_1/train.prototxt
-I0506 01:16:10.868386  1373 net.cpp:58] Initializing net from parameters: 
+I0506 01:16:35.696880  3876 solver.cpp:93] Creating training net from train_net file: ./Prototxt/experiment_13/RTSD/orig/trial_1/train.prototxt
+I0506 01:16:35.697337  3876 net.cpp:58] Initializing net from parameters: 
 state {
   phase: TRAIN
   level: 0
@@ -48,7 +48,7 @@ layer {
   }
   data_param {
     source: "../local_data/lmdb/RTSD/orig/train/lmdb"
-    batch_size: 800
+    batch_size: 700
     backend: LMDB
   }
 }
@@ -348,248 +348,248 @@ layer {
   bottom: "accuracy_1"
   bottom: "accuracy_5"
 }
-I0506 01:16:10.868544  1373 layer_factory.hpp:77] Creating layer data
-I0506 01:16:10.869490  1373 net.cpp:100] Creating Layer data
-I0506 01:16:10.869511  1373 net.cpp:408] data -> data
-I0506 01:16:10.869535  1373 net.cpp:408] data -> label
-I0506 01:16:10.877377  1538 db_lmdb.cpp:35] Opened lmdb ../local_data/lmdb/RTSD/orig/train/lmdb
-I0506 01:16:10.898417  1373 data_layer.cpp:41] output data size: 800,3,48,48
-I0506 01:16:10.944825  1373 net.cpp:150] Setting up data
-I0506 01:16:10.944854  1373 net.cpp:157] Top shape: 800 3 48 48 (5529600)
-I0506 01:16:10.944859  1373 net.cpp:157] Top shape: 800 (800)
-I0506 01:16:10.944862  1373 net.cpp:165] Memory required for data: 22121600
-I0506 01:16:10.944874  1373 layer_factory.hpp:77] Creating layer label_data_1_split
-I0506 01:16:10.944892  1373 net.cpp:100] Creating Layer label_data_1_split
-I0506 01:16:10.944901  1373 net.cpp:434] label_data_1_split <- label
-I0506 01:16:10.944916  1373 net.cpp:408] label_data_1_split -> label_data_1_split_0
-I0506 01:16:10.944928  1373 net.cpp:408] label_data_1_split -> label_data_1_split_1
-I0506 01:16:10.944937  1373 net.cpp:408] label_data_1_split -> label_data_1_split_2
-I0506 01:16:10.945004  1373 net.cpp:150] Setting up label_data_1_split
-I0506 01:16:10.945014  1373 net.cpp:157] Top shape: 800 (800)
-I0506 01:16:10.945019  1373 net.cpp:157] Top shape: 800 (800)
-I0506 01:16:10.945021  1373 net.cpp:157] Top shape: 800 (800)
-I0506 01:16:10.945024  1373 net.cpp:165] Memory required for data: 22131200
-I0506 01:16:10.945029  1373 layer_factory.hpp:77] Creating layer conv1
-I0506 01:16:10.945044  1373 net.cpp:100] Creating Layer conv1
-I0506 01:16:10.945050  1373 net.cpp:434] conv1 <- data
-I0506 01:16:10.945056  1373 net.cpp:408] conv1 -> conv1
-I0506 01:16:11.363833  1373 net.cpp:150] Setting up conv1
-I0506 01:16:11.363862  1373 net.cpp:157] Top shape: 800 100 42 42 (141120000)
-I0506 01:16:11.363865  1373 net.cpp:165] Memory required for data: 586611200
-I0506 01:16:11.363900  1373 layer_factory.hpp:77] Creating layer conv1_prescale
-I0506 01:16:11.363915  1373 net.cpp:100] Creating Layer conv1_prescale
-I0506 01:16:11.363922  1373 net.cpp:434] conv1_prescale <- conv1
-I0506 01:16:11.363929  1373 net.cpp:395] conv1_prescale -> conv1 (in-place)
-I0506 01:16:11.364037  1373 net.cpp:150] Setting up conv1_prescale
-I0506 01:16:11.364047  1373 net.cpp:157] Top shape: 800 100 42 42 (141120000)
-I0506 01:16:11.364049  1373 net.cpp:165] Memory required for data: 1151091200
-I0506 01:16:11.364056  1373 layer_factory.hpp:77] Creating layer conv1_sTanH
-I0506 01:16:11.364064  1373 net.cpp:100] Creating Layer conv1_sTanH
-I0506 01:16:11.364070  1373 net.cpp:434] conv1_sTanH <- conv1
-I0506 01:16:11.364074  1373 net.cpp:395] conv1_sTanH -> conv1 (in-place)
-I0506 01:16:11.364271  1373 net.cpp:150] Setting up conv1_sTanH
-I0506 01:16:11.364284  1373 net.cpp:157] Top shape: 800 100 42 42 (141120000)
-I0506 01:16:11.364310  1373 net.cpp:165] Memory required for data: 1715571200
-I0506 01:16:11.364315  1373 layer_factory.hpp:77] Creating layer conv1_postscale
-I0506 01:16:11.364323  1373 net.cpp:100] Creating Layer conv1_postscale
-I0506 01:16:11.364327  1373 net.cpp:434] conv1_postscale <- conv1
-I0506 01:16:11.364332  1373 net.cpp:395] conv1_postscale -> conv1 (in-place)
-I0506 01:16:11.364428  1373 net.cpp:150] Setting up conv1_postscale
-I0506 01:16:11.364437  1373 net.cpp:157] Top shape: 800 100 42 42 (141120000)
-I0506 01:16:11.364440  1373 net.cpp:165] Memory required for data: 2280051200
-I0506 01:16:11.364445  1373 layer_factory.hpp:77] Creating layer pool1
-I0506 01:16:11.364452  1373 net.cpp:100] Creating Layer pool1
-I0506 01:16:11.364455  1373 net.cpp:434] pool1 <- conv1
-I0506 01:16:11.364460  1373 net.cpp:408] pool1 -> pool1
-I0506 01:16:11.364508  1373 net.cpp:150] Setting up pool1
-I0506 01:16:11.364517  1373 net.cpp:157] Top shape: 800 100 21 21 (35280000)
-I0506 01:16:11.364521  1373 net.cpp:165] Memory required for data: 2421171200
-I0506 01:16:11.364523  1373 layer_factory.hpp:77] Creating layer conv2
-I0506 01:16:11.364533  1373 net.cpp:100] Creating Layer conv2
-I0506 01:16:11.364538  1373 net.cpp:434] conv2 <- pool1
-I0506 01:16:11.364543  1373 net.cpp:408] conv2 -> conv2
-I0506 01:16:11.386989  1373 net.cpp:150] Setting up conv2
-I0506 01:16:11.387014  1373 net.cpp:157] Top shape: 800 150 18 18 (38880000)
-I0506 01:16:11.387019  1373 net.cpp:165] Memory required for data: 2576691200
-I0506 01:16:11.387034  1373 layer_factory.hpp:77] Creating layer conv2_prescale
-I0506 01:16:11.387049  1373 net.cpp:100] Creating Layer conv2_prescale
-I0506 01:16:11.387056  1373 net.cpp:434] conv2_prescale <- conv2
-I0506 01:16:11.387064  1373 net.cpp:395] conv2_prescale -> conv2 (in-place)
-I0506 01:16:11.387207  1373 net.cpp:150] Setting up conv2_prescale
-I0506 01:16:11.387217  1373 net.cpp:157] Top shape: 800 150 18 18 (38880000)
-I0506 01:16:11.387220  1373 net.cpp:165] Memory required for data: 2732211200
-I0506 01:16:11.387228  1373 layer_factory.hpp:77] Creating layer conv2_sTanH
-I0506 01:16:11.387236  1373 net.cpp:100] Creating Layer conv2_sTanH
-I0506 01:16:11.387243  1373 net.cpp:434] conv2_sTanH <- conv2
-I0506 01:16:11.387248  1373 net.cpp:395] conv2_sTanH -> conv2 (in-place)
-I0506 01:16:11.390528  1373 net.cpp:150] Setting up conv2_sTanH
-I0506 01:16:11.390552  1373 net.cpp:157] Top shape: 800 150 18 18 (38880000)
-I0506 01:16:11.390558  1373 net.cpp:165] Memory required for data: 2887731200
-I0506 01:16:11.390563  1373 layer_factory.hpp:77] Creating layer conv2_postscale
-I0506 01:16:11.390573  1373 net.cpp:100] Creating Layer conv2_postscale
-I0506 01:16:11.390578  1373 net.cpp:434] conv2_postscale <- conv2
-I0506 01:16:11.390585  1373 net.cpp:395] conv2_postscale -> conv2 (in-place)
-I0506 01:16:11.390710  1373 net.cpp:150] Setting up conv2_postscale
-I0506 01:16:11.390722  1373 net.cpp:157] Top shape: 800 150 18 18 (38880000)
-I0506 01:16:11.390725  1373 net.cpp:165] Memory required for data: 3043251200
-I0506 01:16:11.390732  1373 layer_factory.hpp:77] Creating layer pool2
-I0506 01:16:11.390741  1373 net.cpp:100] Creating Layer pool2
-I0506 01:16:11.390748  1373 net.cpp:434] pool2 <- conv2
-I0506 01:16:11.390753  1373 net.cpp:408] pool2 -> pool2
-I0506 01:16:11.390805  1373 net.cpp:150] Setting up pool2
-I0506 01:16:11.390815  1373 net.cpp:157] Top shape: 800 150 9 9 (9720000)
-I0506 01:16:11.390820  1373 net.cpp:165] Memory required for data: 3082131200
-I0506 01:16:11.390825  1373 layer_factory.hpp:77] Creating layer conv3
-I0506 01:16:11.390835  1373 net.cpp:100] Creating Layer conv3
-I0506 01:16:11.390841  1373 net.cpp:434] conv3 <- pool2
-I0506 01:16:11.390847  1373 net.cpp:408] conv3 -> conv3
-I0506 01:16:11.398486  1373 net.cpp:150] Setting up conv3
-I0506 01:16:11.398509  1373 net.cpp:157] Top shape: 800 250 6 6 (7200000)
-I0506 01:16:11.398514  1373 net.cpp:165] Memory required for data: 3110931200
-I0506 01:16:11.398526  1373 layer_factory.hpp:77] Creating layer conv3_prescale
-I0506 01:16:11.398538  1373 net.cpp:100] Creating Layer conv3_prescale
-I0506 01:16:11.398564  1373 net.cpp:434] conv3_prescale <- conv3
-I0506 01:16:11.398576  1373 net.cpp:395] conv3_prescale -> conv3 (in-place)
-I0506 01:16:11.398703  1373 net.cpp:150] Setting up conv3_prescale
-I0506 01:16:11.398715  1373 net.cpp:157] Top shape: 800 250 6 6 (7200000)
-I0506 01:16:11.398720  1373 net.cpp:165] Memory required for data: 3139731200
-I0506 01:16:11.398726  1373 layer_factory.hpp:77] Creating layer conv3_sTanH
-I0506 01:16:11.398736  1373 net.cpp:100] Creating Layer conv3_sTanH
-I0506 01:16:11.398741  1373 net.cpp:434] conv3_sTanH <- conv3
-I0506 01:16:11.398746  1373 net.cpp:395] conv3_sTanH -> conv3 (in-place)
-I0506 01:16:11.400588  1373 net.cpp:150] Setting up conv3_sTanH
-I0506 01:16:11.400610  1373 net.cpp:157] Top shape: 800 250 6 6 (7200000)
-I0506 01:16:11.400616  1373 net.cpp:165] Memory required for data: 3168531200
-I0506 01:16:11.400621  1373 layer_factory.hpp:77] Creating layer conv3_postscale
-I0506 01:16:11.400631  1373 net.cpp:100] Creating Layer conv3_postscale
-I0506 01:16:11.400637  1373 net.cpp:434] conv3_postscale <- conv3
-I0506 01:16:11.400646  1373 net.cpp:395] conv3_postscale -> conv3 (in-place)
-I0506 01:16:11.400779  1373 net.cpp:150] Setting up conv3_postscale
-I0506 01:16:11.400789  1373 net.cpp:157] Top shape: 800 250 6 6 (7200000)
-I0506 01:16:11.400794  1373 net.cpp:165] Memory required for data: 3197331200
-I0506 01:16:11.400801  1373 layer_factory.hpp:77] Creating layer pool3
-I0506 01:16:11.400815  1373 net.cpp:100] Creating Layer pool3
-I0506 01:16:11.400820  1373 net.cpp:434] pool3 <- conv3
-I0506 01:16:11.400827  1373 net.cpp:408] pool3 -> pool3
-I0506 01:16:11.400882  1373 net.cpp:150] Setting up pool3
-I0506 01:16:11.400892  1373 net.cpp:157] Top shape: 800 250 3 3 (1800000)
-I0506 01:16:11.400897  1373 net.cpp:165] Memory required for data: 3204531200
-I0506 01:16:11.400900  1373 layer_factory.hpp:77] Creating layer fc4_300
-I0506 01:16:11.400908  1373 net.cpp:100] Creating Layer fc4_300
-I0506 01:16:11.400914  1373 net.cpp:434] fc4_300 <- pool3
-I0506 01:16:11.400923  1373 net.cpp:408] fc4_300 -> fc4_300
-I0506 01:16:11.409597  1373 net.cpp:150] Setting up fc4_300
-I0506 01:16:11.409616  1373 net.cpp:157] Top shape: 800 300 (240000)
-I0506 01:16:11.409621  1373 net.cpp:165] Memory required for data: 3205491200
-I0506 01:16:11.409629  1373 layer_factory.hpp:77] Creating layer fc4_prescale
-I0506 01:16:11.409638  1373 net.cpp:100] Creating Layer fc4_prescale
-I0506 01:16:11.409644  1373 net.cpp:434] fc4_prescale <- fc4_300
-I0506 01:16:11.409656  1373 net.cpp:395] fc4_prescale -> fc4_300 (in-place)
-I0506 01:16:11.409772  1373 net.cpp:150] Setting up fc4_prescale
-I0506 01:16:11.409782  1373 net.cpp:157] Top shape: 800 300 (240000)
-I0506 01:16:11.409787  1373 net.cpp:165] Memory required for data: 3206451200
-I0506 01:16:11.409792  1373 layer_factory.hpp:77] Creating layer fc4_sTanH
-I0506 01:16:11.409801  1373 net.cpp:100] Creating Layer fc4_sTanH
-I0506 01:16:11.409806  1373 net.cpp:434] fc4_sTanH <- fc4_300
-I0506 01:16:11.409813  1373 net.cpp:395] fc4_sTanH -> fc4_300 (in-place)
-I0506 01:16:11.410050  1373 net.cpp:150] Setting up fc4_sTanH
-I0506 01:16:11.410064  1373 net.cpp:157] Top shape: 800 300 (240000)
-I0506 01:16:11.410069  1373 net.cpp:165] Memory required for data: 3207411200
-I0506 01:16:11.410073  1373 layer_factory.hpp:77] Creating layer fc4_postscale
-I0506 01:16:11.410084  1373 net.cpp:100] Creating Layer fc4_postscale
-I0506 01:16:11.410090  1373 net.cpp:434] fc4_postscale <- fc4_300
-I0506 01:16:11.410097  1373 net.cpp:395] fc4_postscale -> fc4_300 (in-place)
-I0506 01:16:11.410224  1373 net.cpp:150] Setting up fc4_postscale
-I0506 01:16:11.410233  1373 net.cpp:157] Top shape: 800 300 (240000)
-I0506 01:16:11.410238  1373 net.cpp:165] Memory required for data: 3208371200
-I0506 01:16:11.410244  1373 layer_factory.hpp:77] Creating layer fc5_116
-I0506 01:16:11.410255  1373 net.cpp:100] Creating Layer fc5_116
-I0506 01:16:11.410260  1373 net.cpp:434] fc5_116 <- fc4_300
-I0506 01:16:11.410267  1373 net.cpp:408] fc5_116 -> fc5_classes
-I0506 01:16:11.415086  1373 net.cpp:150] Setting up fc5_116
-I0506 01:16:11.415122  1373 net.cpp:157] Top shape: 800 116 (92800)
-I0506 01:16:11.415127  1373 net.cpp:165] Memory required for data: 3208742400
-I0506 01:16:11.415143  1373 layer_factory.hpp:77] Creating layer fc5_classes_fc5_116_0_split
-I0506 01:16:11.415155  1373 net.cpp:100] Creating Layer fc5_classes_fc5_116_0_split
-I0506 01:16:11.415161  1373 net.cpp:434] fc5_classes_fc5_116_0_split <- fc5_classes
-I0506 01:16:11.415169  1373 net.cpp:408] fc5_classes_fc5_116_0_split -> fc5_classes_fc5_116_0_split_0
-I0506 01:16:11.415180  1373 net.cpp:408] fc5_classes_fc5_116_0_split -> fc5_classes_fc5_116_0_split_1
-I0506 01:16:11.415190  1373 net.cpp:408] fc5_classes_fc5_116_0_split -> fc5_classes_fc5_116_0_split_2
-I0506 01:16:11.415261  1373 net.cpp:150] Setting up fc5_classes_fc5_116_0_split
-I0506 01:16:11.415269  1373 net.cpp:157] Top shape: 800 116 (92800)
-I0506 01:16:11.415276  1373 net.cpp:157] Top shape: 800 116 (92800)
-I0506 01:16:11.415279  1373 net.cpp:157] Top shape: 800 116 (92800)
-I0506 01:16:11.415283  1373 net.cpp:165] Memory required for data: 3209856000
-I0506 01:16:11.415287  1373 layer_factory.hpp:77] Creating layer softmax
-I0506 01:16:11.415297  1373 net.cpp:100] Creating Layer softmax
-I0506 01:16:11.415302  1373 net.cpp:434] softmax <- fc5_classes_fc5_116_0_split_0
-I0506 01:16:11.415309  1373 net.cpp:408] softmax -> softmax
-I0506 01:16:11.415633  1373 net.cpp:150] Setting up softmax
-I0506 01:16:11.415648  1373 net.cpp:157] Top shape: 800 116 (92800)
-I0506 01:16:11.415653  1373 net.cpp:165] Memory required for data: 3210227200
-I0506 01:16:11.415657  1373 layer_factory.hpp:77] Creating layer loss
-I0506 01:16:11.415668  1373 net.cpp:100] Creating Layer loss
-I0506 01:16:11.415673  1373 net.cpp:434] loss <- softmax
-I0506 01:16:11.415679  1373 net.cpp:434] loss <- label_data_1_split_0
-I0506 01:16:11.415686  1373 net.cpp:408] loss -> loss
-I0506 01:16:11.415724  1373 net.cpp:150] Setting up loss
-I0506 01:16:11.415732  1373 net.cpp:157] Top shape: (1)
-I0506 01:16:11.415737  1373 net.cpp:160]     with loss weight 1
-I0506 01:16:11.415766  1373 net.cpp:165] Memory required for data: 3210227204
-I0506 01:16:11.415771  1373 layer_factory.hpp:77] Creating layer accuracy_1
-I0506 01:16:11.415779  1373 net.cpp:100] Creating Layer accuracy_1
-I0506 01:16:11.415786  1373 net.cpp:434] accuracy_1 <- fc5_classes_fc5_116_0_split_1
-I0506 01:16:11.415791  1373 net.cpp:434] accuracy_1 <- label_data_1_split_1
-I0506 01:16:11.415802  1373 net.cpp:408] accuracy_1 -> accuracy_1
-I0506 01:16:11.415814  1373 net.cpp:150] Setting up accuracy_1
-I0506 01:16:11.415822  1373 net.cpp:157] Top shape: (1)
-I0506 01:16:11.415827  1373 net.cpp:165] Memory required for data: 3210227208
-I0506 01:16:11.415830  1373 layer_factory.hpp:77] Creating layer accuracy_5
-I0506 01:16:11.415837  1373 net.cpp:100] Creating Layer accuracy_5
-I0506 01:16:11.415841  1373 net.cpp:434] accuracy_5 <- fc5_classes_fc5_116_0_split_2
-I0506 01:16:11.415848  1373 net.cpp:434] accuracy_5 <- label_data_1_split_2
-I0506 01:16:11.415858  1373 net.cpp:408] accuracy_5 -> accuracy_5
-I0506 01:16:11.415866  1373 net.cpp:150] Setting up accuracy_5
-I0506 01:16:11.415874  1373 net.cpp:157] Top shape: (1)
-I0506 01:16:11.415889  1373 net.cpp:165] Memory required for data: 3210227212
-I0506 01:16:11.415895  1373 layer_factory.hpp:77] Creating layer silence
-I0506 01:16:11.415904  1373 net.cpp:100] Creating Layer silence
-I0506 01:16:11.415908  1373 net.cpp:434] silence <- accuracy_1
-I0506 01:16:11.415915  1373 net.cpp:434] silence <- accuracy_5
-I0506 01:16:11.415921  1373 net.cpp:150] Setting up silence
-I0506 01:16:11.415926  1373 net.cpp:165] Memory required for data: 3210227212
-I0506 01:16:11.415930  1373 net.cpp:228] silence does not need backward computation.
-I0506 01:16:11.415940  1373 net.cpp:228] accuracy_5 does not need backward computation.
-I0506 01:16:11.415946  1373 net.cpp:228] accuracy_1 does not need backward computation.
-I0506 01:16:11.415953  1373 net.cpp:226] loss needs backward computation.
-I0506 01:16:11.415961  1373 net.cpp:226] softmax needs backward computation.
-I0506 01:16:11.415978  1373 net.cpp:226] fc5_classes_fc5_116_0_split needs backward computation.
-I0506 01:16:11.415987  1373 net.cpp:226] fc5_116 needs backward computation.
-I0506 01:16:11.415993  1373 net.cpp:226] fc4_postscale needs backward computation.
-I0506 01:16:11.415998  1373 net.cpp:226] fc4_sTanH needs backward computation.
-I0506 01:16:11.416003  1373 net.cpp:226] fc4_prescale needs backward computation.
-I0506 01:16:11.416008  1373 net.cpp:226] fc4_300 needs backward computation.
-I0506 01:16:11.416014  1373 net.cpp:226] pool3 needs backward computation.
-I0506 01:16:11.416020  1373 net.cpp:226] conv3_postscale needs backward computation.
-I0506 01:16:11.416025  1373 net.cpp:226] conv3_sTanH needs backward computation.
-I0506 01:16:11.416030  1373 net.cpp:226] conv3_prescale needs backward computation.
-I0506 01:16:11.416036  1373 net.cpp:226] conv3 needs backward computation.
-I0506 01:16:11.416041  1373 net.cpp:226] pool2 needs backward computation.
-I0506 01:16:11.416048  1373 net.cpp:226] conv2_postscale needs backward computation.
-I0506 01:16:11.416054  1373 net.cpp:226] conv2_sTanH needs backward computation.
-I0506 01:16:11.416059  1373 net.cpp:226] conv2_prescale needs backward computation.
-I0506 01:16:11.416062  1373 net.cpp:226] conv2 needs backward computation.
-I0506 01:16:11.416066  1373 net.cpp:226] pool1 needs backward computation.
-I0506 01:16:11.416070  1373 net.cpp:226] conv1_postscale needs backward computation.
-I0506 01:16:11.416074  1373 net.cpp:226] conv1_sTanH needs backward computation.
-I0506 01:16:11.416079  1373 net.cpp:226] conv1_prescale needs backward computation.
-I0506 01:16:11.416082  1373 net.cpp:226] conv1 needs backward computation.
-I0506 01:16:11.416088  1373 net.cpp:228] label_data_1_split does not need backward computation.
-I0506 01:16:11.416095  1373 net.cpp:228] data does not need backward computation.
-I0506 01:16:11.416098  1373 net.cpp:270] This network produces output loss
-I0506 01:16:11.416128  1373 net.cpp:283] Network initialization done.
-I0506 01:16:11.416453  1373 solver.cpp:193] Creating test net (#0) specified by test_net file: ./Prototxt/experiment_13/RTSD/orig/trial_1/test.prototxt
-I0506 01:16:11.416702  1373 net.cpp:58] Initializing net from parameters: 
+I0506 01:16:35.697496  3876 layer_factory.hpp:77] Creating layer data
+I0506 01:16:35.698385  3876 net.cpp:100] Creating Layer data
+I0506 01:16:35.698401  3876 net.cpp:408] data -> data
+I0506 01:16:35.698426  3876 net.cpp:408] data -> label
+I0506 01:16:35.722193  4009 db_lmdb.cpp:35] Opened lmdb ../local_data/lmdb/RTSD/orig/train/lmdb
+I0506 01:16:35.749716  3876 data_layer.cpp:41] output data size: 700,3,48,48
+I0506 01:16:35.787922  3876 net.cpp:150] Setting up data
+I0506 01:16:35.787951  3876 net.cpp:157] Top shape: 700 3 48 48 (4838400)
+I0506 01:16:35.787957  3876 net.cpp:157] Top shape: 700 (700)
+I0506 01:16:35.787961  3876 net.cpp:165] Memory required for data: 19356400
+I0506 01:16:35.787971  3876 layer_factory.hpp:77] Creating layer label_data_1_split
+I0506 01:16:35.787986  3876 net.cpp:100] Creating Layer label_data_1_split
+I0506 01:16:35.787993  3876 net.cpp:434] label_data_1_split <- label
+I0506 01:16:35.788007  3876 net.cpp:408] label_data_1_split -> label_data_1_split_0
+I0506 01:16:35.788020  3876 net.cpp:408] label_data_1_split -> label_data_1_split_1
+I0506 01:16:35.788028  3876 net.cpp:408] label_data_1_split -> label_data_1_split_2
+I0506 01:16:35.788089  3876 net.cpp:150] Setting up label_data_1_split
+I0506 01:16:35.788096  3876 net.cpp:157] Top shape: 700 (700)
+I0506 01:16:35.788100  3876 net.cpp:157] Top shape: 700 (700)
+I0506 01:16:35.788103  3876 net.cpp:157] Top shape: 700 (700)
+I0506 01:16:35.788107  3876 net.cpp:165] Memory required for data: 19364800
+I0506 01:16:35.788110  3876 layer_factory.hpp:77] Creating layer conv1
+I0506 01:16:35.788126  3876 net.cpp:100] Creating Layer conv1
+I0506 01:16:35.788131  3876 net.cpp:434] conv1 <- data
+I0506 01:16:35.788137  3876 net.cpp:408] conv1 -> conv1
+I0506 01:16:36.206264  3876 net.cpp:150] Setting up conv1
+I0506 01:16:36.206291  3876 net.cpp:157] Top shape: 700 100 42 42 (123480000)
+I0506 01:16:36.206295  3876 net.cpp:165] Memory required for data: 513284800
+I0506 01:16:36.206318  3876 layer_factory.hpp:77] Creating layer conv1_prescale
+I0506 01:16:36.206331  3876 net.cpp:100] Creating Layer conv1_prescale
+I0506 01:16:36.206337  3876 net.cpp:434] conv1_prescale <- conv1
+I0506 01:16:36.206344  3876 net.cpp:395] conv1_prescale -> conv1 (in-place)
+I0506 01:16:36.206454  3876 net.cpp:150] Setting up conv1_prescale
+I0506 01:16:36.206462  3876 net.cpp:157] Top shape: 700 100 42 42 (123480000)
+I0506 01:16:36.206467  3876 net.cpp:165] Memory required for data: 1007204800
+I0506 01:16:36.206475  3876 layer_factory.hpp:77] Creating layer conv1_sTanH
+I0506 01:16:36.206483  3876 net.cpp:100] Creating Layer conv1_sTanH
+I0506 01:16:36.206488  3876 net.cpp:434] conv1_sTanH <- conv1
+I0506 01:16:36.206493  3876 net.cpp:395] conv1_sTanH -> conv1 (in-place)
+I0506 01:16:36.206687  3876 net.cpp:150] Setting up conv1_sTanH
+I0506 01:16:36.206701  3876 net.cpp:157] Top shape: 700 100 42 42 (123480000)
+I0506 01:16:36.206725  3876 net.cpp:165] Memory required for data: 1501124800
+I0506 01:16:36.206730  3876 layer_factory.hpp:77] Creating layer conv1_postscale
+I0506 01:16:36.206738  3876 net.cpp:100] Creating Layer conv1_postscale
+I0506 01:16:36.206743  3876 net.cpp:434] conv1_postscale <- conv1
+I0506 01:16:36.206749  3876 net.cpp:395] conv1_postscale -> conv1 (in-place)
+I0506 01:16:36.206848  3876 net.cpp:150] Setting up conv1_postscale
+I0506 01:16:36.206857  3876 net.cpp:157] Top shape: 700 100 42 42 (123480000)
+I0506 01:16:36.206861  3876 net.cpp:165] Memory required for data: 1995044800
+I0506 01:16:36.206866  3876 layer_factory.hpp:77] Creating layer pool1
+I0506 01:16:36.206873  3876 net.cpp:100] Creating Layer pool1
+I0506 01:16:36.206878  3876 net.cpp:434] pool1 <- conv1
+I0506 01:16:36.206883  3876 net.cpp:408] pool1 -> pool1
+I0506 01:16:36.206934  3876 net.cpp:150] Setting up pool1
+I0506 01:16:36.206943  3876 net.cpp:157] Top shape: 700 100 21 21 (30870000)
+I0506 01:16:36.206948  3876 net.cpp:165] Memory required for data: 2118524800
+I0506 01:16:36.206950  3876 layer_factory.hpp:77] Creating layer conv2
+I0506 01:16:36.206960  3876 net.cpp:100] Creating Layer conv2
+I0506 01:16:36.206965  3876 net.cpp:434] conv2 <- pool1
+I0506 01:16:36.206970  3876 net.cpp:408] conv2 -> conv2
+I0506 01:16:36.232018  3876 net.cpp:150] Setting up conv2
+I0506 01:16:36.232036  3876 net.cpp:157] Top shape: 700 150 18 18 (34020000)
+I0506 01:16:36.232040  3876 net.cpp:165] Memory required for data: 2254604800
+I0506 01:16:36.232051  3876 layer_factory.hpp:77] Creating layer conv2_prescale
+I0506 01:16:36.232064  3876 net.cpp:100] Creating Layer conv2_prescale
+I0506 01:16:36.232069  3876 net.cpp:434] conv2_prescale <- conv2
+I0506 01:16:36.232074  3876 net.cpp:395] conv2_prescale -> conv2 (in-place)
+I0506 01:16:36.232183  3876 net.cpp:150] Setting up conv2_prescale
+I0506 01:16:36.232192  3876 net.cpp:157] Top shape: 700 150 18 18 (34020000)
+I0506 01:16:36.232197  3876 net.cpp:165] Memory required for data: 2390684800
+I0506 01:16:36.232203  3876 layer_factory.hpp:77] Creating layer conv2_sTanH
+I0506 01:16:36.232208  3876 net.cpp:100] Creating Layer conv2_sTanH
+I0506 01:16:36.232213  3876 net.cpp:434] conv2_sTanH <- conv2
+I0506 01:16:36.232218  3876 net.cpp:395] conv2_sTanH -> conv2 (in-place)
+I0506 01:16:36.233861  3876 net.cpp:150] Setting up conv2_sTanH
+I0506 01:16:36.233878  3876 net.cpp:157] Top shape: 700 150 18 18 (34020000)
+I0506 01:16:36.233882  3876 net.cpp:165] Memory required for data: 2526764800
+I0506 01:16:36.233886  3876 layer_factory.hpp:77] Creating layer conv2_postscale
+I0506 01:16:36.233893  3876 net.cpp:100] Creating Layer conv2_postscale
+I0506 01:16:36.233897  3876 net.cpp:434] conv2_postscale <- conv2
+I0506 01:16:36.233902  3876 net.cpp:395] conv2_postscale -> conv2 (in-place)
+I0506 01:16:36.234001  3876 net.cpp:150] Setting up conv2_postscale
+I0506 01:16:36.234010  3876 net.cpp:157] Top shape: 700 150 18 18 (34020000)
+I0506 01:16:36.234015  3876 net.cpp:165] Memory required for data: 2662844800
+I0506 01:16:36.234021  3876 layer_factory.hpp:77] Creating layer pool2
+I0506 01:16:36.234030  3876 net.cpp:100] Creating Layer pool2
+I0506 01:16:36.234035  3876 net.cpp:434] pool2 <- conv2
+I0506 01:16:36.234040  3876 net.cpp:408] pool2 -> pool2
+I0506 01:16:36.234081  3876 net.cpp:150] Setting up pool2
+I0506 01:16:36.234089  3876 net.cpp:157] Top shape: 700 150 9 9 (8505000)
+I0506 01:16:36.234093  3876 net.cpp:165] Memory required for data: 2696864800
+I0506 01:16:36.234097  3876 layer_factory.hpp:77] Creating layer conv3
+I0506 01:16:36.234104  3876 net.cpp:100] Creating Layer conv3
+I0506 01:16:36.234109  3876 net.cpp:434] conv3 <- pool2
+I0506 01:16:36.234114  3876 net.cpp:408] conv3 -> conv3
+I0506 01:16:36.240099  3876 net.cpp:150] Setting up conv3
+I0506 01:16:36.240118  3876 net.cpp:157] Top shape: 700 250 6 6 (6300000)
+I0506 01:16:36.240121  3876 net.cpp:165] Memory required for data: 2722064800
+I0506 01:16:36.240133  3876 layer_factory.hpp:77] Creating layer conv3_prescale
+I0506 01:16:36.240141  3876 net.cpp:100] Creating Layer conv3_prescale
+I0506 01:16:36.240160  3876 net.cpp:434] conv3_prescale <- conv3
+I0506 01:16:36.240167  3876 net.cpp:395] conv3_prescale -> conv3 (in-place)
+I0506 01:16:36.240265  3876 net.cpp:150] Setting up conv3_prescale
+I0506 01:16:36.240274  3876 net.cpp:157] Top shape: 700 250 6 6 (6300000)
+I0506 01:16:36.240280  3876 net.cpp:165] Memory required for data: 2747264800
+I0506 01:16:36.240285  3876 layer_factory.hpp:77] Creating layer conv3_sTanH
+I0506 01:16:36.240290  3876 net.cpp:100] Creating Layer conv3_sTanH
+I0506 01:16:36.240294  3876 net.cpp:434] conv3_sTanH <- conv3
+I0506 01:16:36.240299  3876 net.cpp:395] conv3_sTanH -> conv3 (in-place)
+I0506 01:16:36.241835  3876 net.cpp:150] Setting up conv3_sTanH
+I0506 01:16:36.241854  3876 net.cpp:157] Top shape: 700 250 6 6 (6300000)
+I0506 01:16:36.241858  3876 net.cpp:165] Memory required for data: 2772464800
+I0506 01:16:36.241863  3876 layer_factory.hpp:77] Creating layer conv3_postscale
+I0506 01:16:36.241870  3876 net.cpp:100] Creating Layer conv3_postscale
+I0506 01:16:36.241874  3876 net.cpp:434] conv3_postscale <- conv3
+I0506 01:16:36.241880  3876 net.cpp:395] conv3_postscale -> conv3 (in-place)
+I0506 01:16:36.241986  3876 net.cpp:150] Setting up conv3_postscale
+I0506 01:16:36.241994  3876 net.cpp:157] Top shape: 700 250 6 6 (6300000)
+I0506 01:16:36.241999  3876 net.cpp:165] Memory required for data: 2797664800
+I0506 01:16:36.242005  3876 layer_factory.hpp:77] Creating layer pool3
+I0506 01:16:36.242014  3876 net.cpp:100] Creating Layer pool3
+I0506 01:16:36.242019  3876 net.cpp:434] pool3 <- conv3
+I0506 01:16:36.242024  3876 net.cpp:408] pool3 -> pool3
+I0506 01:16:36.242066  3876 net.cpp:150] Setting up pool3
+I0506 01:16:36.242074  3876 net.cpp:157] Top shape: 700 250 3 3 (1575000)
+I0506 01:16:36.242079  3876 net.cpp:165] Memory required for data: 2803964800
+I0506 01:16:36.242081  3876 layer_factory.hpp:77] Creating layer fc4_300
+I0506 01:16:36.242087  3876 net.cpp:100] Creating Layer fc4_300
+I0506 01:16:36.242092  3876 net.cpp:434] fc4_300 <- pool3
+I0506 01:16:36.242097  3876 net.cpp:408] fc4_300 -> fc4_300
+I0506 01:16:36.257670  3876 net.cpp:150] Setting up fc4_300
+I0506 01:16:36.257690  3876 net.cpp:157] Top shape: 700 300 (210000)
+I0506 01:16:36.257695  3876 net.cpp:165] Memory required for data: 2804804800
+I0506 01:16:36.257704  3876 layer_factory.hpp:77] Creating layer fc4_prescale
+I0506 01:16:36.257714  3876 net.cpp:100] Creating Layer fc4_prescale
+I0506 01:16:36.257719  3876 net.cpp:434] fc4_prescale <- fc4_300
+I0506 01:16:36.257725  3876 net.cpp:395] fc4_prescale -> fc4_300 (in-place)
+I0506 01:16:36.257820  3876 net.cpp:150] Setting up fc4_prescale
+I0506 01:16:36.257828  3876 net.cpp:157] Top shape: 700 300 (210000)
+I0506 01:16:36.257832  3876 net.cpp:165] Memory required for data: 2805644800
+I0506 01:16:36.257836  3876 layer_factory.hpp:77] Creating layer fc4_sTanH
+I0506 01:16:36.257843  3876 net.cpp:100] Creating Layer fc4_sTanH
+I0506 01:16:36.257846  3876 net.cpp:434] fc4_sTanH <- fc4_300
+I0506 01:16:36.257851  3876 net.cpp:395] fc4_sTanH -> fc4_300 (in-place)
+I0506 01:16:36.258035  3876 net.cpp:150] Setting up fc4_sTanH
+I0506 01:16:36.258047  3876 net.cpp:157] Top shape: 700 300 (210000)
+I0506 01:16:36.258051  3876 net.cpp:165] Memory required for data: 2806484800
+I0506 01:16:36.258055  3876 layer_factory.hpp:77] Creating layer fc4_postscale
+I0506 01:16:36.258062  3876 net.cpp:100] Creating Layer fc4_postscale
+I0506 01:16:36.258067  3876 net.cpp:434] fc4_postscale <- fc4_300
+I0506 01:16:36.258072  3876 net.cpp:395] fc4_postscale -> fc4_300 (in-place)
+I0506 01:16:36.258169  3876 net.cpp:150] Setting up fc4_postscale
+I0506 01:16:36.258177  3876 net.cpp:157] Top shape: 700 300 (210000)
+I0506 01:16:36.258180  3876 net.cpp:165] Memory required for data: 2807324800
+I0506 01:16:36.258185  3876 layer_factory.hpp:77] Creating layer fc5_116
+I0506 01:16:36.258193  3876 net.cpp:100] Creating Layer fc5_116
+I0506 01:16:36.258198  3876 net.cpp:434] fc5_116 <- fc4_300
+I0506 01:16:36.258203  3876 net.cpp:408] fc5_116 -> fc5_classes
+I0506 01:16:36.260880  3876 net.cpp:150] Setting up fc5_116
+I0506 01:16:36.260912  3876 net.cpp:157] Top shape: 700 116 (81200)
+I0506 01:16:36.260918  3876 net.cpp:165] Memory required for data: 2807649600
+I0506 01:16:36.260929  3876 layer_factory.hpp:77] Creating layer fc5_classes_fc5_116_0_split
+I0506 01:16:36.260939  3876 net.cpp:100] Creating Layer fc5_classes_fc5_116_0_split
+I0506 01:16:36.260944  3876 net.cpp:434] fc5_classes_fc5_116_0_split <- fc5_classes
+I0506 01:16:36.260951  3876 net.cpp:408] fc5_classes_fc5_116_0_split -> fc5_classes_fc5_116_0_split_0
+I0506 01:16:36.260962  3876 net.cpp:408] fc5_classes_fc5_116_0_split -> fc5_classes_fc5_116_0_split_1
+I0506 01:16:36.260968  3876 net.cpp:408] fc5_classes_fc5_116_0_split -> fc5_classes_fc5_116_0_split_2
+I0506 01:16:36.261023  3876 net.cpp:150] Setting up fc5_classes_fc5_116_0_split
+I0506 01:16:36.261030  3876 net.cpp:157] Top shape: 700 116 (81200)
+I0506 01:16:36.261034  3876 net.cpp:157] Top shape: 700 116 (81200)
+I0506 01:16:36.261037  3876 net.cpp:157] Top shape: 700 116 (81200)
+I0506 01:16:36.261040  3876 net.cpp:165] Memory required for data: 2808624000
+I0506 01:16:36.261044  3876 layer_factory.hpp:77] Creating layer softmax
+I0506 01:16:36.261049  3876 net.cpp:100] Creating Layer softmax
+I0506 01:16:36.261054  3876 net.cpp:434] softmax <- fc5_classes_fc5_116_0_split_0
+I0506 01:16:36.261059  3876 net.cpp:408] softmax -> softmax
+I0506 01:16:36.261304  3876 net.cpp:150] Setting up softmax
+I0506 01:16:36.261317  3876 net.cpp:157] Top shape: 700 116 (81200)
+I0506 01:16:36.261322  3876 net.cpp:165] Memory required for data: 2808948800
+I0506 01:16:36.261325  3876 layer_factory.hpp:77] Creating layer loss
+I0506 01:16:36.261332  3876 net.cpp:100] Creating Layer loss
+I0506 01:16:36.261337  3876 net.cpp:434] loss <- softmax
+I0506 01:16:36.261343  3876 net.cpp:434] loss <- label_data_1_split_0
+I0506 01:16:36.261348  3876 net.cpp:408] loss -> loss
+I0506 01:16:36.261376  3876 net.cpp:150] Setting up loss
+I0506 01:16:36.261384  3876 net.cpp:157] Top shape: (1)
+I0506 01:16:36.261386  3876 net.cpp:160]     with loss weight 1
+I0506 01:16:36.261411  3876 net.cpp:165] Memory required for data: 2808948804
+I0506 01:16:36.261415  3876 layer_factory.hpp:77] Creating layer accuracy_1
+I0506 01:16:36.261422  3876 net.cpp:100] Creating Layer accuracy_1
+I0506 01:16:36.261427  3876 net.cpp:434] accuracy_1 <- fc5_classes_fc5_116_0_split_1
+I0506 01:16:36.261431  3876 net.cpp:434] accuracy_1 <- label_data_1_split_1
+I0506 01:16:36.261437  3876 net.cpp:408] accuracy_1 -> accuracy_1
+I0506 01:16:36.261447  3876 net.cpp:150] Setting up accuracy_1
+I0506 01:16:36.261453  3876 net.cpp:157] Top shape: (1)
+I0506 01:16:36.261456  3876 net.cpp:165] Memory required for data: 2808948808
+I0506 01:16:36.261459  3876 layer_factory.hpp:77] Creating layer accuracy_5
+I0506 01:16:36.261464  3876 net.cpp:100] Creating Layer accuracy_5
+I0506 01:16:36.261467  3876 net.cpp:434] accuracy_5 <- fc5_classes_fc5_116_0_split_2
+I0506 01:16:36.261471  3876 net.cpp:434] accuracy_5 <- label_data_1_split_2
+I0506 01:16:36.261477  3876 net.cpp:408] accuracy_5 -> accuracy_5
+I0506 01:16:36.261484  3876 net.cpp:150] Setting up accuracy_5
+I0506 01:16:36.261489  3876 net.cpp:157] Top shape: (1)
+I0506 01:16:36.261492  3876 net.cpp:165] Memory required for data: 2808948812
+I0506 01:16:36.261494  3876 layer_factory.hpp:77] Creating layer silence
+I0506 01:16:36.261499  3876 net.cpp:100] Creating Layer silence
+I0506 01:16:36.261503  3876 net.cpp:434] silence <- accuracy_1
+I0506 01:16:36.261507  3876 net.cpp:434] silence <- accuracy_5
+I0506 01:16:36.261512  3876 net.cpp:150] Setting up silence
+I0506 01:16:36.261515  3876 net.cpp:165] Memory required for data: 2808948812
+I0506 01:16:36.261518  3876 net.cpp:228] silence does not need backward computation.
+I0506 01:16:36.261526  3876 net.cpp:228] accuracy_5 does not need backward computation.
+I0506 01:16:36.261530  3876 net.cpp:228] accuracy_1 does not need backward computation.
+I0506 01:16:36.261534  3876 net.cpp:226] loss needs backward computation.
+I0506 01:16:36.261538  3876 net.cpp:226] softmax needs backward computation.
+I0506 01:16:36.261554  3876 net.cpp:226] fc5_classes_fc5_116_0_split needs backward computation.
+I0506 01:16:36.261559  3876 net.cpp:226] fc5_116 needs backward computation.
+I0506 01:16:36.261561  3876 net.cpp:226] fc4_postscale needs backward computation.
+I0506 01:16:36.261564  3876 net.cpp:226] fc4_sTanH needs backward computation.
+I0506 01:16:36.261567  3876 net.cpp:226] fc4_prescale needs backward computation.
+I0506 01:16:36.261570  3876 net.cpp:226] fc4_300 needs backward computation.
+I0506 01:16:36.261574  3876 net.cpp:226] pool3 needs backward computation.
+I0506 01:16:36.261576  3876 net.cpp:226] conv3_postscale needs backward computation.
+I0506 01:16:36.261580  3876 net.cpp:226] conv3_sTanH needs backward computation.
+I0506 01:16:36.261582  3876 net.cpp:226] conv3_prescale needs backward computation.
+I0506 01:16:36.261585  3876 net.cpp:226] conv3 needs backward computation.
+I0506 01:16:36.261590  3876 net.cpp:226] pool2 needs backward computation.
+I0506 01:16:36.261593  3876 net.cpp:226] conv2_postscale needs backward computation.
+I0506 01:16:36.261596  3876 net.cpp:226] conv2_sTanH needs backward computation.
+I0506 01:16:36.261600  3876 net.cpp:226] conv2_prescale needs backward computation.
+I0506 01:16:36.261602  3876 net.cpp:226] conv2 needs backward computation.
+I0506 01:16:36.261605  3876 net.cpp:226] pool1 needs backward computation.
+I0506 01:16:36.261608  3876 net.cpp:226] conv1_postscale needs backward computation.
+I0506 01:16:36.261611  3876 net.cpp:226] conv1_sTanH needs backward computation.
+I0506 01:16:36.261615  3876 net.cpp:226] conv1_prescale needs backward computation.
+I0506 01:16:36.261617  3876 net.cpp:226] conv1 needs backward computation.
+I0506 01:16:36.261621  3876 net.cpp:228] label_data_1_split does not need backward computation.
+I0506 01:16:36.261626  3876 net.cpp:228] data does not need backward computation.
+I0506 01:16:36.261628  3876 net.cpp:270] This network produces output loss
+I0506 01:16:36.261648  3876 net.cpp:283] Network initialization done.
+I0506 01:16:36.261961  3876 solver.cpp:193] Creating test net (#0) specified by test_net file: ./Prototxt/experiment_13/RTSD/orig/trial_1/test.prototxt
+I0506 01:16:36.262145  3876 net.cpp:58] Initializing net from parameters: 
 state {
   phase: TEST
 }
@@ -611,7 +611,7 @@ layer {
   }
   data_param {
     source: "../local_data/lmdb/RTSD/orig/test/lmdb"
-    batch_size: 800
+    batch_size: 700
     backend: LMDB
   }
 }
@@ -905,266 +905,266 @@ layer {
     top_k: 5
   }
 }
-I0506 01:16:11.416841  1373 layer_factory.hpp:77] Creating layer data
-I0506 01:16:11.417528  1373 net.cpp:100] Creating Layer data
-I0506 01:16:11.417541  1373 net.cpp:408] data -> data
-I0506 01:16:11.417552  1373 net.cpp:408] data -> label
-I0506 01:16:11.447671  1580 db_lmdb.cpp:35] Opened lmdb ../local_data/lmdb/RTSD/orig/test/lmdb
-I0506 01:16:11.447831  1373 data_layer.cpp:41] output data size: 800,3,48,48
-I0506 01:16:11.516279  1373 net.cpp:150] Setting up data
-I0506 01:16:11.516324  1373 net.cpp:157] Top shape: 800 3 48 48 (5529600)
-I0506 01:16:11.516330  1373 net.cpp:157] Top shape: 800 (800)
-I0506 01:16:11.516335  1373 net.cpp:165] Memory required for data: 22121600
-I0506 01:16:11.516342  1373 layer_factory.hpp:77] Creating layer label_data_1_split
-I0506 01:16:11.516360  1373 net.cpp:100] Creating Layer label_data_1_split
-I0506 01:16:11.516367  1373 net.cpp:434] label_data_1_split <- label
-I0506 01:16:11.516391  1373 net.cpp:408] label_data_1_split -> label_data_1_split_0
-I0506 01:16:11.516413  1373 net.cpp:408] label_data_1_split -> label_data_1_split_1
-I0506 01:16:11.516429  1373 net.cpp:408] label_data_1_split -> label_data_1_split_2
-I0506 01:16:11.516571  1373 net.cpp:150] Setting up label_data_1_split
-I0506 01:16:11.516587  1373 net.cpp:157] Top shape: 800 (800)
-I0506 01:16:11.516598  1373 net.cpp:157] Top shape: 800 (800)
-I0506 01:16:11.516608  1373 net.cpp:157] Top shape: 800 (800)
-I0506 01:16:11.516616  1373 net.cpp:165] Memory required for data: 22131200
-I0506 01:16:11.516625  1373 layer_factory.hpp:77] Creating layer conv1
-I0506 01:16:11.516675  1373 net.cpp:100] Creating Layer conv1
-I0506 01:16:11.516687  1373 net.cpp:434] conv1 <- data
-I0506 01:16:11.516703  1373 net.cpp:408] conv1 -> conv1
-I0506 01:16:11.521610  1373 net.cpp:150] Setting up conv1
-I0506 01:16:11.521633  1373 net.cpp:157] Top shape: 800 100 42 42 (141120000)
-I0506 01:16:11.521638  1373 net.cpp:165] Memory required for data: 586611200
-I0506 01:16:11.521656  1373 layer_factory.hpp:77] Creating layer conv1_prescale
-I0506 01:16:11.521674  1373 net.cpp:100] Creating Layer conv1_prescale
-I0506 01:16:11.521685  1373 net.cpp:434] conv1_prescale <- conv1
-I0506 01:16:11.521703  1373 net.cpp:395] conv1_prescale -> conv1 (in-place)
-I0506 01:16:11.521898  1373 net.cpp:150] Setting up conv1_prescale
-I0506 01:16:11.521916  1373 net.cpp:157] Top shape: 800 100 42 42 (141120000)
-I0506 01:16:11.521924  1373 net.cpp:165] Memory required for data: 1151091200
-I0506 01:16:11.521939  1373 layer_factory.hpp:77] Creating layer conv1_sTanH
-I0506 01:16:11.521955  1373 net.cpp:100] Creating Layer conv1_sTanH
-I0506 01:16:11.521965  1373 net.cpp:434] conv1_sTanH <- conv1
-I0506 01:16:11.521976  1373 net.cpp:395] conv1_sTanH -> conv1 (in-place)
-I0506 01:16:11.522302  1373 net.cpp:150] Setting up conv1_sTanH
-I0506 01:16:11.522323  1373 net.cpp:157] Top shape: 800 100 42 42 (141120000)
-I0506 01:16:11.522332  1373 net.cpp:165] Memory required for data: 1715571200
-I0506 01:16:11.522341  1373 layer_factory.hpp:77] Creating layer conv1_postscale
-I0506 01:16:11.522356  1373 net.cpp:100] Creating Layer conv1_postscale
-I0506 01:16:11.522364  1373 net.cpp:434] conv1_postscale <- conv1
-I0506 01:16:11.522377  1373 net.cpp:395] conv1_postscale -> conv1 (in-place)
-I0506 01:16:11.522557  1373 net.cpp:150] Setting up conv1_postscale
-I0506 01:16:11.522570  1373 net.cpp:157] Top shape: 800 100 42 42 (141120000)
-I0506 01:16:11.522578  1373 net.cpp:165] Memory required for data: 2280051200
-I0506 01:16:11.522589  1373 layer_factory.hpp:77] Creating layer pool1
-I0506 01:16:11.522606  1373 net.cpp:100] Creating Layer pool1
-I0506 01:16:11.522616  1373 net.cpp:434] pool1 <- conv1
-I0506 01:16:11.522629  1373 net.cpp:408] pool1 -> pool1
-I0506 01:16:11.522701  1373 net.cpp:150] Setting up pool1
-I0506 01:16:11.522716  1373 net.cpp:157] Top shape: 800 100 21 21 (35280000)
-I0506 01:16:11.522724  1373 net.cpp:165] Memory required for data: 2421171200
-I0506 01:16:11.522732  1373 layer_factory.hpp:77] Creating layer conv2
-I0506 01:16:11.522752  1373 net.cpp:100] Creating Layer conv2
-I0506 01:16:11.522760  1373 net.cpp:434] conv2 <- pool1
-I0506 01:16:11.522775  1373 net.cpp:408] conv2 -> conv2
-I0506 01:16:11.530227  1373 net.cpp:150] Setting up conv2
-I0506 01:16:11.530249  1373 net.cpp:157] Top shape: 800 150 18 18 (38880000)
-I0506 01:16:11.530254  1373 net.cpp:165] Memory required for data: 2576691200
-I0506 01:16:11.530268  1373 layer_factory.hpp:77] Creating layer conv2_prescale
-I0506 01:16:11.530287  1373 net.cpp:100] Creating Layer conv2_prescale
-I0506 01:16:11.530297  1373 net.cpp:434] conv2_prescale <- conv2
-I0506 01:16:11.530313  1373 net.cpp:395] conv2_prescale -> conv2 (in-place)
-I0506 01:16:11.530504  1373 net.cpp:150] Setting up conv2_prescale
-I0506 01:16:11.530521  1373 net.cpp:157] Top shape: 800 150 18 18 (38880000)
-I0506 01:16:11.530529  1373 net.cpp:165] Memory required for data: 2732211200
-I0506 01:16:11.530539  1373 layer_factory.hpp:77] Creating layer conv2_sTanH
-I0506 01:16:11.530551  1373 net.cpp:100] Creating Layer conv2_sTanH
-I0506 01:16:11.530560  1373 net.cpp:434] conv2_sTanH <- conv2
-I0506 01:16:11.530568  1373 net.cpp:395] conv2_sTanH -> conv2 (in-place)
-I0506 01:16:11.542470  1373 net.cpp:150] Setting up conv2_sTanH
-I0506 01:16:11.542490  1373 net.cpp:157] Top shape: 800 150 18 18 (38880000)
-I0506 01:16:11.542495  1373 net.cpp:165] Memory required for data: 2887731200
-I0506 01:16:11.542498  1373 layer_factory.hpp:77] Creating layer conv2_postscale
-I0506 01:16:11.542510  1373 net.cpp:100] Creating Layer conv2_postscale
-I0506 01:16:11.542526  1373 net.cpp:434] conv2_postscale <- conv2
-I0506 01:16:11.542560  1373 net.cpp:395] conv2_postscale -> conv2 (in-place)
-I0506 01:16:11.542747  1373 net.cpp:150] Setting up conv2_postscale
-I0506 01:16:11.542762  1373 net.cpp:157] Top shape: 800 150 18 18 (38880000)
-I0506 01:16:11.542770  1373 net.cpp:165] Memory required for data: 3043251200
-I0506 01:16:11.542779  1373 layer_factory.hpp:77] Creating layer pool2
-I0506 01:16:11.542793  1373 net.cpp:100] Creating Layer pool2
-I0506 01:16:11.542805  1373 net.cpp:434] pool2 <- conv2
-I0506 01:16:11.542816  1373 net.cpp:408] pool2 -> pool2
-I0506 01:16:11.542886  1373 net.cpp:150] Setting up pool2
-I0506 01:16:11.542899  1373 net.cpp:157] Top shape: 800 150 9 9 (9720000)
-I0506 01:16:11.542907  1373 net.cpp:165] Memory required for data: 3082131200
-I0506 01:16:11.542912  1373 layer_factory.hpp:77] Creating layer conv3
-I0506 01:16:11.542930  1373 net.cpp:100] Creating Layer conv3
-I0506 01:16:11.542938  1373 net.cpp:434] conv3 <- pool2
-I0506 01:16:11.542948  1373 net.cpp:408] conv3 -> conv3
-I0506 01:16:11.550092  1373 net.cpp:150] Setting up conv3
-I0506 01:16:11.550109  1373 net.cpp:157] Top shape: 800 250 6 6 (7200000)
-I0506 01:16:11.550113  1373 net.cpp:165] Memory required for data: 3110931200
-I0506 01:16:11.550124  1373 layer_factory.hpp:77] Creating layer conv3_prescale
-I0506 01:16:11.550135  1373 net.cpp:100] Creating Layer conv3_prescale
-I0506 01:16:11.550142  1373 net.cpp:434] conv3_prescale <- conv3
-I0506 01:16:11.550153  1373 net.cpp:395] conv3_prescale -> conv3 (in-place)
-I0506 01:16:11.550305  1373 net.cpp:150] Setting up conv3_prescale
-I0506 01:16:11.550321  1373 net.cpp:157] Top shape: 800 250 6 6 (7200000)
-I0506 01:16:11.550328  1373 net.cpp:165] Memory required for data: 3139731200
-I0506 01:16:11.550338  1373 layer_factory.hpp:77] Creating layer conv3_sTanH
-I0506 01:16:11.550350  1373 net.cpp:100] Creating Layer conv3_sTanH
-I0506 01:16:11.550359  1373 net.cpp:434] conv3_sTanH <- conv3
-I0506 01:16:11.550366  1373 net.cpp:395] conv3_sTanH -> conv3 (in-place)
-I0506 01:16:11.554524  1373 net.cpp:150] Setting up conv3_sTanH
-I0506 01:16:11.554544  1373 net.cpp:157] Top shape: 800 250 6 6 (7200000)
-I0506 01:16:11.554548  1373 net.cpp:165] Memory required for data: 3168531200
-I0506 01:16:11.554553  1373 layer_factory.hpp:77] Creating layer conv3_postscale
-I0506 01:16:11.554563  1373 net.cpp:100] Creating Layer conv3_postscale
-I0506 01:16:11.554574  1373 net.cpp:434] conv3_postscale <- conv3
-I0506 01:16:11.554587  1373 net.cpp:395] conv3_postscale -> conv3 (in-place)
-I0506 01:16:11.554760  1373 net.cpp:150] Setting up conv3_postscale
-I0506 01:16:11.554776  1373 net.cpp:157] Top shape: 800 250 6 6 (7200000)
-I0506 01:16:11.554781  1373 net.cpp:165] Memory required for data: 3197331200
-I0506 01:16:11.554791  1373 layer_factory.hpp:77] Creating layer pool3
-I0506 01:16:11.554806  1373 net.cpp:100] Creating Layer pool3
-I0506 01:16:11.554814  1373 net.cpp:434] pool3 <- conv3
-I0506 01:16:11.554826  1373 net.cpp:408] pool3 -> pool3
-I0506 01:16:11.554889  1373 net.cpp:150] Setting up pool3
-I0506 01:16:11.554901  1373 net.cpp:157] Top shape: 800 250 3 3 (1800000)
-I0506 01:16:11.554908  1373 net.cpp:165] Memory required for data: 3204531200
-I0506 01:16:11.554913  1373 layer_factory.hpp:77] Creating layer fc4_300
-I0506 01:16:11.554925  1373 net.cpp:100] Creating Layer fc4_300
-I0506 01:16:11.554934  1373 net.cpp:434] fc4_300 <- pool3
-I0506 01:16:11.554941  1373 net.cpp:408] fc4_300 -> fc4_300
-I0506 01:16:11.564999  1373 net.cpp:150] Setting up fc4_300
-I0506 01:16:11.565018  1373 net.cpp:157] Top shape: 800 300 (240000)
-I0506 01:16:11.565022  1373 net.cpp:165] Memory required for data: 3205491200
-I0506 01:16:11.565030  1373 layer_factory.hpp:77] Creating layer fc4_prescale
-I0506 01:16:11.565044  1373 net.cpp:100] Creating Layer fc4_prescale
-I0506 01:16:11.565054  1373 net.cpp:434] fc4_prescale <- fc4_300
-I0506 01:16:11.565066  1373 net.cpp:395] fc4_prescale -> fc4_300 (in-place)
-I0506 01:16:11.565217  1373 net.cpp:150] Setting up fc4_prescale
-I0506 01:16:11.565230  1373 net.cpp:157] Top shape: 800 300 (240000)
-I0506 01:16:11.565237  1373 net.cpp:165] Memory required for data: 3206451200
-I0506 01:16:11.565264  1373 layer_factory.hpp:77] Creating layer fc4_sTanH
-I0506 01:16:11.565276  1373 net.cpp:100] Creating Layer fc4_sTanH
-I0506 01:16:11.565284  1373 net.cpp:434] fc4_sTanH <- fc4_300
-I0506 01:16:11.565292  1373 net.cpp:395] fc4_sTanH -> fc4_300 (in-place)
-I0506 01:16:11.565580  1373 net.cpp:150] Setting up fc4_sTanH
-I0506 01:16:11.565598  1373 net.cpp:157] Top shape: 800 300 (240000)
-I0506 01:16:11.565604  1373 net.cpp:165] Memory required for data: 3207411200
-I0506 01:16:11.565610  1373 layer_factory.hpp:77] Creating layer fc4_postscale
-I0506 01:16:11.565624  1373 net.cpp:100] Creating Layer fc4_postscale
-I0506 01:16:11.565632  1373 net.cpp:434] fc4_postscale <- fc4_300
-I0506 01:16:11.565641  1373 net.cpp:395] fc4_postscale -> fc4_300 (in-place)
-I0506 01:16:11.565790  1373 net.cpp:150] Setting up fc4_postscale
-I0506 01:16:11.565804  1373 net.cpp:157] Top shape: 800 300 (240000)
-I0506 01:16:11.565809  1373 net.cpp:165] Memory required for data: 3208371200
-I0506 01:16:11.565817  1373 layer_factory.hpp:77] Creating layer fc5_116
-I0506 01:16:11.565827  1373 net.cpp:100] Creating Layer fc5_116
-I0506 01:16:11.565834  1373 net.cpp:434] fc5_116 <- fc4_300
-I0506 01:16:11.565843  1373 net.cpp:408] fc5_116 -> fc5_classes
-I0506 01:16:11.566421  1373 net.cpp:150] Setting up fc5_116
-I0506 01:16:11.566433  1373 net.cpp:157] Top shape: 800 116 (92800)
-I0506 01:16:11.566437  1373 net.cpp:165] Memory required for data: 3208742400
-I0506 01:16:11.566448  1373 layer_factory.hpp:77] Creating layer fc5_classes_fc5_116_0_split
-I0506 01:16:11.566457  1373 net.cpp:100] Creating Layer fc5_classes_fc5_116_0_split
-I0506 01:16:11.566465  1373 net.cpp:434] fc5_classes_fc5_116_0_split <- fc5_classes
-I0506 01:16:11.566471  1373 net.cpp:408] fc5_classes_fc5_116_0_split -> fc5_classes_fc5_116_0_split_0
-I0506 01:16:11.566479  1373 net.cpp:408] fc5_classes_fc5_116_0_split -> fc5_classes_fc5_116_0_split_1
-I0506 01:16:11.566488  1373 net.cpp:408] fc5_classes_fc5_116_0_split -> fc5_classes_fc5_116_0_split_2
-I0506 01:16:11.566547  1373 net.cpp:150] Setting up fc5_classes_fc5_116_0_split
-I0506 01:16:11.566555  1373 net.cpp:157] Top shape: 800 116 (92800)
-I0506 01:16:11.566560  1373 net.cpp:157] Top shape: 800 116 (92800)
-I0506 01:16:11.566562  1373 net.cpp:157] Top shape: 800 116 (92800)
-I0506 01:16:11.566565  1373 net.cpp:165] Memory required for data: 3209856000
-I0506 01:16:11.566568  1373 layer_factory.hpp:77] Creating layer softmax
-I0506 01:16:11.566576  1373 net.cpp:100] Creating Layer softmax
-I0506 01:16:11.566579  1373 net.cpp:434] softmax <- fc5_classes_fc5_116_0_split_0
-I0506 01:16:11.566584  1373 net.cpp:408] softmax -> softmax
-I0506 01:16:11.566846  1373 net.cpp:150] Setting up softmax
-I0506 01:16:11.566859  1373 net.cpp:157] Top shape: 800 116 (92800)
-I0506 01:16:11.566862  1373 net.cpp:165] Memory required for data: 3210227200
-I0506 01:16:11.566866  1373 layer_factory.hpp:77] Creating layer loss
-I0506 01:16:11.566874  1373 net.cpp:100] Creating Layer loss
-I0506 01:16:11.566880  1373 net.cpp:434] loss <- softmax
-I0506 01:16:11.566885  1373 net.cpp:434] loss <- label_data_1_split_0
-I0506 01:16:11.566890  1373 net.cpp:408] loss -> loss
-I0506 01:16:11.566920  1373 net.cpp:150] Setting up loss
-I0506 01:16:11.566927  1373 net.cpp:157] Top shape: (1)
-I0506 01:16:11.566931  1373 net.cpp:160]     with loss weight 1
-I0506 01:16:11.566939  1373 net.cpp:165] Memory required for data: 3210227204
-I0506 01:16:11.566942  1373 layer_factory.hpp:77] Creating layer accuracy_1
-I0506 01:16:11.566949  1373 net.cpp:100] Creating Layer accuracy_1
-I0506 01:16:11.566957  1373 net.cpp:434] accuracy_1 <- fc5_classes_fc5_116_0_split_1
-I0506 01:16:11.566962  1373 net.cpp:434] accuracy_1 <- label_data_1_split_1
-I0506 01:16:11.566967  1373 net.cpp:408] accuracy_1 -> accuracy_1
-I0506 01:16:11.566975  1373 net.cpp:150] Setting up accuracy_1
-I0506 01:16:11.566982  1373 net.cpp:157] Top shape: (1)
-I0506 01:16:11.566984  1373 net.cpp:165] Memory required for data: 3210227208
-I0506 01:16:11.566987  1373 layer_factory.hpp:77] Creating layer accuracy_5
-I0506 01:16:11.567003  1373 net.cpp:100] Creating Layer accuracy_5
-I0506 01:16:11.567008  1373 net.cpp:434] accuracy_5 <- fc5_classes_fc5_116_0_split_2
-I0506 01:16:11.567013  1373 net.cpp:434] accuracy_5 <- label_data_1_split_2
-I0506 01:16:11.567018  1373 net.cpp:408] accuracy_5 -> accuracy_5
-I0506 01:16:11.567026  1373 net.cpp:150] Setting up accuracy_5
-I0506 01:16:11.567030  1373 net.cpp:157] Top shape: (1)
-I0506 01:16:11.567034  1373 net.cpp:165] Memory required for data: 3210227212
-I0506 01:16:11.567036  1373 net.cpp:228] accuracy_5 does not need backward computation.
-I0506 01:16:11.567040  1373 net.cpp:228] accuracy_1 does not need backward computation.
-I0506 01:16:11.567044  1373 net.cpp:226] loss needs backward computation.
-I0506 01:16:11.567049  1373 net.cpp:226] softmax needs backward computation.
-I0506 01:16:11.567052  1373 net.cpp:226] fc5_classes_fc5_116_0_split needs backward computation.
-I0506 01:16:11.567055  1373 net.cpp:226] fc5_116 needs backward computation.
-I0506 01:16:11.567059  1373 net.cpp:226] fc4_postscale needs backward computation.
-I0506 01:16:11.567062  1373 net.cpp:226] fc4_sTanH needs backward computation.
-I0506 01:16:11.567065  1373 net.cpp:226] fc4_prescale needs backward computation.
-I0506 01:16:11.567068  1373 net.cpp:226] fc4_300 needs backward computation.
-I0506 01:16:11.567071  1373 net.cpp:226] pool3 needs backward computation.
-I0506 01:16:11.567075  1373 net.cpp:226] conv3_postscale needs backward computation.
-I0506 01:16:11.567077  1373 net.cpp:226] conv3_sTanH needs backward computation.
-I0506 01:16:11.567080  1373 net.cpp:226] conv3_prescale needs backward computation.
-I0506 01:16:11.567083  1373 net.cpp:226] conv3 needs backward computation.
-I0506 01:16:11.567087  1373 net.cpp:226] pool2 needs backward computation.
-I0506 01:16:11.567090  1373 net.cpp:226] conv2_postscale needs backward computation.
-I0506 01:16:11.567093  1373 net.cpp:226] conv2_sTanH needs backward computation.
-I0506 01:16:11.567096  1373 net.cpp:226] conv2_prescale needs backward computation.
-I0506 01:16:11.567100  1373 net.cpp:226] conv2 needs backward computation.
-I0506 01:16:11.567103  1373 net.cpp:226] pool1 needs backward computation.
-I0506 01:16:11.567118  1373 net.cpp:226] conv1_postscale needs backward computation.
-I0506 01:16:11.567122  1373 net.cpp:226] conv1_sTanH needs backward computation.
-I0506 01:16:11.567126  1373 net.cpp:226] conv1_prescale needs backward computation.
-I0506 01:16:11.567128  1373 net.cpp:226] conv1 needs backward computation.
-I0506 01:16:11.567132  1373 net.cpp:228] label_data_1_split does not need backward computation.
-I0506 01:16:11.567138  1373 net.cpp:228] data does not need backward computation.
-I0506 01:16:11.567142  1373 net.cpp:270] This network produces output accuracy_1
-I0506 01:16:11.567145  1373 net.cpp:270] This network produces output accuracy_5
-I0506 01:16:11.567148  1373 net.cpp:270] This network produces output loss
-I0506 01:16:11.567169  1373 net.cpp:283] Network initialization done.
-I0506 01:16:11.567242  1373 solver.cpp:72] Solver scaffolding done.
-I0506 01:16:11.568521  1373 caffe.cpp:251] Starting Optimization
-I0506 01:16:11.568538  1373 solver.cpp:291] Solving 
-I0506 01:16:11.568544  1373 solver.cpp:292] Learning Rate Policy: step
-I0506 01:16:11.611368  1373 solver.cpp:349] Iteration 0, Testing net (#0)
-I0506 01:16:11.615317  1373 net.cpp:693] Ignoring source layer silence
-I0506 01:16:13.987946  1373 solver.cpp:416]     Test net output #0: accuracy_1 = 0.00204545
-I0506 01:16:13.987975  1373 solver.cpp:416]     Test net output #1: accuracy_5 = 0.0371591
-I0506 01:16:13.987985  1373 solver.cpp:416]     Test net output #2: loss = 4.84672 (* 1 = 4.84672 loss)
-F0506 01:16:14.144273  1373 syncedmem.cpp:56] Check failed: error == cudaSuccess (2 vs. 0)  out of memory
+I0506 01:16:36.262253  3876 layer_factory.hpp:77] Creating layer data
+I0506 01:16:36.262693  3876 net.cpp:100] Creating Layer data
+I0506 01:16:36.262706  3876 net.cpp:408] data -> data
+I0506 01:16:36.262717  3876 net.cpp:408] data -> label
+I0506 01:16:36.275652  4069 db_lmdb.cpp:35] Opened lmdb ../local_data/lmdb/RTSD/orig/test/lmdb
+I0506 01:16:36.275939  3876 data_layer.cpp:41] output data size: 700,3,48,48
+I0506 01:16:36.354077  3876 net.cpp:150] Setting up data
+I0506 01:16:36.354112  3876 net.cpp:157] Top shape: 700 3 48 48 (4838400)
+I0506 01:16:36.354120  3876 net.cpp:157] Top shape: 700 (700)
+I0506 01:16:36.354125  3876 net.cpp:165] Memory required for data: 19356400
+I0506 01:16:36.354133  3876 layer_factory.hpp:77] Creating layer label_data_1_split
+I0506 01:16:36.354151  3876 net.cpp:100] Creating Layer label_data_1_split
+I0506 01:16:36.354159  3876 net.cpp:434] label_data_1_split <- label
+I0506 01:16:36.354171  3876 net.cpp:408] label_data_1_split -> label_data_1_split_0
+I0506 01:16:36.354187  3876 net.cpp:408] label_data_1_split -> label_data_1_split_1
+I0506 01:16:36.354198  3876 net.cpp:408] label_data_1_split -> label_data_1_split_2
+I0506 01:16:36.354333  3876 net.cpp:150] Setting up label_data_1_split
+I0506 01:16:36.354346  3876 net.cpp:157] Top shape: 700 (700)
+I0506 01:16:36.354354  3876 net.cpp:157] Top shape: 700 (700)
+I0506 01:16:36.354362  3876 net.cpp:157] Top shape: 700 (700)
+I0506 01:16:36.354367  3876 net.cpp:165] Memory required for data: 19364800
+I0506 01:16:36.354372  3876 layer_factory.hpp:77] Creating layer conv1
+I0506 01:16:36.354411  3876 net.cpp:100] Creating Layer conv1
+I0506 01:16:36.354420  3876 net.cpp:434] conv1 <- data
+I0506 01:16:36.354429  3876 net.cpp:408] conv1 -> conv1
+I0506 01:16:36.357156  3876 net.cpp:150] Setting up conv1
+I0506 01:16:36.357180  3876 net.cpp:157] Top shape: 700 100 42 42 (123480000)
+I0506 01:16:36.357187  3876 net.cpp:165] Memory required for data: 513284800
+I0506 01:16:36.357203  3876 layer_factory.hpp:77] Creating layer conv1_prescale
+I0506 01:16:36.357215  3876 net.cpp:100] Creating Layer conv1_prescale
+I0506 01:16:36.357223  3876 net.cpp:434] conv1_prescale <- conv1
+I0506 01:16:36.357231  3876 net.cpp:395] conv1_prescale -> conv1 (in-place)
+I0506 01:16:36.357379  3876 net.cpp:150] Setting up conv1_prescale
+I0506 01:16:36.357390  3876 net.cpp:157] Top shape: 700 100 42 42 (123480000)
+I0506 01:16:36.357396  3876 net.cpp:165] Memory required for data: 1007204800
+I0506 01:16:36.357406  3876 layer_factory.hpp:77] Creating layer conv1_sTanH
+I0506 01:16:36.357417  3876 net.cpp:100] Creating Layer conv1_sTanH
+I0506 01:16:36.357424  3876 net.cpp:434] conv1_sTanH <- conv1
+I0506 01:16:36.357430  3876 net.cpp:395] conv1_sTanH -> conv1 (in-place)
+I0506 01:16:36.357683  3876 net.cpp:150] Setting up conv1_sTanH
+I0506 01:16:36.357698  3876 net.cpp:157] Top shape: 700 100 42 42 (123480000)
+I0506 01:16:36.357704  3876 net.cpp:165] Memory required for data: 1501124800
+I0506 01:16:36.357709  3876 layer_factory.hpp:77] Creating layer conv1_postscale
+I0506 01:16:36.357720  3876 net.cpp:100] Creating Layer conv1_postscale
+I0506 01:16:36.357727  3876 net.cpp:434] conv1_postscale <- conv1
+I0506 01:16:36.357734  3876 net.cpp:395] conv1_postscale -> conv1 (in-place)
+I0506 01:16:36.357878  3876 net.cpp:150] Setting up conv1_postscale
+I0506 01:16:36.357889  3876 net.cpp:157] Top shape: 700 100 42 42 (123480000)
+I0506 01:16:36.357895  3876 net.cpp:165] Memory required for data: 1995044800
+I0506 01:16:36.357903  3876 layer_factory.hpp:77] Creating layer pool1
+I0506 01:16:36.357919  3876 net.cpp:100] Creating Layer pool1
+I0506 01:16:36.357930  3876 net.cpp:434] pool1 <- conv1
+I0506 01:16:36.357944  3876 net.cpp:408] pool1 -> pool1
+I0506 01:16:36.358028  3876 net.cpp:150] Setting up pool1
+I0506 01:16:36.358042  3876 net.cpp:157] Top shape: 700 100 21 21 (30870000)
+I0506 01:16:36.358047  3876 net.cpp:165] Memory required for data: 2118524800
+I0506 01:16:36.358052  3876 layer_factory.hpp:77] Creating layer conv2
+I0506 01:16:36.358064  3876 net.cpp:100] Creating Layer conv2
+I0506 01:16:36.358070  3876 net.cpp:434] conv2 <- pool1
+I0506 01:16:36.358078  3876 net.cpp:408] conv2 -> conv2
+I0506 01:16:36.371531  3876 net.cpp:150] Setting up conv2
+I0506 01:16:36.371563  3876 net.cpp:157] Top shape: 700 150 18 18 (34020000)
+I0506 01:16:36.371568  3876 net.cpp:165] Memory required for data: 2254604800
+I0506 01:16:36.371583  3876 layer_factory.hpp:77] Creating layer conv2_prescale
+I0506 01:16:36.371599  3876 net.cpp:100] Creating Layer conv2_prescale
+I0506 01:16:36.371606  3876 net.cpp:434] conv2_prescale <- conv2
+I0506 01:16:36.371614  3876 net.cpp:395] conv2_prescale -> conv2 (in-place)
+I0506 01:16:36.373203  3876 net.cpp:150] Setting up conv2_prescale
+I0506 01:16:36.373224  3876 net.cpp:157] Top shape: 700 150 18 18 (34020000)
+I0506 01:16:36.373229  3876 net.cpp:165] Memory required for data: 2390684800
+I0506 01:16:36.373237  3876 layer_factory.hpp:77] Creating layer conv2_sTanH
+I0506 01:16:36.373246  3876 net.cpp:100] Creating Layer conv2_sTanH
+I0506 01:16:36.373252  3876 net.cpp:434] conv2_sTanH <- conv2
+I0506 01:16:36.373260  3876 net.cpp:395] conv2_sTanH -> conv2 (in-place)
+I0506 01:16:36.377321  3876 net.cpp:150] Setting up conv2_sTanH
+I0506 01:16:36.377342  3876 net.cpp:157] Top shape: 700 150 18 18 (34020000)
+I0506 01:16:36.377346  3876 net.cpp:165] Memory required for data: 2526764800
+I0506 01:16:36.377351  3876 layer_factory.hpp:77] Creating layer conv2_postscale
+I0506 01:16:36.377360  3876 net.cpp:100] Creating Layer conv2_postscale
+I0506 01:16:36.377364  3876 net.cpp:434] conv2_postscale <- conv2
+I0506 01:16:36.377393  3876 net.cpp:395] conv2_postscale -> conv2 (in-place)
+I0506 01:16:36.377509  3876 net.cpp:150] Setting up conv2_postscale
+I0506 01:16:36.377521  3876 net.cpp:157] Top shape: 700 150 18 18 (34020000)
+I0506 01:16:36.377526  3876 net.cpp:165] Memory required for data: 2662844800
+I0506 01:16:36.377530  3876 layer_factory.hpp:77] Creating layer pool2
+I0506 01:16:36.377537  3876 net.cpp:100] Creating Layer pool2
+I0506 01:16:36.377540  3876 net.cpp:434] pool2 <- conv2
+I0506 01:16:36.377545  3876 net.cpp:408] pool2 -> pool2
+I0506 01:16:36.377589  3876 net.cpp:150] Setting up pool2
+I0506 01:16:36.377599  3876 net.cpp:157] Top shape: 700 150 9 9 (8505000)
+I0506 01:16:36.377601  3876 net.cpp:165] Memory required for data: 2696864800
+I0506 01:16:36.377604  3876 layer_factory.hpp:77] Creating layer conv3
+I0506 01:16:36.377614  3876 net.cpp:100] Creating Layer conv3
+I0506 01:16:36.377619  3876 net.cpp:434] conv3 <- pool2
+I0506 01:16:36.377624  3876 net.cpp:408] conv3 -> conv3
+I0506 01:16:36.383874  3876 net.cpp:150] Setting up conv3
+I0506 01:16:36.383903  3876 net.cpp:157] Top shape: 700 250 6 6 (6300000)
+I0506 01:16:36.383908  3876 net.cpp:165] Memory required for data: 2722064800
+I0506 01:16:36.383918  3876 layer_factory.hpp:77] Creating layer conv3_prescale
+I0506 01:16:36.383926  3876 net.cpp:100] Creating Layer conv3_prescale
+I0506 01:16:36.383932  3876 net.cpp:434] conv3_prescale <- conv3
+I0506 01:16:36.383937  3876 net.cpp:395] conv3_prescale -> conv3 (in-place)
+I0506 01:16:36.384037  3876 net.cpp:150] Setting up conv3_prescale
+I0506 01:16:36.384045  3876 net.cpp:157] Top shape: 700 250 6 6 (6300000)
+I0506 01:16:36.384049  3876 net.cpp:165] Memory required for data: 2747264800
+I0506 01:16:36.384066  3876 layer_factory.hpp:77] Creating layer conv3_sTanH
+I0506 01:16:36.384073  3876 net.cpp:100] Creating Layer conv3_sTanH
+I0506 01:16:36.384075  3876 net.cpp:434] conv3_sTanH <- conv3
+I0506 01:16:36.384080  3876 net.cpp:395] conv3_sTanH -> conv3 (in-place)
+I0506 01:16:36.389783  3876 net.cpp:150] Setting up conv3_sTanH
+I0506 01:16:36.389806  3876 net.cpp:157] Top shape: 700 250 6 6 (6300000)
+I0506 01:16:36.389809  3876 net.cpp:165] Memory required for data: 2772464800
+I0506 01:16:36.389813  3876 layer_factory.hpp:77] Creating layer conv3_postscale
+I0506 01:16:36.389822  3876 net.cpp:100] Creating Layer conv3_postscale
+I0506 01:16:36.389825  3876 net.cpp:434] conv3_postscale <- conv3
+I0506 01:16:36.389832  3876 net.cpp:395] conv3_postscale -> conv3 (in-place)
+I0506 01:16:36.389940  3876 net.cpp:150] Setting up conv3_postscale
+I0506 01:16:36.389948  3876 net.cpp:157] Top shape: 700 250 6 6 (6300000)
+I0506 01:16:36.389951  3876 net.cpp:165] Memory required for data: 2797664800
+I0506 01:16:36.389957  3876 layer_factory.hpp:77] Creating layer pool3
+I0506 01:16:36.389966  3876 net.cpp:100] Creating Layer pool3
+I0506 01:16:36.389971  3876 net.cpp:434] pool3 <- conv3
+I0506 01:16:36.389977  3876 net.cpp:408] pool3 -> pool3
+I0506 01:16:36.390018  3876 net.cpp:150] Setting up pool3
+I0506 01:16:36.390027  3876 net.cpp:157] Top shape: 700 250 3 3 (1575000)
+I0506 01:16:36.390029  3876 net.cpp:165] Memory required for data: 2803964800
+I0506 01:16:36.390033  3876 layer_factory.hpp:77] Creating layer fc4_300
+I0506 01:16:36.390039  3876 net.cpp:100] Creating Layer fc4_300
+I0506 01:16:36.390043  3876 net.cpp:434] fc4_300 <- pool3
+I0506 01:16:36.390048  3876 net.cpp:408] fc4_300 -> fc4_300
+I0506 01:16:36.396591  3876 net.cpp:150] Setting up fc4_300
+I0506 01:16:36.396610  3876 net.cpp:157] Top shape: 700 300 (210000)
+I0506 01:16:36.396613  3876 net.cpp:165] Memory required for data: 2804804800
+I0506 01:16:36.396621  3876 layer_factory.hpp:77] Creating layer fc4_prescale
+I0506 01:16:36.396630  3876 net.cpp:100] Creating Layer fc4_prescale
+I0506 01:16:36.396633  3876 net.cpp:434] fc4_prescale <- fc4_300
+I0506 01:16:36.396639  3876 net.cpp:395] fc4_prescale -> fc4_300 (in-place)
+I0506 01:16:36.396733  3876 net.cpp:150] Setting up fc4_prescale
+I0506 01:16:36.396742  3876 net.cpp:157] Top shape: 700 300 (210000)
+I0506 01:16:36.396745  3876 net.cpp:165] Memory required for data: 2805644800
+I0506 01:16:36.396770  3876 layer_factory.hpp:77] Creating layer fc4_sTanH
+I0506 01:16:36.396778  3876 net.cpp:100] Creating Layer fc4_sTanH
+I0506 01:16:36.396782  3876 net.cpp:434] fc4_sTanH <- fc4_300
+I0506 01:16:36.396787  3876 net.cpp:395] fc4_sTanH -> fc4_300 (in-place)
+I0506 01:16:36.396972  3876 net.cpp:150] Setting up fc4_sTanH
+I0506 01:16:36.396986  3876 net.cpp:157] Top shape: 700 300 (210000)
+I0506 01:16:36.396988  3876 net.cpp:165] Memory required for data: 2806484800
+I0506 01:16:36.396991  3876 layer_factory.hpp:77] Creating layer fc4_postscale
+I0506 01:16:36.396999  3876 net.cpp:100] Creating Layer fc4_postscale
+I0506 01:16:36.397002  3876 net.cpp:434] fc4_postscale <- fc4_300
+I0506 01:16:36.397007  3876 net.cpp:395] fc4_postscale -> fc4_300 (in-place)
+I0506 01:16:36.397104  3876 net.cpp:150] Setting up fc4_postscale
+I0506 01:16:36.397112  3876 net.cpp:157] Top shape: 700 300 (210000)
+I0506 01:16:36.397115  3876 net.cpp:165] Memory required for data: 2807324800
+I0506 01:16:36.397120  3876 layer_factory.hpp:77] Creating layer fc5_116
+I0506 01:16:36.397127  3876 net.cpp:100] Creating Layer fc5_116
+I0506 01:16:36.397130  3876 net.cpp:434] fc5_116 <- fc4_300
+I0506 01:16:36.397135  3876 net.cpp:408] fc5_116 -> fc5_classes
+I0506 01:16:36.397481  3876 net.cpp:150] Setting up fc5_116
+I0506 01:16:36.397490  3876 net.cpp:157] Top shape: 700 116 (81200)
+I0506 01:16:36.397503  3876 net.cpp:165] Memory required for data: 2807649600
+I0506 01:16:36.397514  3876 layer_factory.hpp:77] Creating layer fc5_classes_fc5_116_0_split
+I0506 01:16:36.397522  3876 net.cpp:100] Creating Layer fc5_classes_fc5_116_0_split
+I0506 01:16:36.397526  3876 net.cpp:434] fc5_classes_fc5_116_0_split <- fc5_classes
+I0506 01:16:36.397531  3876 net.cpp:408] fc5_classes_fc5_116_0_split -> fc5_classes_fc5_116_0_split_0
+I0506 01:16:36.397538  3876 net.cpp:408] fc5_classes_fc5_116_0_split -> fc5_classes_fc5_116_0_split_1
+I0506 01:16:36.397544  3876 net.cpp:408] fc5_classes_fc5_116_0_split -> fc5_classes_fc5_116_0_split_2
+I0506 01:16:36.397598  3876 net.cpp:150] Setting up fc5_classes_fc5_116_0_split
+I0506 01:16:36.397604  3876 net.cpp:157] Top shape: 700 116 (81200)
+I0506 01:16:36.397608  3876 net.cpp:157] Top shape: 700 116 (81200)
+I0506 01:16:36.397613  3876 net.cpp:157] Top shape: 700 116 (81200)
+I0506 01:16:36.397615  3876 net.cpp:165] Memory required for data: 2808624000
+I0506 01:16:36.397619  3876 layer_factory.hpp:77] Creating layer softmax
+I0506 01:16:36.397624  3876 net.cpp:100] Creating Layer softmax
+I0506 01:16:36.397627  3876 net.cpp:434] softmax <- fc5_classes_fc5_116_0_split_0
+I0506 01:16:36.397632  3876 net.cpp:408] softmax -> softmax
+I0506 01:16:36.397866  3876 net.cpp:150] Setting up softmax
+I0506 01:16:36.397878  3876 net.cpp:157] Top shape: 700 116 (81200)
+I0506 01:16:36.397882  3876 net.cpp:165] Memory required for data: 2808948800
+I0506 01:16:36.397886  3876 layer_factory.hpp:77] Creating layer loss
+I0506 01:16:36.397892  3876 net.cpp:100] Creating Layer loss
+I0506 01:16:36.397896  3876 net.cpp:434] loss <- softmax
+I0506 01:16:36.397900  3876 net.cpp:434] loss <- label_data_1_split_0
+I0506 01:16:36.397905  3876 net.cpp:408] loss -> loss
+I0506 01:16:36.397931  3876 net.cpp:150] Setting up loss
+I0506 01:16:36.397938  3876 net.cpp:157] Top shape: (1)
+I0506 01:16:36.397941  3876 net.cpp:160]     with loss weight 1
+I0506 01:16:36.397950  3876 net.cpp:165] Memory required for data: 2808948804
+I0506 01:16:36.397953  3876 layer_factory.hpp:77] Creating layer accuracy_1
+I0506 01:16:36.397961  3876 net.cpp:100] Creating Layer accuracy_1
+I0506 01:16:36.397965  3876 net.cpp:434] accuracy_1 <- fc5_classes_fc5_116_0_split_1
+I0506 01:16:36.397969  3876 net.cpp:434] accuracy_1 <- label_data_1_split_1
+I0506 01:16:36.397974  3876 net.cpp:408] accuracy_1 -> accuracy_1
+I0506 01:16:36.397982  3876 net.cpp:150] Setting up accuracy_1
+I0506 01:16:36.397986  3876 net.cpp:157] Top shape: (1)
+I0506 01:16:36.397989  3876 net.cpp:165] Memory required for data: 2808948808
+I0506 01:16:36.397992  3876 layer_factory.hpp:77] Creating layer accuracy_5
+I0506 01:16:36.398008  3876 net.cpp:100] Creating Layer accuracy_5
+I0506 01:16:36.398012  3876 net.cpp:434] accuracy_5 <- fc5_classes_fc5_116_0_split_2
+I0506 01:16:36.398016  3876 net.cpp:434] accuracy_5 <- label_data_1_split_2
+I0506 01:16:36.398021  3876 net.cpp:408] accuracy_5 -> accuracy_5
+I0506 01:16:36.398028  3876 net.cpp:150] Setting up accuracy_5
+I0506 01:16:36.398032  3876 net.cpp:157] Top shape: (1)
+I0506 01:16:36.398036  3876 net.cpp:165] Memory required for data: 2808948812
+I0506 01:16:36.398038  3876 net.cpp:228] accuracy_5 does not need backward computation.
+I0506 01:16:36.398042  3876 net.cpp:228] accuracy_1 does not need backward computation.
+I0506 01:16:36.398046  3876 net.cpp:226] loss needs backward computation.
+I0506 01:16:36.398051  3876 net.cpp:226] softmax needs backward computation.
+I0506 01:16:36.398053  3876 net.cpp:226] fc5_classes_fc5_116_0_split needs backward computation.
+I0506 01:16:36.398056  3876 net.cpp:226] fc5_116 needs backward computation.
+I0506 01:16:36.398059  3876 net.cpp:226] fc4_postscale needs backward computation.
+I0506 01:16:36.398062  3876 net.cpp:226] fc4_sTanH needs backward computation.
+I0506 01:16:36.398066  3876 net.cpp:226] fc4_prescale needs backward computation.
+I0506 01:16:36.398068  3876 net.cpp:226] fc4_300 needs backward computation.
+I0506 01:16:36.398072  3876 net.cpp:226] pool3 needs backward computation.
+I0506 01:16:36.398074  3876 net.cpp:226] conv3_postscale needs backward computation.
+I0506 01:16:36.398077  3876 net.cpp:226] conv3_sTanH needs backward computation.
+I0506 01:16:36.398079  3876 net.cpp:226] conv3_prescale needs backward computation.
+I0506 01:16:36.398082  3876 net.cpp:226] conv3 needs backward computation.
+I0506 01:16:36.398087  3876 net.cpp:226] pool2 needs backward computation.
+I0506 01:16:36.398089  3876 net.cpp:226] conv2_postscale needs backward computation.
+I0506 01:16:36.398092  3876 net.cpp:226] conv2_sTanH needs backward computation.
+I0506 01:16:36.398095  3876 net.cpp:226] conv2_prescale needs backward computation.
+I0506 01:16:36.398098  3876 net.cpp:226] conv2 needs backward computation.
+I0506 01:16:36.398102  3876 net.cpp:226] pool1 needs backward computation.
+I0506 01:16:36.398104  3876 net.cpp:226] conv1_postscale needs backward computation.
+I0506 01:16:36.398108  3876 net.cpp:226] conv1_sTanH needs backward computation.
+I0506 01:16:36.398110  3876 net.cpp:226] conv1_prescale needs backward computation.
+I0506 01:16:36.398113  3876 net.cpp:226] conv1 needs backward computation.
+I0506 01:16:36.398118  3876 net.cpp:228] label_data_1_split does not need backward computation.
+I0506 01:16:36.398121  3876 net.cpp:228] data does not need backward computation.
+I0506 01:16:36.398124  3876 net.cpp:270] This network produces output accuracy_1
+I0506 01:16:36.398128  3876 net.cpp:270] This network produces output accuracy_5
+I0506 01:16:36.398130  3876 net.cpp:270] This network produces output loss
+I0506 01:16:36.398149  3876 net.cpp:283] Network initialization done.
+I0506 01:16:36.398232  3876 solver.cpp:72] Solver scaffolding done.
+I0506 01:16:36.399092  3876 caffe.cpp:251] Starting Optimization
+I0506 01:16:36.399104  3876 solver.cpp:291] Solving 
+I0506 01:16:36.399107  3876 solver.cpp:292] Learning Rate Policy: step
+I0506 01:16:36.403013  3876 solver.cpp:349] Iteration 0, Testing net (#0)
+I0506 01:16:36.406159  3876 net.cpp:693] Ignoring source layer silence
+I0506 01:16:38.763295  3876 solver.cpp:416]     Test net output #0: accuracy_1 = 0.0628
+I0506 01:16:38.763327  3876 solver.cpp:416]     Test net output #1: accuracy_5 = 0.144571
+I0506 01:16:38.763339  3876 solver.cpp:416]     Test net output #2: loss = 4.65785 (* 1 = 4.65785 loss)
+F0506 01:16:38.903028  3876 syncedmem.cpp:56] Check failed: error == cudaSuccess (2 vs. 0)  out of memory
 *** Check failure stack trace: ***
-    @     0x7f4e4bb765cd  google::LogMessage::Fail()
-    @     0x7f4e4bb78433  google::LogMessage::SendToLog()
-    @     0x7f4e4bb7615b  google::LogMessage::Flush()
-    @     0x7f4e4bb78e1e  google::LogMessageFatal::~LogMessageFatal()
-    @     0x7f4e4c1cc440  caffe::SyncedMemory::to_gpu()
-    @     0x7f4e4c1cb409  caffe::SyncedMemory::mutable_gpu_data()
-    @     0x7f4e4c1bdc53  caffe::Blob<>::mutable_gpu_diff()
-    @     0x7f4e4c3a6cca  caffe::PoolingLayer<>::Backward_gpu()
-    @     0x7f4e4c3456ab  caffe::Net<>::BackwardFromTo()
-    @     0x7f4e4c34570f  caffe::Net<>::Backward()
-    @     0x7f4e4c36030c  caffe::Solver<>::Step()
-    @     0x7f4e4c360d99  caffe::Solver<>::Solve()
+    @     0x7f82141a85cd  google::LogMessage::Fail()
+    @     0x7f82141aa433  google::LogMessage::SendToLog()
+    @     0x7f82141a815b  google::LogMessage::Flush()
+    @     0x7f82141aae1e  google::LogMessageFatal::~LogMessageFatal()
+    @     0x7f82147fe440  caffe::SyncedMemory::to_gpu()
+    @     0x7f82147fd409  caffe::SyncedMemory::mutable_gpu_data()
+    @     0x7f82147efc53  caffe::Blob<>::mutable_gpu_diff()
+    @     0x7f82149d8cca  caffe::PoolingLayer<>::Backward_gpu()
+    @     0x7f82149776ab  caffe::Net<>::BackwardFromTo()
+    @     0x7f821497770f  caffe::Net<>::Backward()
+    @     0x7f821499230c  caffe::Solver<>::Step()
+    @     0x7f8214992d99  caffe::Solver<>::Solve()
     @           0x40bd89  train()
     @           0x4077c8  main
-    @     0x7f4e4a30d830  __libc_start_main
+    @     0x7f821293f830  __libc_start_main
     @           0x408099  _start
     @              (nil)  (unknown)
