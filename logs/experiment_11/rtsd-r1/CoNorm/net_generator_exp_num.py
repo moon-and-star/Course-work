@@ -123,31 +123,7 @@ def accuracy(name, bottom, labels, top_k):
     )
 
 
-def initWithData(lmdb, phase, batch_size, mean_path):
-    n = caffe.NetSpec()
-    mean = load_image_mean(mean_path)
 
-    if mean is not None:
-        transform_param = dict(mirror=False, crop_size = 48, mean_value = map(int, mean), scale=1.0/255)
-    else:
-        transform_param = dict(mirror=False, crop_size = 48, scale=1.0/255)
-
-    if phase == "train":
-        PHASE = "TRAIN"
-    elif phase == "test":
-        PHASE = "TEST"
-
-    n.data, n.label = L.Data(
-        batch_size = batch_size,
-        backend = P.Data.LMDB,
-        source = lmdb,
-        transform_param=transform_param,
-        ntop = 2,
-        include = dict(phase = caffe_pb2.Phase.Value(PHASE)),
-        name = "data"
-    )
-
-    return n
 
 
 
@@ -176,6 +152,42 @@ def Data(n, lmdb, phase, batch_size, mean_path):
     )
  
 
+
+def DataOnly(n, phase, src, mean_path, batch_size=1):
+    mean = load_image_mean(mean_path)
+
+    if mean is not None:
+        transform_param = dict(mirror=False, crop_size = 48, mean_value = map(int, mean), scale=1.0/255)
+    else:
+        transform_param = dict(mirror=False, crop_size = 48, scale=1.0/255)
+
+
+    if phase == "train":
+        PHASE = "TRAIN"
+    elif phase == "test":
+        PHASE = "TEST"
+
+    
+          
+    n.data, n.label = L.ImageData(
+        image_data_param=dict(
+            batch_size = batch_size,
+            new_height=56,
+            new_width=56),
+        transform_param=transform_param,
+        source = src,
+        include = dict(phase = caffe_pb2.Phase.Value(PHASE)),
+        name = "data",
+        ntop=2
+    )
+
+
+# def DataOnly(n):
+#     n.data = L.Input(
+#         shape= dict( dim=[1, 3, 48, 48] )
+#     )
+
+
 def NumOfClasses(dataset):
     if dataset == "rtsd-r1":
         return 67
@@ -198,6 +210,35 @@ def FcDropAct(n, args, dataset):
         n.drop4 = dropout("drop4", n.relu4, dropout_ratio = args.drop_ratio)
 
     n.fc5_classes, n.softmax = fc("fc5", n.relu4, num_output = num_of_classes, activ="softmax")
+
+
+
+def PrepareSrcFromGT(data_prefix, dataset, mode, phase):
+    root = "{}/{}/{}".format(data_prefix, dataset, mode)
+    src = "{}/gt_{}.txt".format(root, phase)
+    out = "{}/{}.txt".format(root, phase)
+    with open(src) as f, open(out, "w") as fout:
+        for line in f:
+            s = line.split(" ")
+            line = line.replace(s[0], "{}/{}/".format(root, phase) + s[0])
+            fout.write(line)
+
+    return out
+
+
+
+def NoLMDB_Net(args, dataset, mode, phase):
+    data_prefix = "../local_data"
+    mean_path = '{}/lmdb/{}/{}/{}/mean.txt'.format(data_prefix,dataset, mode, phase)
+    src_path = PrepareSrcFromGT(data_prefix, dataset, mode, phase) 
+
+    n = caffe.NetSpec()
+    # DataOnly(n)
+    DataOnly(n, phase, src_path, mean_path)
+    ConvPoolAct(n, args)
+    FcDropAct(n, args, dataset)
+    
+    return n.to_proto()
 
 
 
@@ -250,52 +291,8 @@ def launch():
 
 
 
-
-
-
-# def launch():
-#     parser = gen_parser()
-#     args = parser.parse_args()
-#     exp_num = args.EXPERIMENT_NUMBER
-#     batch_size = args.batch_size
-#     proto_pref = args.proto_pref
-#     snap_pref = args.snap_pref
-
-#     data_prefix = "../local_data"
-
-#     modes = ["orig", "histeq", "AHE", "imajust", "CoNorm" ]
-#     # modes=["orig"]
-#     for dataset in ["rtsd-r1","rtsd-r3"]:
-#         num_of_classes = NumOfClasses(dataset)
-
-
-#         for mode in modes:
-#             directory = '{}/experiment_{}/{}/{}/trial_{}/'.format(proto_pref,exp_num, dataset,mode, args.trial_number)
-#             safe_mkdir(directory)
-#             for phase in ['train', 'test']:
-#                 print("Generating architectures")
-#                 print("{}  {}".format(directory, phase))
-
-#                 mean_path = '{}/lmdb/{}/{}/{}/mean.txt'.format(data_prefix,dataset, mode, phase)
-#                 # mean_path = '{}/{}/{}/{}/mean.txt'.format(data_prefix,dataset, mode, phase)
-#                 with open('{}/{}.prototxt'.format(directory, phase), 'w') as f:
-#                     f.write(str(make_net(initWithData(
-#                                             '{}/lmdb/{}/{}/{}/lmdb'.format(data_prefix, 
-#                                                                     dataset, mode, phase), 
-#                                             batch_size=batch_size,
-#                                             phase=phase,
-#                                             mean_path=mean_path
-#                                             ),
-#                                         args=args,
-#                                         num_of_classes=num_of_classes
-#                     )))
-
-#                 print("")
-#             GenSingleNetSolver(dataset, mode, args)
-              
-
-
-launch()
+if __name__ == "__main__":
+    launch()
 
 # with open('Prototxt/{}/{}/test.prototxt'.format(dataset,mode), 'w') as f:
                 #     f.write(str(make_net(initWithData('{}/lmdb/{}/{}/test_lmdb'.format(data_prefix,dataset, mode), 128))))
