@@ -223,12 +223,9 @@ def process(rootpath, outpath, phase, mode, sample_factor=1, random=False):
 
 
 
-def launch():
+def old_launch():
     samples = 1
     random = False
-    # modes = ['orig']
-    # for dataset in ["rtsd-r1"]:
-        # for phase in ["test"]:
     modes = ["orig", "histeq", "AHE", "imajust", "CoNorm" ]
     for dataset in ["rtsd-r1","rtsd-r3"]:
         for phase in ["train", "test"]:
@@ -240,11 +237,28 @@ def launch():
 
                 outpath = "../local_data/"+ dataset + "/" + mode
                 process(rootpath, outpath, phase, mode, sample_factor=samples, random=random)
-                # if phase == "train":
-                #     process(rootpath, outpath, phase, mode)
-                # elif phase == "test":
-                #     process(rootpath, outpath, phase, mode)
 
 
-launch()
+
+def launch():
+    samples = 1
+    random = False
+    modes = ["orig", "histeq", "AHE", "imajust", "CoNorm" ]
+    for dataset in ["rtsd-r1","rtsd-r3"]:
+        for phase in ["train", "test"]:
+            rootpath = "../global_data/Traffic_signs/RTSD/classification/" + dataset
+
+            for mode in modes:
+                print("\nCurrent_path = {}\n".format(rootpath))
+                print("Mode = {}\n".format(mode))
+
+                outpath = "../local_data/"+ dataset + "/" + mode
+                process(rootpath, outpath, phase, mode, sample_factor=samples, random=random)
+
+
+
+
+
+if __name__ == '__main__':
+    launch()
 
