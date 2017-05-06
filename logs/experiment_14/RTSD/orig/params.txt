@@ -7,8 +7,8 @@
 	SNAP_FR=10     
 	STEP_FR=20     
 	GAMMA=0.5     
-	LR=1e-4   
-	activation=scaled_tanh  
+	LR=1e-3   
+	activation=relu  
 	drop=false
 	drop_ratio=0.5
 	CONV_GROUP=1
