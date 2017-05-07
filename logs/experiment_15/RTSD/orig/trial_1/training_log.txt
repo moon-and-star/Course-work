@@ -1,19 +1,19 @@
-I0508 00:43:56.811540 27808 caffe.cpp:217] Using GPUs 1
-I0508 00:43:56.927031 27808 caffe.cpp:222] GPU 1: GeForce GTX 1070
-I0508 00:43:57.875145 27808 solver.cpp:60] Initializing solver from parameters: 
+I0508 00:44:19.168860 30491 caffe.cpp:217] Using GPUs 1
+I0508 00:44:19.281287 30491 caffe.cpp:222] GPU 1: GeForce GTX 1070
+I0508 00:44:20.258359 30491 solver.cpp:60] Initializing solver from parameters: 
 train_net: "./Prototxt/experiment_15/RTSD/orig/trial_1/train.prototxt"
 test_net: "./Prototxt/experiment_15/RTSD/orig/trial_1/test.prototxt"
-test_iter: 17
-test_interval: 85
+test_iter: 34
+test_interval: 169
 base_lr: 0.0001
 display: 1
-max_iter: 8500
+max_iter: 16900
 lr_policy: "step"
 gamma: 0.7
 momentum: 0.9
 weight_decay: 0.0005
-stepsize: 1700
-snapshot: 850
+stepsize: 3380
+snapshot: 1690
 snapshot_prefix: "./snapshots/experiment_15/RTSD/orig/trial_1/snap"
 solver_mode: GPU
 device_id: 1
@@ -23,8 +23,8 @@ train_state {
 }
 iter_size: 1
 type: "Adam"
-I0508 00:43:57.875282 27808 solver.cpp:93] Creating training net from train_net file: ./Prototxt/experiment_15/RTSD/orig/trial_1/train.prototxt
-I0508 00:43:57.875757 27808 net.cpp:58] Initializing net from parameters: 
+I0508 00:44:20.258515 30491 solver.cpp:93] Creating training net from train_net file: ./Prototxt/experiment_15/RTSD/orig/trial_1/train.prototxt
+I0508 00:44:20.259063 30491 net.cpp:58] Initializing net from parameters: 
 state {
   phase: TRAIN
   level: 0
@@ -48,7 +48,7 @@ layer {
   }
   data_param {
     source: "../local_data/lmdb/RTSD/orig/train/lmdb"
-    batch_size: 1024
+    batch_size: 512
     backend: LMDB
   }
 }
@@ -348,47 +348,47 @@ layer {
   bottom: "accuracy_1"
   bottom: "accuracy_5"
 }
-I0508 00:43:57.875926 27808 layer_factory.hpp:77] Creating layer data
-I0508 00:43:57.876978 27808 net.cpp:100] Creating Layer data
-I0508 00:43:57.876993 27808 net.cpp:408] data -> data
-I0508 00:43:57.877017 27808 net.cpp:408] data -> label
-I0508 00:43:57.879752 27932 db_lmdb.cpp:35] Opened lmdb ../local_data/lmdb/RTSD/orig/train/lmdb
-I0508 00:43:57.897770 27808 data_layer.cpp:41] output data size: 1024,3,48,48
-I0508 00:43:57.955035 27808 net.cpp:150] Setting up data
-I0508 00:43:57.955066 27808 net.cpp:157] Top shape: 1024 3 48 48 (7077888)
-I0508 00:43:57.955071 27808 net.cpp:157] Top shape: 1024 (1024)
-I0508 00:43:57.955073 27808 net.cpp:165] Memory required for data: 28315648
-I0508 00:43:57.955085 27808 layer_factory.hpp:77] Creating layer label_data_1_split
-I0508 00:43:57.955101 27808 net.cpp:100] Creating Layer label_data_1_split
-I0508 00:43:57.955106 27808 net.cpp:434] label_data_1_split <- label
-I0508 00:43:57.955121 27808 net.cpp:408] label_data_1_split -> label_data_1_split_0
-I0508 00:43:57.955133 27808 net.cpp:408] label_data_1_split -> label_data_1_split_1
-I0508 00:43:57.955142 27808 net.cpp:408] label_data_1_split -> label_data_1_split_2
-I0508 00:43:57.955211 27808 net.cpp:150] Setting up label_data_1_split
-I0508 00:43:57.955219 27808 net.cpp:157] Top shape: 1024 (1024)
-I0508 00:43:57.955224 27808 net.cpp:157] Top shape: 1024 (1024)
-I0508 00:43:57.955226 27808 net.cpp:157] Top shape: 1024 (1024)
-I0508 00:43:57.955229 27808 net.cpp:165] Memory required for data: 28327936
-I0508 00:43:57.955232 27808 layer_factory.hpp:77] Creating layer conv1
-I0508 00:43:57.955252 27808 net.cpp:100] Creating Layer conv1
-I0508 00:43:57.955257 27808 net.cpp:434] conv1 <- data
-I0508 00:43:57.955265 27808 net.cpp:408] conv1 -> conv1
-F0508 00:43:57.955384 27808 base_conv_layer.cpp:122] Check failed: channels_ % group_ == 0 (1 vs. 0) 
+I0508 00:44:20.259241 30491 layer_factory.hpp:77] Creating layer data
+I0508 00:44:20.260144 30491 net.cpp:100] Creating Layer data
+I0508 00:44:20.260165 30491 net.cpp:408] data -> data
+I0508 00:44:20.260190 30491 net.cpp:408] data -> label
+I0508 00:44:20.261267 30585 db_lmdb.cpp:35] Opened lmdb ../local_data/lmdb/RTSD/orig/train/lmdb
+I0508 00:44:20.281760 30491 data_layer.cpp:41] output data size: 512,3,48,48
+I0508 00:44:20.311468 30491 net.cpp:150] Setting up data
+I0508 00:44:20.311498 30491 net.cpp:157] Top shape: 512 3 48 48 (3538944)
+I0508 00:44:20.311503 30491 net.cpp:157] Top shape: 512 (512)
+I0508 00:44:20.311506 30491 net.cpp:165] Memory required for data: 14157824
+I0508 00:44:20.311518 30491 layer_factory.hpp:77] Creating layer label_data_1_split
+I0508 00:44:20.311532 30491 net.cpp:100] Creating Layer label_data_1_split
+I0508 00:44:20.311537 30491 net.cpp:434] label_data_1_split <- label
+I0508 00:44:20.311553 30491 net.cpp:408] label_data_1_split -> label_data_1_split_0
+I0508 00:44:20.311563 30491 net.cpp:408] label_data_1_split -> label_data_1_split_1
+I0508 00:44:20.311574 30491 net.cpp:408] label_data_1_split -> label_data_1_split_2
+I0508 00:44:20.311661 30491 net.cpp:150] Setting up label_data_1_split
+I0508 00:44:20.311671 30491 net.cpp:157] Top shape: 512 (512)
+I0508 00:44:20.311674 30491 net.cpp:157] Top shape: 512 (512)
+I0508 00:44:20.311678 30491 net.cpp:157] Top shape: 512 (512)
+I0508 00:44:20.311681 30491 net.cpp:165] Memory required for data: 14163968
+I0508 00:44:20.311684 30491 layer_factory.hpp:77] Creating layer conv1
+I0508 00:44:20.311702 30491 net.cpp:100] Creating Layer conv1
+I0508 00:44:20.311707 30491 net.cpp:434] conv1 <- data
+I0508 00:44:20.311714 30491 net.cpp:408] conv1 -> conv1
+F0508 00:44:20.311831 30491 base_conv_layer.cpp:122] Check failed: channels_ % group_ == 0 (1 vs. 0) 
 *** Check failure stack trace: ***
-    @     0x7f5081e925cd  google::LogMessage::Fail()
-    @     0x7f5081e94433  google::LogMessage::SendToLog()
-    @     0x7f5081e9215b  google::LogMessage::Flush()
-    @     0x7f5081e94e1e  google::LogMessageFatal::~LogMessageFatal()
-    @     0x7f5082639b8e  caffe::BaseConvolutionLayer<>::LayerSetUp()
-    @     0x7f50825f7187  caffe::CuDNNConvolutionLayer<>::LayerSetUp()
-    @     0x7f508266f8a2  caffe::Net<>::Init()
-    @     0x7f5082671131  caffe::Net<>::Net()
-    @     0x7f508267985a  caffe::Solver<>::InitTrainNet()
-    @     0x7f508267ab57  caffe::Solver<>::Init()
-    @     0x7f508267aefa  caffe::Solver<>::Solver()
-    @     0x7f50824c0a43  caffe::Creator_AdamSolver<>()
+    @     0x7f529d15a5cd  google::LogMessage::Fail()
+    @     0x7f529d15c433  google::LogMessage::SendToLog()
+    @     0x7f529d15a15b  google::LogMessage::Flush()
+    @     0x7f529d15ce1e  google::LogMessageFatal::~LogMessageFatal()
+    @     0x7f529d901b8e  caffe::BaseConvolutionLayer<>::LayerSetUp()
+    @     0x7f529d8bf187  caffe::CuDNNConvolutionLayer<>::LayerSetUp()
+    @     0x7f529d9378a2  caffe::Net<>::Init()
+    @     0x7f529d939131  caffe::Net<>::Net()
+    @     0x7f529d94185a  caffe::Solver<>::InitTrainNet()
+    @     0x7f529d942b57  caffe::Solver<>::Init()
+    @     0x7f529d942efa  caffe::Solver<>::Solver()
+    @     0x7f529d788a43  caffe::Creator_AdamSolver<>()
     @           0x40afb9  train()
     @           0x4077c8  main
-    @     0x7f5080629830  __libc_start_main
+    @     0x7f529b8f1830  __libc_start_main
     @           0x408099  _start
     @              (nil)  (unknown)
