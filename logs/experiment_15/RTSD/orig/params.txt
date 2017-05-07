@@ -1,7 +1,7 @@
 
 	EXPERIMENT_NUM=15    
 	GPU_NUM=1   
-	BATCH_SZ=512    
+	BATCH_SZ=1024    
 	EPOCH=100     
 	TEST_FR=1     
 	SNAP_FR=10     
