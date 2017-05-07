@@ -17,8 +17,8 @@ from skimage.io import imread, imsave
 
 import caffe
 
-# caffe.set_mode_gpu()
-# caffe.set_device(1)
+caffe.set_mode_gpu()
+caffe.set_device(1)
 
 # def test():
 #   size = get_dataset_size(dataset="rtsd-r1", phase="test", mode="orig")
