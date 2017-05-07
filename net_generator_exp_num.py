@@ -190,6 +190,7 @@ def DataOnly(n, phase, src, mean_path, batch_size=1):
 
 
 def NumOfClasses(dataset):
+    set_size = {"rtsd-r1": 67, "rtsd-r3": 106, 'RTSD': 116}
     # if dataset == "rtsd-r1":
     #     return 67
     # elif dataset == "rtsd-r3":
@@ -300,7 +301,7 @@ def launch():
 
 
 if __name__ == "__main__":
-    set_size = {"rtsd-r1": 67, "rtsd-r3": 106, 'RTSD': 116}
+    
     launch()
 
 # with open('Prototxt/{}/{}/test.prototxt'.format(dataset,mode), 'w') as f:

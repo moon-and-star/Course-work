@@ -9,6 +9,7 @@ from util import ParseParams,  load_image_mean, safe_mkdir
 import math
 import fileinput
 import sys
+import argparse
 sys.path.append('/opt/caffe/python/')
 
 
@@ -16,8 +17,8 @@ from skimage.io import imread, imsave
 
 import caffe
 
-caffe.set_mode_gpu()
-caffe.set_device(1)
+# caffe.set_mode_gpu()
+# caffe.set_device(1)
 
 # def test():
 #   size = get_dataset_size(dataset="rtsd-r1", phase="test", mode="orig")
@@ -200,6 +201,9 @@ def TestCommitee(exp_num, dataset):
 
 
 
-
-  
-TestCommitee(11, "rtsd-r1")                   
+if __name__ == '__main__':
+	parser = argparse.ArgumentParser()
+	parser.add_argument("EXPERIMENT_NUMBER",type=int, 
+                        help='the number of current experiment with nets ')
+	args = parser.parse_args()
+	TestCommitee(args.EXPERIMENT_NUMBER, "RTSD")                   
