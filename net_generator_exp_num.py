@@ -189,7 +189,7 @@ def NumOfClasses(dataset):
 
 def ConvPoolAct(n, args):
     n.pool1 = maxpool("pool1", conv1(n, "conv1", n.data, 100, kernel_size = 7, pad = 0, 
-                        activ=args.activation, group=args.conv_group))
+                        activ=args.activation, group=1))
     n.pool2 = maxpool("pool2", conv1(n, "conv2", n.pool1, 150, kernel_size = 4, pad = 0, 
                         activ=args.activation, group=args.conv_group))
     n.pool3 = maxpool("pool3", conv1(n, "conv3", n.pool2, 250, kernel_size = 4, pad = 0, 
