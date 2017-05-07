@@ -56,13 +56,13 @@ def conv_stanh(n, name, bottom, kernel_size, num_output, stride=1, pad=1, group=
     return conv, scale2
 
 
-def conv1(n, name, bottom, num_output, kernel_size = 3, pad = None, activ = "relu"):
+def conv1(n, name, bottom, num_output, kernel_size = 3, pad = None, activ = "relu", group=1):
     if pad is None: pad = kernel_size / 2
     if activ == "relu":
-        conv1, relu1 = conv_relu(n, "{}".format(name), bottom, kernel_size, num_output, pad = pad)
+        conv1, relu1 = conv_relu(n, "{}".format(name), bottom, kernel_size, num_output, pad=pad, group=group)
         return relu1
     elif activ == "scaled_tanh":
-        conv1, scale2 = conv_stanh(n, "{}".format(name), bottom, kernel_size, num_output, pad = pad)
+        conv1, scale2 = conv_stanh(n, "{}".format(name), bottom, kernel_size, num_output, pad=pad, group=group)
         return scale2
     
 
@@ -182,29 +182,18 @@ def DataOnly(n, phase, src, mean_path, batch_size=1):
     )
 
 
-# def DataOnly(n):
-#     n.data = L.Input(
-#         shape= dict( dim=[1, 3, 48, 48] )
-#     )
-
-
-
 def NumOfClasses(dataset):
     set_size = {"rtsd-r1": 67, "rtsd-r3": 106, 'RTSD': 116}
-    # if dataset == "rtsd-r1":
-    #     return 67
-    # elif dataset == "rtsd-r3":
-    #     return 106
-    # elif dataset == "RTSD":
-    #     return 116
-
     return set_size[dataset]
 
 
 def ConvPoolAct(n, args):
-    n.pool1 = maxpool("pool1", conv1(n, "conv1", n.data, 100, kernel_size = 7, pad = 0, activ=args.activation))
-    n.pool2 = maxpool("pool2", conv1(n, "conv2", n.pool1, 150, kernel_size = 4, pad = 0, activ=args.activation))
-    n.pool3 = maxpool("pool3", conv1(n, "conv3", n.pool2, 250, kernel_size = 4, pad = 0, activ=args.activation))
+    n.pool1 = maxpool("pool1", conv1(n, "conv1", n.data, 100, kernel_size = 7, pad = 0, 
+                        activ=args.activation, group=args.conv_group))
+    n.pool2 = maxpool("pool2", conv1(n, "conv2", n.pool1, 150, kernel_size = 4, pad = 0, 
+                        activ=args.activation, group=args.conv_group))
+    n.pool3 = maxpool("pool3", conv1(n, "conv3", n.pool2, 250, kernel_size = 4, pad = 0, 
+                        activ=args.activation, group=args.conv_group))
 
 
 
