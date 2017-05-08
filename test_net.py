@@ -160,29 +160,32 @@ def Test2(exp_num, dataset):
 
 def TestCommitee(exp_num, dataset):
     phase = "test"
-    mode = "orig"
-    size = get_dataset_size(dataset=dataset, phase=phase, mode=mode)
-    classes = NumOfClasses(dataset)
 
-    rootpath = "../local_data/{}/{}".format(dataset, mode)
-    src = "{}/test.txt".format(rootpath)
+    modes = ["orig", "histeq", "AHE", "imajust", "CoNorm" ]
+    for mode in modes:
+    	num_of_nets = 5.0 * len(modes)
+	    size = get_dataset_size(dataset=dataset, phase=phase, mode=mode)
+	    classes = NumOfClasses(dataset)
 
-    softmax = np.zeros((5, size, classes))
-    for trial in range(5):
-        net = LoadWithoutLMDB(exp_num, dataset, mode, trial + 1, phase)
-        for i in range(size):
-            if i % 100 == 0:
-                print(i)
-            out = net.forward()
-            softmax[trial, i] = net.blobs["softmax"].data
-                
+	    rootpath = "../local_data/{}/{}".format(dataset, mode)
+	    src = "{}/test.txt".format(rootpath)
 
-    softmax = softmax.sum(axis=0) / 5.0
-    print(softmax.shape)
+	    softmax = np.zeros((5, size, classes))
+	    for trial in range(5):
+	        net = LoadWithoutLMDB(exp_num, dataset, mode, trial + 1, phase)
+	        for i in range(size):
+	            if i % 100 == 0:
+	                print(i)
+	            out = net.forward()
+	            softmax[trial, i] = net.blobs["softmax"].data
+	                
+
+	    softmax = softmax.sum(axis=0) / num_of_nets
+	    print(softmax.shape)
     
 
 
-    names = None
+    # names = None
     with open(src) as f:
         lines = f.readlines()
 
