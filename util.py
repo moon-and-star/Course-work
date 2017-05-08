@@ -26,6 +26,8 @@ def to_arg_name(s):
         return "dropout"
     elif s == "EPOCH":
         return "epoch"
+    elif s == "CONV_GROUP":
+        return 'conv_group'
     else: 
         return s
 
