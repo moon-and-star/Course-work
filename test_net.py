@@ -159,6 +159,7 @@ def Test2(exp_num, dataset):
 
 def CommiteeOutput(exp_num, dataset, phase="test"):
     modes = ["orig", "histeq", "AHE", "imajust", "CoNorm" ]
+    modes = ['orig']
     for mode in modes:
         num_of_nets = 5.0 * len(modes)
         size = get_dataset_size(dataset=dataset, phase=phase, mode=mode)
