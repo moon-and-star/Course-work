@@ -157,18 +157,12 @@ def Test2(exp_num, dataset):
 
 
 
-
-def TestCommitee(exp_num, dataset):
-    phase = "test"
-
+def CommiteeOutput(exp_num, dataset, phase="test"):
     modes = ["orig", "histeq", "AHE", "imajust", "CoNorm" ]
     for mode in modes:
         num_of_nets = 5.0 * len(modes)
         size = get_dataset_size(dataset=dataset, phase=phase, mode=mode)
         classes = NumOfClasses(dataset)
-
-        rootpath = "../local_data/{}/{}".format(dataset, mode)
-        src = "{}/test.txt".format(rootpath)
 
         softmax = np.zeros((5, size, classes))
         for trial in range(5):
@@ -183,24 +177,50 @@ def TestCommitee(exp_num, dataset):
         softmax = softmax.sum(axis=0) / num_of_nets
         print(softmax.shape)
     
+    return softmax
 
 
-    # names = None
+
+
+def AccuracyAndErrors(exp_num, dataset, phase, softmax, verbose=True):
+    rootpath = "../local_data/{}/{}".format(dataset, mode='orig')
+    src = "{}/test.txt".format(rootpath)        
     with open(src) as f:
         lines = f.readlines()
 
-    sum = 0.0
-    for i in range(size):
-        label = int(lines[i].replace("\n", "").split(" ")[1])
-        prediction = np.argmax(softmax[i])
-        if label == prediction:
-            # print("correct")
-            sum += 1.0
-        else:
-            line = lines[i].replace("\n", "")
-            print("name = {}   prediction = {}".format(line, prediction))
 
-    print("Accuracy: ", sum / size)
+    sum = 0.0
+    size = get_dataset_size(dataset=dataset, phase=phase, mode=mode)
+    path = "./logs/experiment_{}/{}/misclassified.txt".format(exp_num, dataset)
+
+    with open(path, 'w') as out
+        for i in range(size):
+            label = int(lines[i].replace("\n", "").split(" ")[1])
+            prediction = np.argmax(softmax[i])
+            if label == prediction:
+                sum += 1.0
+            else:
+                line = lines[i].replace("\n", "")
+                content = "name = {}   prediction = {}".format(line, prediction)
+                out.write(content + '\n')
+                if verbose == True:
+                    print(content)
+    return sum / size
+                
+
+
+
+
+
+
+def TestCommitee(exp_num, dataset):
+    phase = "test"
+    softmax = CommiteeOutput(exp_num, dataset, phase)
+    acc = AccuracyAndErrors(exp_num, dataset, phase, softmax)
+    
+
+    with open("./logs/experiment_{}/{}/test_results.txt".format(exp_num, dataset)):
+        print("Accuracy: ", acc)
 
 
 
