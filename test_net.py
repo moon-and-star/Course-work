@@ -193,7 +193,7 @@ def AccuracyAndErrors(exp_num, dataset, phase, softmax, verbose=True):
     size = get_dataset_size(dataset=dataset, phase=phase, mode=mode)
     path = "./logs/experiment_{}/{}/misclassified.txt".format(exp_num, dataset)
 
-    with open(path, 'w') as out
+    with open(path, 'w') as out:
         for i in range(size):
             label = int(lines[i].replace("\n", "").split(" ")[1])
             prediction = np.argmax(softmax[i])
