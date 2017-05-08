@@ -184,7 +184,8 @@ def CommiteeOutput(exp_num, dataset, phase="test"):
 
 
 def AccuracyAndErrors(exp_num, dataset, phase, softmax, verbose=True):
-    rootpath = "../local_data/{}/{}".format(dataset, 'orig')
+    mode = "orig"
+    rootpath = "../local_data/{}/{}".format(dataset, mode)
     src = "{}/test.txt".format(rootpath)        
     with open(src) as f:
         lines = f.readlines()
