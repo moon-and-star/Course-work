@@ -163,25 +163,25 @@ def TestCommitee(exp_num, dataset):
 
     modes = ["orig", "histeq", "AHE", "imajust", "CoNorm" ]
     for mode in modes:
-    	num_of_nets = 5.0 * len(modes)
-	    size = get_dataset_size(dataset=dataset, phase=phase, mode=mode)
-	    classes = NumOfClasses(dataset)
+        num_of_nets = 5.0 * len(modes)
+        size = get_dataset_size(dataset=dataset, phase=phase, mode=mode)
+        classes = NumOfClasses(dataset)
 
-	    rootpath = "../local_data/{}/{}".format(dataset, mode)
-	    src = "{}/test.txt".format(rootpath)
+        rootpath = "../local_data/{}/{}".format(dataset, mode)
+        src = "{}/test.txt".format(rootpath)
 
-	    softmax = np.zeros((5, size, classes))
-	    for trial in range(5):
-	        net = LoadWithoutLMDB(exp_num, dataset, mode, trial + 1, phase)
-	        for i in range(size):
-	            if i % 100 == 0:
-	                print(i)
-	            out = net.forward()
-	            softmax[trial, i] = net.blobs["softmax"].data
-	                
+        softmax = np.zeros((5, size, classes))
+        for trial in range(5):
+            net = LoadWithoutLMDB(exp_num, dataset, mode, trial + 1, phase)
+            for i in range(size):
+                if i % 100 == 0:
+                    print(i)
+                out = net.forward()
+                softmax[trial, i] = net.blobs["softmax"].data
+                    
 
-	    softmax = softmax.sum(axis=0) / num_of_nets
-	    print(softmax.shape)
+        softmax = softmax.sum(axis=0) / num_of_nets
+        print(softmax.shape)
     
 
 
@@ -205,8 +205,8 @@ def TestCommitee(exp_num, dataset):
 
 
 if __name__ == '__main__':
-	parser = argparse.ArgumentParser()
-	parser.add_argument("EXPERIMENT_NUMBER",type=int, 
+    parser = argparse.ArgumentParser()
+    parser.add_argument("EXPERIMENT_NUMBER",type=int, 
                         help='the number of current experiment with nets ')
-	args = parser.parse_args()
-	TestCommitee(args.EXPERIMENT_NUMBER, "RTSD")                   
+    args = parser.parse_args()
+    TestCommitee(args.EXPERIMENT_NUMBER, "RTSD")                   
