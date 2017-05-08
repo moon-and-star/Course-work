@@ -1,0 +1,15 @@
+
+	EXPERIMENT_NUM=15    
+	GPU_NUM=1   
+	BATCH_SZ=1024    
+	EPOCH=50     
+	TEST_FR=1     
+	SNAP_FR=10     
+	STEP_FR=5     
+	GAMMA=0.5     
+	LR=1e-4   
+	activation=scaled_tanh  
+	drop=false
+	drop_ratio=0.5
+	CONV_GROUP=2
+	TRY_NUM=5
