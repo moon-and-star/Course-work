@@ -75,16 +75,45 @@ def DictForClasses(classes):
 
 
 
+def save_stats(norm,  rootpath):
+	with open("{}/stats.txt".format(rootpath), 'w') as f:
+		stats = {}
+		for label in sorted(norm["test"]):
+			train_size = len(norm["train"][label])
+			test_size = len(norm["test"][label])
+			total = test_size + train_size
+			stats[label] = "{:10}{:8}{:7}{:7}{:14.2}".format(label, train_size, test_size, total, float(test_size)/total)
 
-#swaps train/test for classes in which train < test
+		first = "{:10}{:>8}{:>7}{:>7}{:>14}". format("label", "train", "test", "total", "test/total")
+		f.write(first+'\n')
+		print(first)
+		for label in sorted(stats):
+			f.write(stats[label] + '\n')
+			print(stats[label])
+
+
+
+
+#marking = dict of 2 dicts (train and test dicts each containing lists of sign entries)
+#swaps train/test for classes in which train < test; removes classes with toofew images
 def  normalize(markings, classes):
+	threshold = 10
+	norm = {}; norm["train"], norm["test"] = {},{}
+
 	for label in classes:
 		train_size = len(markings["train"][label])
 		test_size = len(markings["test"][label])
-		# print("{:10} {:5} {:5}".format(label, train_size, test_size))
-		if train_size < test_size:
-			markings["train"][label], markings["test"][label] = markings["test"][label], markings["train"][label]
-	return markings
+
+		#cut off classes with few images
+		if (train_size + test_size) > threshold:
+			if train_size < test_size: #then swap
+				norm["train"][label], norm["test"][label] = markings["test"][label], markings["train"][label]
+				train_size, test_size = test_size, train_size
+			else:
+				norm["train"][label], norm["test"][label] = markings["train"][label], markings["test"][label]
+
+	save_stats(norm, rootpath)
+	return norm
 
 
 
@@ -92,8 +121,8 @@ def  normalize(markings, classes):
 #here marking is dict of lists of tuples: label: [(filename, entry_for_marking)]
 def to_std_marking(marking):
 	filenames = set()
-	for label in sorted(marking):
-		for entry in marking[label]:
+	for label in sorted(marking): # for each sign class
+		for entry in marking[label]: #for each class member
 			filenames.add(entry[0]) #adding entry for filename
 
 
@@ -107,14 +136,14 @@ def to_std_marking(marking):
 			i += 1
 
 
-	print("imagees amount in set = ", i)
+	print("number of images in set = ", i)
 	return new
 
 
 
 
 
-def Classificationmarking(marking, classes):
+def ClassificationMarking(marking, classes):
 	# new = marking
 	new = {}
 	for phase in ['train', 'test']:
@@ -165,10 +194,8 @@ def getClassificationMarking():
 		classes[phase] = get_label_set(m)
 
 	classes = getClassificationLabels(classes)
-	marking = Classificationmarking(marking, classes)
+	marking = ClassificationMarking(marking, classes)
 	return marking
-	# for key in classes:
-	# 	print(key, classes.index(key))
 
 	
 
@@ -178,6 +205,7 @@ def getClassificationMarking():
 
 
 if __name__ == '__main__':
+	print("detection marking -> classification marking")
 	rootpath = '../global_data/Traffic_signs/RTSD'
 	marking = getClassificationMarking()
 	save_marking(marking)
