@@ -8,7 +8,6 @@ from util import safe_mkdir, load_marking
 from det2class_marking import get_label_set
 
 
-# def marking2gt
 
 
 def crop_sign(name, entry):
@@ -71,11 +70,9 @@ def main():
 
 
 if __name__ == '__main__':
+	print("classification marking -> cropped(from detection images) signs")
 	rootpath = '../global_data/Traffic_signs/RTSD'
 	data_folder = 'classification'
 	rate = 50
 	main()
-	# lst= ['o', 'l', 'a']
-	# d = {key:value for key, value in zip(sorted(lst), range(3))}
-	# print(d)
 	

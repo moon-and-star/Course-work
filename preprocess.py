@@ -258,5 +258,6 @@ def launch():
 
 
 if __name__ == '__main__':
+    print("cropped signs -> preprocessed signs ")
     launch()
 
