@@ -2,7 +2,7 @@
 	EXPERIMENT_NUM=20    
 	GPU_NUM=1   
 	BATCH_SZ=1024    
-	EPOCH=50     
+	EPOCH=30     
 	TEST_FR=1     
 	SNAP_FR=10     
 	STEP_FR=20     
