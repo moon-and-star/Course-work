@@ -14,14 +14,14 @@ echo " tools = ${TOOLS}"
 
 
 EXPERIMENT_NUM=20  
-GPU_NUM=0
+GPU_NUM=1
 BATCH_SZ=1024    
-EPOCH=50     
+EPOCH=30     
 TEST_FR=1     
 SNAP_FR=10     
-STEP_FR=60     
-GAMMA=0.5     
-LR=1e-3  
+STEP_FR=20     
+GAMMA=0.1     
+LR=1e-3 
 activation=relu
 drop=false
 drop_ratio=0.5
@@ -59,7 +59,7 @@ datasets=("RTSD")
 
 
 # datasets=("rtsd-r1" "rtsd-r3")
-modes=( "orig" "CoNorm" "AHE" "histeq" "imajust")
+modes=(  "CoNorm" "AHE" "histeq" "imajust" "orig")
 
 
 
