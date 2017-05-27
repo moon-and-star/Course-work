@@ -13,7 +13,7 @@ echo " tools = ${TOOLS}"
 
 
 
-EXPERIMENT_NUM=13   
+EXPERIMENT_NUM=20  
 GPU_NUM=0
 BATCH_SZ=1024    
 EPOCH=50     
@@ -21,12 +21,14 @@ TEST_FR=1
 SNAP_FR=10     
 STEP_FR=60     
 GAMMA=0.5     
-LR=1e-4   
-activation=scaled_tanh
+LR=1e-3  
+activation=relu
 drop=false
 drop_ratio=0.5
 CONV_GROUP=1
 TRY_NUM=5
+
+note="this experiment was created to see how the reduction of small classes would affect the accuracy of nets"
 
 # Amsg="this experime"
 
@@ -44,7 +46,8 @@ msg="""
 	drop=$drop
 	drop_ratio=$drop_ratio
 	CONV_GROUP=$CONV_GROUP
-	TRY_NUM=$TRY_NUM"""
+	TRY_NUM=$TRY_NUM
+	note=$note """
 
 printf "$msg\n"
 
