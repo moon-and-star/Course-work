@@ -50,19 +50,33 @@ def get_label_set(marking):
 
 
 
-def CropSortSave(marking, rootpath, phase):
+# def CropSortSave(marking, rootpath, phase):
+# 	for name in sorted(marking):
+# 		for sign_entry in marking[name]:
+# 			path = "{}/imgs/{}".format(rootpath, name)
+# 			cropped = crop_sign(path, sign_entry)
+# 			if "unknown" in sign_entry['sign_class'] :
+# 				save_path = "{}/cropped/{}/unknown/{}/".format(rootpath, phase, sign_entry['sign_class'])
+# 			else:
+# 				save_path = "{}/cropped/{}/{}".format(rootpath, phase, sign_entry['sign_class'])
+				
+# 			safe_mkdir(save_path)
+# 			im_path = "{}/{}".format(save_path, name)
+# 			a = cv2.imwrite(im_path, cropped)	
+
+def CropAndSave(marking, rootpath):
 	for name in sorted(marking):
 		for sign_entry in marking[name]:
 			path = "{}/imgs/{}".format(rootpath, name)
 			cropped = crop_sign(path, sign_entry)
 			if "unknown" in sign_entry['sign_class'] :
-				save_path = "{}/cropped/{}/unknown/{}/".format(rootpath, phase, sign_entry['sign_class'])
+				save_path = "{}/cropped/unknown/{}/".format(rootpath, sign_entry['sign_class'])
 			else:
-				save_path = "{}/cropped/{}/{}".format(rootpath, phase, sign_entry['sign_class'])
+				save_path = "{}/cropped/{}".format(rootpath, sign_entry['sign_class'])
 				
 			safe_mkdir(save_path)
 			im_path = "{}/{}".format(save_path, name)
-			a = cv2.imwrite(im_path, cropped)	
+			a = cv2.imwrite(im_path, cropped)
 
 
 
