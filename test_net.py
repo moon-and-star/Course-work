@@ -224,10 +224,10 @@ def AccuracyAndErrors(exp_num, dataset, phase, softmax, verbose=True):
         for i in range(size):
             label = int(lines[i].replace("\n", "").split(" ")[1])
             prediction = np.argmax(softmax[i])
-            class_answers[label].total += 1
+            class_answers[label]['total'] += 1
 
             if label == prediction:
-                class_answers[label].correct += 1
+                class_answers[label]['correct'] += 1
                 sum += 1.0
             else:
                 line = lines[i].replace("\n", "")
