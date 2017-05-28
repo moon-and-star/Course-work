@@ -234,6 +234,17 @@ def AccuracyAndErrors(exp_num, dataset, phase, softmax, verbose=True):
                 if verbose == True:
                     print(content)
 
+
+    path = "./logs/experiment_{}/{}/predictions_{}.txt".format(exp_num, dataset, phase)
+    with open(path, 'w') as out:
+        for i in range(size):
+            label = int(lines[i].replace("\n", "").split(" ")[1])
+            prediction = np.argmax(softmax[i])
+            line = lines[i].replace("\n", "")
+            content = "{}   prediction = {}".format(line, prediction)
+            out.write(content + '\n')
+            
+
     accuracies = ClassAccuracies(class_answers)
     return sum / size, accuracies
                 
