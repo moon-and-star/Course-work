@@ -168,7 +168,8 @@ def CommiteeOutput(exp_num, dataset, phase="test"):
         classes = NumOfClasses(dataset)
         
         softmax = np.zeros((5, size, classes))
-        return softmax
+        return softmax.sum(axis=0) / num_of_nets
+
 
         for trial in range(5):
             net = LoadWithoutLMDB(exp_num, dataset, mode, trial + 1, phase)
