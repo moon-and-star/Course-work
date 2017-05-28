@@ -25,6 +25,7 @@ def gather(inpath, outpath):
 
 if __name__ == '__main__':
 	exp_num = 21
-	inpath = "./logs/experiment_{}/RTSD/misclassified.txt".format(exp_num)
-	outpath = "../local_data/RTSD/exp_{}/".format(exp_num)
-	gather(inpath, outpath)
+	for phase in ["train", "test"]:
+		inpath = "./logs/experiment_{}/RTSD/misclassified_{}.txt".format(exp_num, phase)
+		outpath = "../local_data/RTSD/exp_{}_{}/".format(exp_num, phase)
+		gather(inpath, outpath)
