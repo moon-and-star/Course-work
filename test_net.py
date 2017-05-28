@@ -191,7 +191,7 @@ def InitAnswers(length):
     for i in range(length):
         tmp = {}
         tmp["correct"] = 0
-        tmp.['total'] = 0
+        tmp['total'] = 0
 
         res += [tmp]  
     return res  
