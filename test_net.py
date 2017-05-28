@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-#!/usr/bin/env python
+
 
 import numpy as np
 from gen_solver import get_dataset_size
@@ -193,7 +193,7 @@ def AccuracyAndErrors(exp_num, dataset, phase, softmax, verbose=True):
 
     sum = 0.0
     size = get_dataset_size(dataset=dataset, phase=phase, mode=mode)
-    path = "./logs/experiment_{}/{}/misclassified.txt".format(exp_num, dataset)
+    path = "./logs/experiment_{}/{}/misclassified_{}.txt".format(exp_num, dataset, phase)
 
     with open(path, 'w') as out:
         for i in range(size):
