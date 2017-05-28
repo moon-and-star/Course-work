@@ -8,6 +8,7 @@ import os.path as osp
 from os import makedirs 
 import copy
 import random
+from shutil import copyfile
 
 from skimage.io import imread, imsave
 from skimage.transform import rotate, rescale
@@ -172,16 +173,13 @@ rate = 100
 #sample_factor = how many samples to produse from 1 sample (data augmentation)
 def process(rootpath, outpath, phase, mode, sample_factor=1, random=False):
     safe_mkdir(outpath) #create outpath
-    labels = open("{}/gt_{}.txt".format(outpath, phase), 'w') #create file to write labels in
+    labels = open("{}/gt_{}_full.txt".format(outpath, phase), 'w') #create file to write labels in
     markup = open('{}/gt_{}.txt'.format(rootpath, phase), 'r').readlines() # open file to read labels (and, may be coords)
 
     mean = np.zeros((3, 54, 54), dtype=np.float32)
     image_id = 0
     total_images = 0
     for image_name,clid in [x.replace('\r\n', '').split(',') for x in markup[1:]]:
-        # print (image_id)
-        # if image_id > 100:
-        #     break
         if image_id % rate == 0:
             print(image_name)
 
@@ -217,6 +215,11 @@ def process(rootpath, outpath, phase, mode, sample_factor=1, random=False):
     if max(b, g, r) < 50:
         print('WARNING: low mean values\nb={}, g={}, r={}'.format(b,g,r))
         print('rootpath={}\n outpath={}\n mode={}\n phase={}'.format(rootpath,outpath, mode, phase))
+
+
+    src = "{}/gt_{}_full.txt".format(outpath, phase)
+    dst = "{}/gt_{}.txt".format(outpath, phase)
+    copyfile(src, dst)
 
 
 
