@@ -221,7 +221,7 @@ def PrepareSrcFromGT(data_prefix, dataset, mode, phase):
     return out
 
 
-
+#needed for commitee testing
 def NoLMDB_Net(args, dataset, mode, phase):
     data_prefix = "../local_data"
     mean_path = '{}/lmdb/{}/{}/{}/mean.txt'.format(data_prefix,dataset, mode, phase)
@@ -230,7 +230,7 @@ def NoLMDB_Net(args, dataset, mode, phase):
 
     n = caffe.NetSpec()
     # DataOnly(n)
-    DataOnly(n, phase, src_path, mean_path)
+    DataOnly(n, 'test', src_path, mean_path)
     ConvPoolAct(n, args)
     FcDropAct(n, args, dataset)
     
