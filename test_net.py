@@ -166,9 +166,10 @@ def CommiteeOutput(exp_num, dataset, phase="test"):
         num_of_nets = 5.0 * len(modes)
         size = get_dataset_size(dataset=dataset, phase=phase, mode=mode)
         classes = NumOfClasses(dataset)
-        print(classes)
         
         softmax = np.zeros((5, size, classes))
+        return softmax
+        
         for trial in range(5):
             net = LoadWithoutLMDB(exp_num, dataset, mode, trial + 1, phase)
             for i in range(size):
@@ -185,6 +186,25 @@ def CommiteeOutput(exp_num, dataset, phase="test"):
 
 
 
+def InitAnswers(length):
+    res = []
+    for i in range(length):
+        tmp = {}
+        tmp.correct = 0
+        tmp.total = 0
+
+        res += [tmp]  
+    return res  
+
+
+def ClassAccuracies(answers):
+    res = {}
+    for i in range(len(answers)):
+        if answers[i].total > 0:
+            acc = float(answers[i].correct) / answers[i].total
+            res[str(i)] = acc
+    return res
+
 
 def AccuracyAndErrors(exp_num, dataset, phase, softmax, verbose=True):
     mode = "orig"
@@ -198,12 +218,16 @@ def AccuracyAndErrors(exp_num, dataset, phase, softmax, verbose=True):
     size = get_dataset_size(dataset=dataset, phase=phase, mode=mode)
     print(size)
     path = "./logs/experiment_{}/{}/misclassified_{}.txt".format(exp_num, dataset, phase)
-
+    class_answers = InitAnswers(NumOfClasses(dataset))
+  
     with open(path, 'w') as out:
         for i in range(size):
             label = int(lines[i].replace("\n", "").split(" ")[1])
             prediction = np.argmax(softmax[i])
+            class_answers[label].total += 1
+
             if label == prediction:
+                class_answers[label].correct += 1
                 sum += 1.0
             else:
                 line = lines[i].replace("\n", "")
@@ -211,7 +235,9 @@ def AccuracyAndErrors(exp_num, dataset, phase, softmax, verbose=True):
                 out.write(content + '\n')
                 if verbose == True:
                     print(content)
-    return sum / size
+
+    accuracies = ClassAccuracies(class_answers)
+    return sum / size, accuracies
                 
 
 
@@ -220,14 +246,17 @@ def AccuracyAndErrors(exp_num, dataset, phase, softmax, verbose=True):
 
 
 def TestCommitee(exp_num, dataset):
-    phase = "train"
+    phase = "test"
     softmax = CommiteeOutput(exp_num, dataset, phase)
-    acc = AccuracyAndErrors(exp_num, dataset, phase, softmax,verbose=False)
+    acc, cl_acc = AccuracyAndErrors(exp_num, dataset, phase, softmax,verbose=False)
     
     path = "./logs/experiment_{}/{}/test_on_{}_results.txt".format(exp_num, dataset, phase)
     with open(path, 'w') as out:
         print("Accuracy: ", acc)
-        out.write(str(acc))
+        out.write(str(acc)+ '\n')
+        for key in sorted(cl_acc):
+            content = "class_{}  acc = {}\n".format(key, cl_acc[key])  
+            out.write(content)
 
 
 
