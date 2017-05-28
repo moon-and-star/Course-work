@@ -201,8 +201,8 @@ def InitAnswers(length):
 def ClassAccuracies(answers):
     res = {}
     for i in range(len(answers)):
-        if answers[i].total > 0:
-            acc = float(answers[i].correct) / answers[i].total
+        if answers[i]['total'] > 0:
+            acc = float(answers[i]['correct']) / answers[i]['total']
             res[str(i)] = acc
     return res
 
