@@ -177,7 +177,7 @@ def CommiteeOutput(exp_num, dataset, phase="test"):
                     print(i)
                 out = net.forward()
                 softmax[trial][i] = net.blobs["softmax"].data
-                return
+                return softmax
                     
 
         softmax = softmax.sum(axis=0) / num_of_nets
