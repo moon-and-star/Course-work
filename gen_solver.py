@@ -6,8 +6,10 @@ from math import ceil
 def get_dataset_size(path=None, dataset='', phase='', mode=''):
     # path parameter has greater priority
     if path == None:
-        with open("../local_data/{}/{}/{}_size.txt".format(dataset, mode, phase)) as f:
-             return int(f.read()) # we assume that the file contains only 1 integer value written as a string
+        # with open("../local_data/{}/{}/{}_size.txt".format(dataset, mode, phase)) as f:
+             # return int(f.read()) # we assume that the file contains only 1 integer value written as a string
+        with open("../local_data/{}/{}/gt_{}.txt".format(dataset, mode, phase)) as f:
+            return len(f.readlines) - 1 #last line is empty
     else:
          with open(path) as f:
              return int(f.read()) # we assume that the file contains only 1 integer value written as a string
