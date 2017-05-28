@@ -160,13 +160,15 @@ def Test2(exp_num, dataset):
 def CommiteeOutput(exp_num, dataset, phase="test"):
     modes = ["orig", "histeq", "AHE", "imajust", "CoNorm" ]
     print(phase)
-    return 0
-    # modes = ['orig']
+    # return 0
+    modes = ['orig']
     for mode in modes:
         num_of_nets = 5.0 * len(modes)
         size = get_dataset_size(dataset=dataset, phase=phase, mode=mode)
+        print("size in CO = ", size)
         classes = NumOfClasses(dataset)
-
+        print(classes)
+        return
         softmax = np.zeros((5, size, classes))
         for trial in range(5):
             net = LoadWithoutLMDB(exp_num, dataset, mode, trial + 1, phase)
