@@ -160,8 +160,7 @@ def Test2(exp_num, dataset):
 def CommiteeOutput(exp_num, dataset, phase="test"):
     modes = ["orig", "histeq", "AHE", "imajust", "CoNorm" ]
     print(phase)
-    # return 0
-    modes = ['orig']
+    # modes = ['orig']
     for mode in modes:
         num_of_nets = 5.0 * len(modes)
         size = get_dataset_size(dataset=dataset, phase=phase, mode=mode)
@@ -242,18 +241,19 @@ def AccuracyAndErrors(exp_num, dataset, phase, softmax, verbose=True):
 
 
 def TestCommitee(exp_num, dataset):
-    phase = "test"
-    softmax = CommiteeOutput(exp_num, dataset, phase)
-    acc, cl_acc = AccuracyAndErrors(exp_num, dataset, phase, softmax,verbose=False)
-    
-    path = "./logs/experiment_{}/{}/test_on_{}_results.txt".format(exp_num, dataset, phase)
-    with open(path, 'w') as out:
-        print("Accuracy: ", acc)
-        out.write(str(acc)+ '\n')
-        for key in sorted(cl_acc):
-            content = "class_{}  acc = {}\n".format(key, cl_acc[key])  
-            out.write(content)
-            print(content)
+    phases = ["test", "train"]
+    for phase in phases:
+        softmax = CommiteeOutput(exp_num, dataset, phase)
+        acc, cl_acc = AccuracyAndErrors(exp_num, dataset, phase, softmax,verbose=False)
+        
+        path = "./logs/experiment_{}/{}/test_on_{}_results.txt".format(exp_num, dataset, phase)
+        with open(path, 'w') as out:
+            print("Accuracy: ", acc)
+            out.write(str(acc)+ '\n')
+            for key in sorted(cl_acc):
+                content = "class_{}  acc = {}\n".format(key, cl_acc[key])  
+                out.write(content)
+                print(content)
 
 
 
