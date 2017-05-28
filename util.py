@@ -58,7 +58,7 @@ def ParseParams(param_path):
 
                 if s[0] in ['GAMMA','LR', 'drop_ratio'] :
                     args[s[0]] = float(s[1])
-                elif s[0] in ['activation', 'dropout']:
+                elif s[0] in ['activation', 'dropout', 'note']:
                     args[s[0]] = s[1]
                 else:
                     args[s[0]] = int(s[1])
