@@ -216,7 +216,7 @@ def AccuracyAndErrors(exp_num, dataset, phase, softmax, verbose=True):
 
 
 def TestCommitee(exp_num, dataset):
-    phase = "test"
+    phase = "train"
     softmax = CommiteeOutput(exp_num, dataset, phase)
     acc = AccuracyAndErrors(exp_num, dataset, phase, softmax)
     
