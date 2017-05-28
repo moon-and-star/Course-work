@@ -1,21 +1,25 @@
 #!/usr/bin/env python
-#этот скрипт нужен для создания усеченных gt файлов, в которых будут содержаться записи только о знаках тех класссов,
-# в котоых количество элементов не ниже определенного порога (суммарно по train и test)
+import argparse
 
 if __name__ == '__main__':
-    threshold = 1000
+    parser = argparse.ArgumentParser()
+    parser.add_argument("th",type=int, 
+                        help='threshold for number of signs in one class')
+    args = parser.parse_args()
+
+    threshold = args.th
 
     rootpath = '../global_data/Traffic_signs/RTSD/classification'
     class_size = [0] * 116
-    print("lol")
     for phase in ["train", "test"]:
-        print("ololo")
         with open("{}/gt_{}_full.txt".format(rootpath, phase)) as f:
             for line in f.readlines():
                 s = line.split("/")[0]
                 class_size[int(s)] += 1
 
     print(class_size)
+    for i in range(len(class_size)):
+        print(i, class_size[i])
     for phase in ["train", "test"]:
         with open("{}/gt_{}_full.txt".format(rootpath, phase)) as f:
             with open("{}/gt_{}.txt".format(rootpath, phase), 'w') as out:

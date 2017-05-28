@@ -13,7 +13,7 @@ echo " tools = ${TOOLS}"
 
 
 
-EXPERIMENT_NUM=21 
+EXPERIMENT_NUM=22 
 GPU_NUM=0
 BATCH_SZ=1024    
 EPOCH=30     
@@ -27,8 +27,9 @@ drop=false
 drop_ratio=0.5
 CONV_GROUP=1
 TRY_NUM=5
+threshold = 1000
 
-note="this experiment was created to see how the reduction of small classes would affect the accuracy of nets (threshold = 100)"
+note="this experiment was created to see how the reduction of small classes would affect the accuracy of nets (threshold = $threshold)"
 
 # Amsg="this experime"
 
