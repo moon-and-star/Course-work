@@ -1,2 +1,6 @@
-
-$TOOLS/caffe test -model layers/test_CoNorm.prototxt -weights ./snapshots/CoNorm/gtsrb_iter_4020.caffemodel -gpu 0 -iterations 67
+#!/usr/bin/env bash
+./reduced_gt.py 0
+./test_net.py 13
+./test_net.py 14
+./test_net.py 15
+./test_net.py 16
