@@ -19,8 +19,8 @@ BATCH_SZ=1024
 EPOCH=30     
 TEST_FR=1     
 SNAP_FR=10     
-STEP_FR=20     
-GAMMA=0.1     
+STEP_FR=5     
+GAMMA=0.5     
 LR=1e-3 
 activation=relu
 drop=false
@@ -154,6 +154,7 @@ done
 
 
 ./test_net.py $EXPERIMENT_NUM
+
 
 # git push
 
