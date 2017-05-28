@@ -152,6 +152,9 @@ do
 done
 
 
+
+./test_net.py $EXPERIMENT_NUM
+
 # git push
 
 
