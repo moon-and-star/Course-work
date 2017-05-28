@@ -224,9 +224,10 @@ def TestCommitee(exp_num, dataset):
     softmax = CommiteeOutput(exp_num, dataset, phase)
     acc = AccuracyAndErrors(exp_num, dataset, phase, softmax,verbose=False)
     
-    path = "./logs/experiment_{}/{}/test_results.txt".format(exp_num, dataset)
-    with open(path, 'w'):
+    path = "./logs/experiment_{}/{}/test_on_{}_results.txt".format(exp_num, dataset, phase)
+    with open(path, 'w') as out:
         print("Accuracy: ", acc)
+        out.write(str(acc))
 
 
 
