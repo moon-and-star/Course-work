@@ -166,9 +166,7 @@ def CommiteeOutput(exp_num, dataset, phase="test"):
         num_of_nets = 5.0 * len(modes)
         size = get_dataset_size(dataset=dataset, phase=phase, mode=mode)
         classes = NumOfClasses(dataset)
-        
         softmax = np.zeros((5, size, classes))
-        return softmax.sum(axis=0) / num_of_nets
 
 
         for trial in range(5):
@@ -243,9 +241,6 @@ def AccuracyAndErrors(exp_num, dataset, phase, softmax, verbose=True):
 
 
 
-
-
-
 def TestCommitee(exp_num, dataset):
     phase = "test"
     softmax = CommiteeOutput(exp_num, dataset, phase)
@@ -258,6 +253,7 @@ def TestCommitee(exp_num, dataset):
         for key in sorted(cl_acc):
             content = "class_{}  acc = {}\n".format(key, cl_acc[key])  
             out.write(content)
+            print(content)
 
 
 
