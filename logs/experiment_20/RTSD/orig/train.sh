@@ -16,7 +16,7 @@ echo " tools = ${TOOLS}"
 EXPERIMENT_NUM=20  
 GPU_NUM=1
 BATCH_SZ=1024    
-EPOCH=30     
+EPOCH=50     
 TEST_FR=1     
 SNAP_FR=10     
 STEP_FR=20     
@@ -59,7 +59,7 @@ datasets=("RTSD")
 
 
 # datasets=("rtsd-r1" "rtsd-r3")
-modes=(  "CoNorm" "AHE" "histeq" "imajust" "orig")
+modes=( "orig" "CoNorm" "AHE" "histeq" "imajust")
 
 
 
