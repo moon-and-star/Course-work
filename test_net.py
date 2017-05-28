@@ -169,7 +169,7 @@ def CommiteeOutput(exp_num, dataset, phase="test"):
         
         softmax = np.zeros((5, size, classes))
         return softmax
-        
+
         for trial in range(5):
             net = LoadWithoutLMDB(exp_num, dataset, mode, trial + 1, phase)
             for i in range(size):
@@ -190,8 +190,8 @@ def InitAnswers(length):
     res = []
     for i in range(length):
         tmp = {}
-        tmp.correct = 0
-        tmp.total = 0
+        tmp["correct"] = 0
+        tmp.['total'] = 0
 
         res += [tmp]  
     return res  
