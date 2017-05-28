@@ -159,6 +159,8 @@ def Test2(exp_num, dataset):
 
 def CommiteeOutput(exp_num, dataset, phase="test"):
     modes = ["orig", "histeq", "AHE", "imajust", "CoNorm" ]
+    print(phase)
+    return 0
     # modes = ['orig']
     for mode in modes:
         num_of_nets = 5.0 * len(modes)
@@ -218,7 +220,7 @@ def AccuracyAndErrors(exp_num, dataset, phase, softmax, verbose=True):
 def TestCommitee(exp_num, dataset):
     phase = "train"
     softmax = CommiteeOutput(exp_num, dataset, phase)
-    acc = AccuracyAndErrors(exp_num, dataset, phase, softmax)
+    acc = AccuracyAndErrors(exp_num, dataset, phase, softmax,verbose=False)
     
     path = "./logs/experiment_{}/{}/test_results.txt".format(exp_num, dataset)
     with open(path, 'w'):
