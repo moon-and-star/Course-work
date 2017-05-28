@@ -188,13 +188,14 @@ def CommiteeOutput(exp_num, dataset, phase="test"):
 def AccuracyAndErrors(exp_num, dataset, phase, softmax, verbose=True):
     mode = "orig"
     rootpath = "../local_data/{}/{}".format(dataset, mode)
-    src = "{}/test.txt".format(rootpath)        
+    src = "{}/test.txt".format(rootpath)  #gt file path      
     with open(src) as f:
         lines = f.readlines()
 
 
     sum = 0.0
     size = get_dataset_size(dataset=dataset, phase=phase, mode=mode)
+    print(size)
     path = "./logs/experiment_{}/{}/misclassified_{}.txt".format(exp_num, dataset, phase)
 
     with open(path, 'w') as out:
