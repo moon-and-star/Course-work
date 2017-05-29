@@ -14,7 +14,6 @@ sys.path.append('/opt/caffe/python/')
 
 
 from skimage.io import imread, imsave
-
 import caffe
 
 caffe.set_mode_gpu()
