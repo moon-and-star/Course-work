@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+TRY_NUM=5
 modes=(  "CoNorm" "AHE" "histeq" "imajust" "orig")
 for j in "${modes[@]}"
 do
